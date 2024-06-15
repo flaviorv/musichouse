@@ -4,9 +4,7 @@ import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.repository.ElectricGuitarRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.method.annotation.MethodArgumentConversionNotSupportedException;
-
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -45,5 +43,13 @@ public class ElectricGuitarService {
             return Optional.of(electricGuitar);
         }
         return Optional.empty();
+    }
+
+    public Boolean delete(String model) {
+        if (getByModel(model).isPresent()) {
+            electricGuitarRepository.deleteById(model);
+            return true;
+        }
+        return false;
     }
 }

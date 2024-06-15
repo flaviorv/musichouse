@@ -1,7 +1,7 @@
 package com.musichouse.controller;
 
-import com.musichouse.model.domain.ElectricGuitar;
-import com.musichouse.model.service.ElectricGuitarService;
+import com.musichouse.model.domain.Amplifier;
+import com.musichouse.model.service.AmplifierService;
 import com.musichouse.payload.MessagePayload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,25 +11,27 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/electricguitar")
-public class ElectricGuitarController {
+@RequestMapping("/amplifier")
+public class AmplifierController {
 
-    private final ElectricGuitarService electricGuitarService;
+    private final AmplifierService amplifierService;
 
-    public ElectricGuitarController(ElectricGuitarService electricGuitarService) {
-        this.electricGuitarService = electricGuitarService;
+
+    public AmplifierController(AmplifierService amplifierService) {
+        this.amplifierService = amplifierService;
     }
 
-    @Operation(summary = "Registering a new electric guitar")
+    @Operation(summary = "Registering a new amplifier")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "Successfully registered",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ElectricGuitar.class)
+                            schema = @Schema(implementation = Amplifier.class)
                     )}
             ),
             @ApiResponse(responseCode = "400", description = "Registration cannot be carried out",
@@ -40,23 +42,23 @@ public class ElectricGuitarController {
             )
     })
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody ElectricGuitar electricGuitar) {
-        if(electricGuitarService.save(electricGuitar).isPresent()){
-            return ResponseEntity.ok(electricGuitar);
+    public ResponseEntity<?> save(@RequestBody Amplifier amplifier) {
+        if(amplifierService.save(amplifier).isPresent()){
+            return ResponseEntity.ok(amplifier);
         }
-        return ResponseEntity.badRequest().body(new MessagePayload("Invalid electric guitar"));
+        return ResponseEntity.badRequest().body(new MessagePayload("Invalid amplifier"));
     }
 
 
-    @Operation(summary = "Listing all electric guitars")
+    @Operation(summary = "Listing all amplifiers")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Showing all electric guitars",
+            @ApiResponse(responseCode = "202", description = "Showing all amplifiers",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ElectricGuitar.class)
+                            schema = @Schema(implementation = Amplifier.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "Cannot show the electric guitars",
+            @ApiResponse(responseCode = "404", description = "Cannot show the amplifiers",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
@@ -65,22 +67,22 @@ public class ElectricGuitarController {
     })
     @GetMapping
     public ResponseEntity<?> getAll() {
-        List<ElectricGuitar> electricGuitars = electricGuitarService.getAll();
-        if(electricGuitars.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("There are no electricGuitars"));
+        List<Amplifier> amplifiers = amplifierService.getAll();
+        if(amplifiers.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("There are no amplifiers"));
         }
-        return ResponseEntity.ok(electricGuitars);
+        return ResponseEntity.ok(amplifiers);
     }
 
-    @Operation(summary = "One electric guitar by model")
+    @Operation(summary = "One amplifier by model")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Showing electric guitar by model",
+            @ApiResponse(responseCode = "202", description = "Showing amplifier by model",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ElectricGuitar.class)
+                            schema = @Schema(implementation = Amplifier.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "Cannot show the electric guitar",
+            @ApiResponse(responseCode = "404", description = "Cannot show the amplifier",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
@@ -89,22 +91,22 @@ public class ElectricGuitarController {
     })
     @GetMapping("/{model}")
     public ResponseEntity<?> getByModel(@PathVariable String model) {
-        Optional<ElectricGuitar> electricGuitar = electricGuitarService.getByModel(model);
-        if(electricGuitar.isPresent()){
-            return ResponseEntity.ok(electricGuitar);
+        Optional<Amplifier> amplifier = amplifierService.getByModel(model);
+        if(amplifier.isPresent()){
+            return ResponseEntity.ok(amplifier);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
     }
 
-    @Operation(summary = "Updating electric guitar")
+    @Operation(summary = "Updating amplifier")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Electric guitar updated",
+            @ApiResponse(responseCode = "202", description = "Amplifier updated",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ElectricGuitar.class)
+                            schema = @Schema(implementation = Amplifier.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "There is no electric guitar",
+            @ApiResponse(responseCode = "404", description = "There is no amplifier",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
@@ -112,22 +114,22 @@ public class ElectricGuitarController {
             )
     })
     @PutMapping("/{model}")
-    public ResponseEntity<?> update(@PathVariable String model, @RequestBody ElectricGuitar electricGuitar) {
-        if (electricGuitarService.update(model, electricGuitar).isPresent()) {
-            return ResponseEntity.ok(electricGuitar);
+    public ResponseEntity<?> update(@PathVariable String model, @RequestBody Amplifier amplifier) {
+        if (amplifierService.update(model, amplifier).isPresent()) {
+            return ResponseEntity.ok(amplifier);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
     }
 
-    @Operation(summary = "Deleting electric guitar")
+    @Operation(summary = "Deleting amplifier")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Electric guitar deleted",
+            @ApiResponse(responseCode = "202", description = "Amplifier deleted",
                     content = {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "There is no electric guitar",
+            @ApiResponse(responseCode = "404", description = "There is no amplifier",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
@@ -136,8 +138,8 @@ public class ElectricGuitarController {
     })
     @DeleteMapping("/{model}")
     public ResponseEntity<?> deleteById(@PathVariable String model) {
-        if (electricGuitarService.delete(model)) {
-            return ResponseEntity.ok(new MessagePayload("Electric guitar "+model+" has been deleted"));
+        if (amplifierService.delete(model)) {
+            return ResponseEntity.ok(new MessagePayload("Amplifier "+model+" has been deleted"));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
     }

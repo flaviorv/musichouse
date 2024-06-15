@@ -16,7 +16,7 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private Date date;
-    private float price;
+    private String price;
     @ManyToMany(cascade = CascadeType.DETACH)
     private List<Product> products = new ArrayList<>();
 
@@ -29,7 +29,8 @@ public class Sale {
         for(Product p: products) {
             totalPrice += p.getPrice();
         }
-        return NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(totalPrice);
+        price = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(totalPrice);
+        return price;
     }
 
     @Override

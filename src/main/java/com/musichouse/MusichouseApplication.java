@@ -1,5 +1,6 @@
 package com.musichouse;
 
+import com.musichouse.model.domain.Amplifier;
 import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.domain.Sale;
 import org.springframework.boot.SpringApplication;
@@ -51,9 +52,22 @@ public class MusichouseApplication {
         s1.addProduct(eg1);
         s1.addProduct(eg2);
         s1.addProduct(eg3);
+        s1.totalPrice();
+        System.out.println(s1);
 
-        System.out.println(s1.totalPrice());
 
+        Amplifier amp1 =
+                Amplifier.builder()
+                        .brand("Marshall")
+                        .model("MG15")
+                        .watts(15)
+                        .speakerInch(8)
+                        .price(1_300f)
+                        .build();
+
+        System.out.println(amp1);
+        s1.addProduct(amp1);
+        s1.totalPrice();
         System.out.println(s1);
 
 

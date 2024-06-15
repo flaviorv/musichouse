@@ -14,4 +14,15 @@ import lombok.experimental.SuperBuilder;
 public class Amplifier extends Product{
     private int watts;
     private int speakerInch;
+
+    @Override
+    public String toString() {
+        return "Amplifier " +
+                "[brand=" + brand +
+                ", model=" + model +
+                ", price=" + price +
+                ", watts=" + watts +
+                ", speakerInch=" + speakerInch + "]";
+
+    }
 }
