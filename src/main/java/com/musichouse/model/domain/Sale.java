@@ -7,17 +7,16 @@ import lombok.NoArgsConstructor;
 import java.text.NumberFormat;
 import java.util.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
+@Data@AllArgsConstructor@NoArgsConstructor@Entity
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private Date date;
     private String price;
-    @ManyToMany(cascade = CascadeType.DETACH)
+    @ManyToOne
+    private Customer customer;
+    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
 
     public void addProduct(Product product){
@@ -33,8 +32,5 @@ public class Sale {
         return price;
     }
 
-    @Override
-    public String toString() {
-        return "Sale [id=" + id + ", date=" + date + ", price=" + price + "]";
-    }
+
 }

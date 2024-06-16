@@ -1,6 +1,7 @@
 package com.musichouse;
 
 import com.musichouse.model.domain.Amplifier;
+import com.musichouse.model.domain.Customer;
 import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.domain.Sale;
 import org.springframework.boot.SpringApplication;
@@ -49,6 +50,7 @@ public class MusichouseApplication {
 
         Sale s1 = new Sale();
         s1.setDate(new Date());
+        s1.setCustomer(new Customer("customer1","customerTest@ct.com", "12356455345345"));
         s1.addProduct(eg1);
         s1.addProduct(eg2);
         s1.addProduct(eg3);

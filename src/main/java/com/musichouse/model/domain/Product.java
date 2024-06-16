@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
+@Data@AllArgsConstructor@NoArgsConstructor@SuperBuilder
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Product {

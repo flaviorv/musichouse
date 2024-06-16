@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
+@Data@AllArgsConstructor@NoArgsConstructor@SuperBuilder
 @Entity
 public class ElectricGuitar extends Product {
     private int strings;
