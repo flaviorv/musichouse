@@ -2,7 +2,7 @@ package com.musichouse;
 
 import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.domain.Product;
-import com.musichouse.model.service.ElectricGuitarService;
+import com.musichouse.model.service.ElectricGuitarServiceImp;
 import com.musichouse.model.service.ProductServiceImp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ class ProductTests {
     @Autowired
     ProductServiceImp productService;
     @Autowired
-    ElectricGuitarService electricGuitarService;
+    ElectricGuitarServiceImp electricGuitarService;
 
 
 
@@ -53,7 +53,7 @@ class ProductTests {
     }
 
     @Test
-    @DisplayName("Delete test to check if the products number has decreased")
+    @DisplayName("DeleteByModel test to check if the products number has decreased")
     void deleteTest() {
         List<Product> all = productService.getAll();
         int initialSize = all.size();
@@ -68,7 +68,7 @@ class ProductTests {
     }
 
     @Test
-    @DisplayName("DeleteAll test to check if all products have been deleted")
+    @DisplayName("DeleteAll test to check if there are no products in database")
     void deleteAllTest() {
         insertTest();
         Assertions.assertEquals(2, productService.getAll().size());

@@ -1,52 +1,19 @@
 package com.musichouse.model.service;
 
 import com.musichouse.model.domain.Amplifier;
-import com.musichouse.model.repository.AmplifierRepository;
-import jakarta.persistence.EntityExistsException;
-import org.springframework.stereotype.Service;
-import org.springframework.web.method.annotation.MethodArgumentConversionNotSupportedException;
+import com.musichouse.model.domain.Product;
+
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class AmplifierService {
-    private final AmplifierRepository amplifierRepository;
+public interface AmplifierService {
+    Amplifier save(Amplifier amplifier);
 
-    public AmplifierService(AmplifierRepository amplifierRepository) {
-        this.amplifierRepository = amplifierRepository;
-    }
+    Amplifier update(String model, Amplifier amplifier);
 
-    public Amplifier save(Amplifier amplifier) {
-        if(getByModel(amplifier.getModel()).isPresent()) {
-            throw new EntityExistsException("Amplifier with Model "+amplifier.getModel()+" already exists");
-        }
-        return amplifierRepository.save(amplifier);
-    }
+    List<Amplifier> getAll();
 
-    public List<Amplifier> getAll() {
-        return amplifierRepository.findAll();
-    }
+    Optional<Amplifier> getByModel(String model);
 
-    public Optional<Amplifier> getByModel(String model) {
-        return amplifierRepository.findById(model);
-    }
-
-    public Optional<Amplifier> update(String model, Amplifier amplifier
-    ) {
-        if (getByModel(model).isPresent()) {
-            amplifier.setModel(model);
-            amplifierRepository.save(amplifier);
-            return Optional.of(amplifier);
-        }
-        return Optional.empty();
-
-    }
-
-    public Boolean delete(String model) {
-        if (getByModel(model).isPresent()) {
-            amplifierRepository.deleteById(model);
-            return true;
-        }
-        return false;
-    }
+    void delete(String model);
 }

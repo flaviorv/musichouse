@@ -1,7 +1,7 @@
 package com.musichouse.controller;
 
 import com.musichouse.model.domain.Amplifier;
-import com.musichouse.model.service.AmplifierService;
+import com.musichouse.model.service.AmplifierServiceImp;
 import com.musichouse.payload.MessagePayload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +21,10 @@ import java.util.Optional;
 @RequestMapping("/amplifier")
 public class AmplifierController {
 
-    private final AmplifierService amplifierService;
+    private final AmplifierServiceImp amplifierService;
 
 
-    public AmplifierController(AmplifierService amplifierService) {
+    public AmplifierController(AmplifierServiceImp amplifierService) {
         this.amplifierService = amplifierService;
     }
 
@@ -118,10 +119,12 @@ public class AmplifierController {
     })
     @PutMapping("/{model}")
     public ResponseEntity<?> update(@PathVariable String model, @RequestBody Amplifier amplifier) {
-        if (amplifierService.update(model, amplifier).isPresent()) {
+        try{
+            amplifierService.update(model, amplifier);
             return ResponseEntity.ok(amplifier);
+        }catch (EntityNotFoundException|IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(e.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
     }
 
     @Operation(summary = "Deleting amplifier")
@@ -141,9 +144,12 @@ public class AmplifierController {
     })
     @DeleteMapping("/{model}")
     public ResponseEntity<?> deleteById(@PathVariable String model) {
-        if (amplifierService.delete(model)) {
+        try{
+            amplifierService.delete(model);
             return ResponseEntity.ok(new MessagePayload("Amplifier "+model+" has been deleted"));
+        }catch(EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(e.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
+
     }
 }

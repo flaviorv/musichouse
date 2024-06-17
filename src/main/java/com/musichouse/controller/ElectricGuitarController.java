@@ -1,7 +1,7 @@
 package com.musichouse.controller;
 
 import com.musichouse.model.domain.ElectricGuitar;
-import com.musichouse.model.service.ElectricGuitarService;
+import com.musichouse.model.service.ElectricGuitarServiceImp;
 import com.musichouse.payload.MessagePayload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,9 @@ import java.util.Optional;
 @RequestMapping("/electricguitar")
 public class ElectricGuitarController {
 
-    private final ElectricGuitarService electricGuitarService;
+    private final ElectricGuitarServiceImp electricGuitarService;
 
-    public ElectricGuitarController(ElectricGuitarService electricGuitarService) {
+    public ElectricGuitarController(ElectricGuitarServiceImp electricGuitarService) {
         this.electricGuitarService = electricGuitarService;
     }
 
@@ -60,7 +61,7 @@ public class ElectricGuitarController {
                             schema = @Schema(implementation = ElectricGuitar.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "Cannot show the electric guitars",
+            @ApiResponse(responseCode = "404", description = "There are no electric guitars",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
@@ -108,7 +109,7 @@ public class ElectricGuitarController {
                             schema = @Schema(implementation = ElectricGuitar.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "There is no electric guitar",
+            @ApiResponse(responseCode = "404", description = "Electric guitar not found to update",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
@@ -117,10 +118,12 @@ public class ElectricGuitarController {
     })
     @PutMapping("/{model}")
     public ResponseEntity<?> update(@PathVariable String model, @RequestBody ElectricGuitar electricGuitar) {
-        if (electricGuitarService.update(model, electricGuitar).isPresent()) {
-            return ResponseEntity.ok(electricGuitar);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
+       try{
+           electricGuitarService.update(model, electricGuitar);
+           return ResponseEntity.ok(electricGuitar);
+        }catch (EntityNotFoundException e) {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(e.getMessage()));
+       }
     }
 
     @Operation(summary = "Deleting electric guitar")
@@ -131,7 +134,7 @@ public class ElectricGuitarController {
                             schema = @Schema(implementation = MessagePayload.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "There is no electric guitar",
+            @ApiResponse(responseCode = "404", description = "Electric guitar not found to delete",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
@@ -140,9 +143,12 @@ public class ElectricGuitarController {
     })
     @DeleteMapping("/{model}")
     public ResponseEntity<?> deleteById(@PathVariable String model) {
-        if (electricGuitarService.delete(model)) {
-            return ResponseEntity.ok(new MessagePayload("Electric guitar "+model+" has been deleted"));
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
+      try {
+          electricGuitarService.delete(model);
+          return ResponseEntity.ok(new MessagePayload("Electric guitar "+model+" has been deleted"));
+      }catch (EntityNotFoundException e) {
+          return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(e.getMessage()));
+      }
     }
+
 }

@@ -1,5 +1,6 @@
 package com.musichouse.model.service;
 
+import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.domain.Product;
 import com.musichouse.model.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,7 +25,6 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public Optional<Product> getByModel(String model) {
-        model = model.substring(0, 1).toUpperCase() + model.substring(1).toLowerCase();
         return productRepository.findById(model);
     }
 
