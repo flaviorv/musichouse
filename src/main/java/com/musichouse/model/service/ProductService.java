@@ -1,23 +1,17 @@
 package com.musichouse.model.service;
 
 import com.musichouse.model.domain.Product;
-import com.musichouse.model.repository.ProductRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.web.method.annotation.MethodArgumentConversionNotSupportedException;
+
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class ProductService {
+public interface ProductService {
 
-    private final ProductRepository productRepository;
+    List<Product> getAll();
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    Optional<Product> getByModel(String model);
 
-    public List<Product> getAll() {
-        return productRepository.findAll();
-    }
+    void deleteByModel(String model);
 
+    void deleteAll();
 }

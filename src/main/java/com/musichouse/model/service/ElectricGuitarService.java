@@ -2,8 +2,9 @@ package com.musichouse.model.service;
 
 import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.repository.ElectricGuitarRepository;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.method.annotation.MethodArgumentConversionNotSupportedException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,14 +17,11 @@ public class ElectricGuitarService {
         this.electricGuitarRepository = electricGuitarRepository;
     }
 
-    public Optional<ElectricGuitar> save(ElectricGuitar electricGuitar) {
-        try {
-            electricGuitarRepository.save(electricGuitar);
-            return Optional.of(electricGuitar);
+    public ElectricGuitar save(ElectricGuitar electricGuitar) {
+        if(getByModel(electricGuitar.getModel()).isPresent()) {
+            throw new EntityExistsException("ElectricGuitar with Model "+electricGuitar.getModel()+" already exists");
         }
-        catch (MethodArgumentConversionNotSupportedException e) {
-            return Optional.empty();
-        }
+        return electricGuitarRepository.save(electricGuitar);
     }
 
     public List<ElectricGuitar> getAll() {

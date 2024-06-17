@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.persistence.EntityExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class AmplifierController {
 
     @Operation(summary = "Registering a new amplifier")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Successfully registered",
+            @ApiResponse(responseCode = "201", description = "Successfully registered",
                     content = {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = Amplifier.class)
@@ -43,10 +44,12 @@ public class AmplifierController {
     })
     @PostMapping
     public ResponseEntity<?> save(@RequestBody Amplifier amplifier) {
-        if(amplifierService.save(amplifier).isPresent()){
-            return ResponseEntity.ok(amplifier);
-        }
-        return ResponseEntity.badRequest().body(new MessagePayload("Invalid amplifier"));
+       try{
+           amplifierService.save(amplifier);
+           return ResponseEntity.status(HttpStatus.CREATED).body(amplifier);
+       }catch (EntityExistsException e) {
+           return ResponseEntity.badRequest().body(new MessagePayload(e.getMessage()));
+       }
     }
 
 

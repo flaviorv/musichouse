@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import java.text.NumberFormat;
 import java.util.*;
 
-@Data@AllArgsConstructor@NoArgsConstructor@Entity
+@Data@AllArgsConstructor@NoArgsConstructor
+@Entity
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

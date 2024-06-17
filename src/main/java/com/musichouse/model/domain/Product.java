@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 @Data@AllArgsConstructor@NoArgsConstructor@SuperBuilder
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Product {
     @Id
     protected String model;

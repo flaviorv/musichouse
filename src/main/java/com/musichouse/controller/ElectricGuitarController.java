@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.persistence.EntityExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ElectricGuitarController {
 
     @Operation(summary = "Registering a new electric guitar")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Successfully registered",
+            @ApiResponse(responseCode = "201", description = "Successfully registered",
                     content = {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ElectricGuitar.class)
@@ -41,10 +42,13 @@ public class ElectricGuitarController {
     })
     @PostMapping
     public ResponseEntity<?> save(@RequestBody ElectricGuitar electricGuitar) {
-        if(electricGuitarService.save(electricGuitar).isPresent()){
-            return ResponseEntity.ok(electricGuitar);
+        try {
+            electricGuitarService.save(electricGuitar);
+            return ResponseEntity.status(HttpStatus.CREATED).body(electricGuitar);
+        }catch (EntityExistsException e) {
+            return ResponseEntity.badRequest().body(new MessagePayload(e.getMessage()));
         }
-        return ResponseEntity.badRequest().body(new MessagePayload("Invalid electric guitar"));
+
     }
 
 

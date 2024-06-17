@@ -2,6 +2,7 @@ package com.musichouse.model.service;
 
 import com.musichouse.model.domain.Amplifier;
 import com.musichouse.model.repository.AmplifierRepository;
+import jakarta.persistence.EntityExistsException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.method.annotation.MethodArgumentConversionNotSupportedException;
 import java.util.List;
@@ -15,14 +16,11 @@ public class AmplifierService {
         this.amplifierRepository = amplifierRepository;
     }
 
-    public Optional<Amplifier> save(Amplifier amplifier) {
-        try {
-            amplifierRepository.save(amplifier);
-            return Optional.of(amplifier);
+    public Amplifier save(Amplifier amplifier) {
+        if(getByModel(amplifier.getModel()).isPresent()) {
+            throw new EntityExistsException("Amplifier with Model "+amplifier.getModel()+" already exists");
         }
-        catch (MethodArgumentConversionNotSupportedException e) {
-            return Optional.empty();
-        }
+        return amplifierRepository.save(amplifier);
     }
 
     public List<Amplifier> getAll() {
