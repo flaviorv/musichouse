@@ -1,7 +1,7 @@
 package com.musichouse.controller;
 
-import com.musichouse.model.domain.Amplifier;
-import com.musichouse.model.service.AmplifierServiceImp;
+import com.musichouse.model.domain.Customer;
+import com.musichouse.model.service.CustomerServiceImp;
 import com.musichouse.payload.MessagePayload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,29 +10,26 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/amplifier")
-public class AmplifierController {
+@RequiredArgsConstructor
+public class CustomerController {
 
-    private final AmplifierServiceImp amplifierService;
+    private final CustomerServiceImp customerService;
 
-
-    public AmplifierController(AmplifierServiceImp amplifierService) {
-        this.amplifierService = amplifierService;
-    }
-
-    @Operation(summary = "Registering a new amplifier")
+    @Operation(summary = "Registering a new customer")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully registered",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = Amplifier.class)
+                            schema = @Schema(implementation = Customer.class)
                     )}
             ),
             @ApiResponse(responseCode = "400", description = "Registration cannot be carried out",
@@ -43,25 +40,24 @@ public class AmplifierController {
             )
     })
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Amplifier amplifier) {
-       try{
-           amplifierService.save(amplifier);
-           return ResponseEntity.status(HttpStatus.CREATED).body(amplifier);
-       }catch (EntityExistsException e) {
-           return ResponseEntity.badRequest().body(new MessagePayload(e.getMessage()));
-       }
+    public ResponseEntity<?> save(@RequestBody Customer customer) {
+        try{
+            customerService.save(customer);
+            return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+        }catch (EntityExistsException e) {
+            return ResponseEntity.badRequest().body(new MessagePayload(e.getMessage()));
+        }
     }
 
-
-    @Operation(summary = "Listing all amplifiers")
+    @Operation(summary = "Listing all customers")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Showing all amplifiers",
+            @ApiResponse(responseCode = "202", description = "Showing all customers",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = Amplifier.class)
+                            schema = @Schema(implementation = Customer.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "Cannot show the amplifiers",
+            @ApiResponse(responseCode = "404", description = "Cannot show the customers",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
@@ -70,85 +66,86 @@ public class AmplifierController {
     })
     @GetMapping
     public ResponseEntity<?> getAll() {
-        List<Amplifier> amplifiers = amplifierService.getAll();
+        List<Customer> amplifiers = customerService.getAll();
         if(amplifiers.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("There are no amplifiers"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("There are no customers"));
         }
         return ResponseEntity.ok(amplifiers);
     }
 
-    @Operation(summary = "One amplifier by model")
+    @Operation(summary = "One customer by email")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Showing amplifier by model",
+            @ApiResponse(responseCode = "202", description = "Showing customer by email",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = Amplifier.class)
+                            schema = @Schema(implementation = Customer.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "Cannot show the amplifier",
+            @ApiResponse(responseCode = "404", description = "Cannot show the Customer",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
                     )}
             )
     })
-    @GetMapping("/{model}")
-    public ResponseEntity<?> getByModel(@PathVariable String model) {
-        Optional<Amplifier> amplifier = amplifierService.getByModel(model);
-        if(amplifier.isPresent()){
-            return ResponseEntity.ok(amplifier);
+    @GetMapping("/{email}")
+    public ResponseEntity<?> getByModel(@PathVariable String email) {
+        Optional<Customer> customer = customerService.getByEmail(email);
+        if(customer.isPresent()){
+            return ResponseEntity.ok(customer);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Email does not exist"));
     }
 
-    @Operation(summary = "Updating amplifier")
+    @Operation(summary = "Updating customer")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Amplifier updated",
+            @ApiResponse(responseCode = "202", description = "Customer updated",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = Amplifier.class)
+                            schema = @Schema(implementation = Customer.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "There is no amplifier",
+            @ApiResponse(responseCode = "404", description = "There is no customer",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
                     )}
             )
     })
-    @PutMapping("/{model}")
-    public ResponseEntity<?> update(@PathVariable String model, @RequestBody Amplifier amplifier) {
+    @PutMapping("/{email}")
+    public ResponseEntity<?> update(@PathVariable String email, @RequestBody Customer customer) {
         try{
-            amplifierService.update(model, amplifier);
-            return ResponseEntity.ok(amplifier);
-        }catch (EntityNotFoundException|IllegalArgumentException e) {
+            customerService.update(email, customer);
+            return ResponseEntity.ok(customer);
+        }catch (EntityNotFoundException | IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(e.getMessage()));
         }
     }
 
-    @Operation(summary = "Deleting amplifier")
+    @Operation(summary = "Deleting customer")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Amplifier deleted",
+            @ApiResponse(responseCode = "202", description = "Customer deleted",
                     content = {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "There is no amplifier",
+            @ApiResponse(responseCode = "404", description = "There is no customer",
                     content= {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
                     )}
             )
     })
-    @DeleteMapping("/{model}")
-    public ResponseEntity<?> deleteById(@PathVariable String model) {
+    @DeleteMapping("/{email}")
+    public ResponseEntity<?> deleteById(@PathVariable String email) {
         try{
-            amplifierService.delete(model);
-            return ResponseEntity.ok(new MessagePayload("Amplifier "+model+" has been deleted"));
+            customerService.delete(email);
+            return ResponseEntity.ok(new MessagePayload("Customer has been deleted"));
         }catch(EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(e.getMessage()));
         }
 
     }
+
 }

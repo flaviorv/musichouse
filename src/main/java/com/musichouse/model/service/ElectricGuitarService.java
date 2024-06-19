@@ -1,8 +1,6 @@
 package com.musichouse.model.service;
 
-import com.musichouse.model.domain.Amplifier;
 import com.musichouse.model.domain.ElectricGuitar;
-import com.musichouse.model.domain.Product;
 
 import java.util.List;
 import java.util.Optional;

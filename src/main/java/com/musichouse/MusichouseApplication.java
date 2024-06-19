@@ -1,13 +1,7 @@
 package com.musichouse;
 
-import com.musichouse.model.domain.Amplifier;
-import com.musichouse.model.domain.Customer;
-import com.musichouse.model.domain.ElectricGuitar;
-import com.musichouse.model.domain.Sale;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.*;
 
 @SpringBootApplication
 public class MusichouseApplication {
