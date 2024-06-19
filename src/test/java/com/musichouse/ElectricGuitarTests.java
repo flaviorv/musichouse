@@ -51,38 +51,30 @@ public class ElectricGuitarTests {
     @Test
     @DisplayName("Trying to save an existing electric guitar should return a exception")
     void saveFail(){
-        ElectricGuitar eg3 = ElectricGuitar.builder()
-                .brand("Jackson")
-                .model("Soloist")
+        ElectricGuitar eg1 = ElectricGuitar.builder()
+                .brand("Tagima")
+                .model("t350")
                 .price(7_000.99f)
                 .strings(7)
                 .activePickup(true)
                 .build();
 
-        ElectricGuitar eg4 = ElectricGuitar.builder()
-                .brand("Jackson")
-                .model("Soloist")
-                .price(2_500.99f)
-                .strings(6)
-                .activePickup(false)
-                .build();
 
-
-        electricGuitarServiceImp.save(eg3);
-        Assertions.assertThrowsExactly(EntityExistsException.class, ()-> electricGuitarServiceImp.save(eg4));
+        electricGuitarServiceImp.save(eg1);
+        Assertions.assertThrowsExactly(EntityExistsException.class, ()-> electricGuitarServiceImp.save(eg1));
     }
 
     @Test
     @DisplayName("GetByModel test with params that not exists should return a empty optional")
     void getFailByModel(){
-        Optional<ElectricGuitar> etest = electricGuitarServiceImp.getByModel("soloist");
-        Assertions.assertTrue(etest.isEmpty());
+        Optional<ElectricGuitar> eg1 = electricGuitarServiceImp.getByModel("t900");
+        Assertions.assertTrue(eg1.isEmpty());
     }
 
     @Test
     @DisplayName("GetByModel test with correct params should return a optional of electric guitar ")
     void getElectricGuitarByModel(){
-        Optional<ElectricGuitar> etest = electricGuitarServiceImp.getByModel("Soloist");
-        Assertions.assertTrue(etest.isPresent());
+        Optional<ElectricGuitar> eg1 = electricGuitarServiceImp.getByModel("t350");
+        Assertions.assertTrue(eg1.isPresent());
     }
 }
