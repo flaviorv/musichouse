@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.text.NumberFormat;
 import java.util.*;
 
@@ -33,5 +35,9 @@ public class Sale {
         return price;
     }
 
+
+    public void setCurrentDate(){
+        this.date =  new Date();
+    }
 
 }
