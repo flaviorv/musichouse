@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 package com.musichouse;
+=======
+package com.musichouse_sales;
+>>>>>>> 4c62a0814cd3912ae958ce015bb0434fb0dbf5dc
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+<<<<<<< HEAD
 public class MusichouseApplication {
 
     public static void main(String[] args) {
@@ -71,4 +76,11 @@ public class MusichouseApplication {
 
     }
 
+=======
+public class MusichouseSalesApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MusichouseSalesApplication.class, args);
+    }
+>>>>>>> 4c62a0814cd3912ae958ce015bb0434fb0dbf5dc
 }
