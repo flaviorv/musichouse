@@ -1,15 +1,12 @@
-package com.musichouse;
+package com.musichouse_sales;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MusichouseApplication {
+public class MusichouseSalesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MusichouseApplication.class, args);
-        System.out.println("Music House Application Started");
-
+        SpringApplication.run(MusichouseSalesApplication.class, args);
     }
-
 }

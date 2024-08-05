@@ -16,5 +16,6 @@ public class Customer {
     @Id
     @Email
     private String email;
+    @Size(min = 3, max = 6)
     private String password;
 }
