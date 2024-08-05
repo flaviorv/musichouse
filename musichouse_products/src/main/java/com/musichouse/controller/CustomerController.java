@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/customer")
 public class CustomerController {
 
     private final CustomerServiceImp customerService;

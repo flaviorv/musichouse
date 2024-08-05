@@ -8,6 +8,7 @@ import org.springframework.web.client.RestClient;
 @Service
 @Slf4j
 public class ProductService {
+
     public Product getById(String model) throws Exception{
         RestClient restClient = RestClient.create();
         try {
