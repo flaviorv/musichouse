@@ -35,8 +35,8 @@ class MusichouseSalesApplicationTests {
     @Test
     void checkTheSumOfThePrice() {
         //arrange
-        Product p1 = new Product("Electric Guitar", "NJ3234", "Ibanez", 1000.43f );
-        Product p2 = new Product("Amplifier", "HFAL99LKA", "Warm Music", 2034.32f);
+        Product p1 = new Product("NJ3234", 1000.43f );
+        Product p2 = new Product("HFAL99LKA", 2034.32f);
         Sale s1 = new Sale();
         s1.addProduct(p1);
         s1.addProduct(p2);

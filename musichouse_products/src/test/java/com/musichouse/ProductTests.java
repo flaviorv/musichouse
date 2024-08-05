@@ -17,7 +17,7 @@ import java.util.List;
 @Isolated
 class ProductTests {
     @Autowired
-    ProductServiceImp productService;
+    ProductServiceImp productServiceImp;
     @Autowired
     ElectricGuitarServiceImp electricGuitarService;
 
@@ -42,14 +42,14 @@ class ProductTests {
                 .activePickup(false)
                 .build();
 
-        List<Product> all = productService.getAll();
+        List<Product> all = productServiceImp.getAll();
         int initialSize = all.size();
         electricGuitarService.save(eg1);
-        all = productService.getAll();
+        all = productServiceImp.getAll();
         int secondSize = all.size();
         Assertions.assertEquals(initialSize + 1, secondSize);
         electricGuitarService.save(eg2);
-        all = productService.getAll();
+        all = productServiceImp.getAll();
         int thirdSize = all.size();
         Assertions.assertEquals(initialSize + 2, thirdSize);
     }
@@ -57,14 +57,14 @@ class ProductTests {
     @Test
     @DisplayName("DeleteByModel test to check if the products number has decreased")
     void deleteTest() {
-        List<Product> all = productService.getAll();
+        List<Product> all = productServiceImp.getAll();
         int initialSize = all.size();
-        productService.deleteByModel("Gio");
-        all = productService.getAll();
+        productServiceImp.deleteByModel("Gio");
+        all = productServiceImp.getAll();
         int secondSize = all.size();
         Assertions.assertEquals(initialSize - 1, secondSize);
-        productService.deleteByModel("Standard");
-        all = productService.getAll();
+        productServiceImp.deleteByModel("Standard");
+        all = productServiceImp.getAll();
         int thirdSize = all.size();
         Assertions.assertEquals(initialSize - 2, thirdSize);
     }
@@ -73,8 +73,8 @@ class ProductTests {
     @DisplayName("DeleteAll test to check if there are no products in database")
     void deleteAllTest() {
         insertTest();
-        productService.deleteAll();
-        Assertions.assertEquals(0, productService.getAll().size());
+        productServiceImp.deleteAll();
+        Assertions.assertEquals(0, productServiceImp.getAll().size());
     }
 
 }

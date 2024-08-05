@@ -33,5 +33,9 @@ public class Sale {
         return price;
     }
 
+    public void setCurrentDate() {
+        this.date = new Date();
+    }
+
 
 }

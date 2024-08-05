@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data@AllArgsConstructor@NoArgsConstructor
 public class Product {
-    private String category;
     private String model;
-    private String brand;
     private float price;
 }
 
