@@ -42,7 +42,7 @@ public class SaleController {
     @PostMapping("/{model}")
     public ResponseEntity addProductToANewSale(@PathVariable String model){
         try {
-           addProductToANewSale(model);
+           saleServiceImp.addProductToANewSale(model);
            return ResponseEntity.ok(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY);
         } catch (Exception e) {
             log.error(e.getMessage());
