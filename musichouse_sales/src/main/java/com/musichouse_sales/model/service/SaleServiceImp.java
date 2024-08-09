@@ -5,7 +5,6 @@ import com.musichouse_sales.model.domain.Sale;
 import com.musichouse_sales.model.repository.SaleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import java.util.List;
 import java.util.Optional;
 

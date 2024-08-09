@@ -1,8 +1,6 @@
 package com.musichouse_sales.controller;
 
-import com.musichouse_sales.model.domain.Product;
 import com.musichouse_sales.model.domain.Sale;
-import com.musichouse_sales.model.service.ProductService;
 import com.musichouse_sales.model.service.SaleServiceConstants;
 import com.musichouse_sales.model.service.SaleServiceImp;
 import org.slf4j.Logger;

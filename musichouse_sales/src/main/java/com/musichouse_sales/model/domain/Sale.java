@@ -1,33 +1,32 @@
 package com.musichouse_sales.model.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-@Data@AllArgsConstructor@NoArgsConstructor
+@Getter
 @Document(collection = "sales")
 public class Sale {
     @Id
     private String id;
     private Date date;
-    private BigDecimal totalPrice = BigDecimal.ZERO;
+    private BigDecimal totalPrice = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_EVEN);
     private List<String> products = new ArrayList<>();
 
     public void addProduct(Product product){
+        System.out.println(totalPrice);
         products.add(product.getModel());
         sumProductPrice(product.getPrice());
+        System.out.println(totalPrice);
     }
 
     public void sumProductPrice(BigDecimal productPrice){
+        productPrice = productPrice.setScale(2, RoundingMode.HALF_EVEN);
         totalPrice = totalPrice.add(productPrice);
     }
 
@@ -40,14 +39,6 @@ public class Sale {
             throw new NullPointerException("Date is null");
         }
         return this.date;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice.setScale(2, RoundingMode.HALF_EVEN);
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     @Override

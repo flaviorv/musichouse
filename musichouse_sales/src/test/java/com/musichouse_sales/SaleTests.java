@@ -2,9 +2,11 @@ package com.musichouse_sales;
 
 import com.musichouse_sales.model.domain.Product;
 import com.musichouse_sales.model.domain.Sale;
+import com.musichouse_sales.model.repository.SaleRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
@@ -13,6 +15,9 @@ import java.util.Date;
 
 @SpringBootTest
 class SaleTests {
+
+    @Autowired
+    private SaleRepository saleRepository;
 
     @Test
     @DisplayName("Check if the date is not null after attribution")
@@ -72,6 +77,14 @@ class SaleTests {
         BigDecimal expected = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_EVEN);
         BigDecimal actual = s1.getTotalPrice();
         //assert
+        Assertions.assertEquals(expected, actual);
+
+        //arrange
+        Product p1 = new Product("NJ3234", BigDecimal.valueOf(1000));
+        s1.addProduct(p1);
+        //act
+        expected = new BigDecimal(1000).setScale(2, RoundingMode.HALF_EVEN);
+        actual = s1.getTotalPrice();
         Assertions.assertEquals(expected, actual);
     }
 

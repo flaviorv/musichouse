@@ -1,9 +1,7 @@
 package com.musichouse_sales.model.service;
 
 import com.musichouse_sales.model.domain.Sale;
-
 import java.util.List;
-import java.util.Optional;
 
 public interface SaleService {
     public void addProductToANewSale(String model) throws Exception;
