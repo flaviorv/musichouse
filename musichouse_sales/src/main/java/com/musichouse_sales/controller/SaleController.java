@@ -25,7 +25,7 @@ public class SaleController {
     }
 
     @GetMapping()
-    public List<Sale> getSales(){
+    public List<Sale> getAll(){
         return saleServiceImp.getAll();
     }
 
@@ -36,7 +36,6 @@ public class SaleController {
             sale.setCurrentDate();
             Product product = productService.getById(model);
             sale.addProduct(product);
-            sale.setPrice(sale.totalPrice());
             saleServiceImp.save(sale);
             log.info(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY, sale);
         } catch (Exception e) {
@@ -51,11 +50,15 @@ public class SaleController {
             sale.setCurrentDate();
             Product product = productService.getById(model);
             sale.addProduct(product);
-            sale.setPrice(sale.totalPrice());
             saleServiceImp.save(sale);
             log.info(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY, sale);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id){
+        saleServiceImp.delete(id);
     }
 }

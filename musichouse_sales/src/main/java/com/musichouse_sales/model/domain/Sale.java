@@ -5,7 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,24 +19,16 @@ public class Sale {
     @Id
     private String id;
     private Date date;
-    private String price;
-    private List<Product> products = new ArrayList<>();
+    private BigDecimal totalPrice = BigDecimal.ZERO;
+    private List<String> products = new ArrayList<>();
 
     public void addProduct(Product product){
-        products.add(product);
+        products.add(product.getModel());
+        sumProductPrice(product.getPrice());
     }
 
-    public float totalPrice(){
-        float totalPrice = 0;
-        for(Product p: products) {
-            totalPrice += p.getPrice();
-        }
-        return totalPrice;
-    }
-
-    public String setPrice(float totalPrice){
-        price = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(totalPrice);
-        return price;
+    public void sumProductPrice(BigDecimal productPrice){
+        totalPrice = totalPrice.add(productPrice);
     }
 
     public void setCurrentDate(){
@@ -49,14 +42,22 @@ public class Sale {
         return this.date;
     }
 
+    public BigDecimal getTotalPrice() {
+        return totalPrice.setScale(2, RoundingMode.HALF_EVEN);
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice.setScale(2, RoundingMode.HALF_EVEN);
+    }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("ID: ").append(id).append("\n");
         sb.append("Date: ").append(date).append("\n");
-        sb.append("Price: ").append(price).append("\n");
+        sb.append("Price: ").append(totalPrice).append("\n");
         sb.append("Products:\n");
-        products.stream().map(Product::getModel).forEach(sb::append);
+        products.forEach(sb::append);
         return sb.toString();
     }
 

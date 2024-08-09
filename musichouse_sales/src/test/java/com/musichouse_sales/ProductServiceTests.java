@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ProductServiceTests {
 
     @Test
-    void checkProductRequestWorking() {
+    void checkIfProductRequestWorks() {
         //arrange
         ProductService productService = new ProductService();
         try {
