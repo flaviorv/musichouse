@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SaleService {
-    public void save(Sale sale);
-    public Optional<Sale> getById(String id);
+    public void addProductToANewSale(String model) throws Exception;
+    public Sale getById(String id) throws Exception;
     public List<Sale> getAll();
-    public void delete(String id);
-    public void update(Sale sale) throws Exception;
+    public void delete(String id) throws Exception;
 }

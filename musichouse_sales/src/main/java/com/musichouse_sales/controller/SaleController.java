@@ -7,6 +7,7 @@ import com.musichouse_sales.model.service.SaleServiceConstants;
 import com.musichouse_sales.model.service.SaleServiceImp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,11 +18,9 @@ public class SaleController {
 
     private static final Logger log = LoggerFactory.getLogger(SaleController.class);
     private final SaleServiceImp saleServiceImp;
-    private final ProductService productService;
 
-    public SaleController(SaleServiceImp saleServiceImp, ProductService productService){
+    public SaleController(SaleServiceImp saleServiceImp){
         this.saleServiceImp = saleServiceImp;
-        this.productService = productService;
     }
 
     @GetMapping()
@@ -30,35 +29,35 @@ public class SaleController {
     }
 
     @PostMapping("/{saleId}/{model}")
-    public void addProductToAnExistentSale(@PathVariable String saleId, @PathVariable String model){
+    public ResponseEntity addProductToAnExistentSale(@PathVariable String saleId, @PathVariable String model){
         try {
-            Sale sale = saleServiceImp.getById(saleId).get();
-            sale.setCurrentDate();
-            Product product = productService.getById(model);
-            sale.addProduct(product);
-            saleServiceImp.save(sale);
-            log.info(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY, sale);
+            saleServiceImp.addProductToAnExistentSale(saleId, model);
+            return ResponseEntity.ok(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY);
         } catch (Exception e) {
             log.error(SaleServiceConstants.CREATION_ERROR, e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
     @PostMapping("/{model}")
-    public void addProductToANewSale(@PathVariable String model){
+    public ResponseEntity addProductToANewSale(@PathVariable String model){
         try {
-            Sale sale = new Sale();
-            sale.setCurrentDate();
-            Product product = productService.getById(model);
-            sale.addProduct(product);
-            saleServiceImp.save(sale);
-            log.info(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY, sale);
+           addProductToANewSale(model);
+           return ResponseEntity.ok(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY);
         } catch (Exception e) {
             log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id){
-        saleServiceImp.delete(id);
+    public ResponseEntity delete(@PathVariable String id){
+        try{
+            saleServiceImp.delete(id);
+            return ResponseEntity.ok().body(SaleServiceConstants.SALE_REMOVED_SUCCESSFULLY);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }
