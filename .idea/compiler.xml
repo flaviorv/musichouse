@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="eureka_server" />
         <module name="musichouse_products" />
+        <module name="gateway" />
         <module name="musichouse_sales" />
       </profile>
     </annotationProcessing>
@@ -15,6 +16,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="eureka_server" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="musichouse_products" options="-parameters" />
       <module name="musichouse_sales" options="-parameters" />
     </option>
