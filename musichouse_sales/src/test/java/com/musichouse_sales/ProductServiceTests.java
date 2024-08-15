@@ -6,28 +6,33 @@ import com.musichouse_sales.model.service.ProductServiceConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Slf4j
 public class ProductServiceTests {
 
+    @Autowired
+    private ProductService productService;
+
+
     @Test
     void checkIfProductRequestWorks() {
         //arrange
-        ProductService productService = new ProductService();
         try {
-            Product p1 = productService.getById("Jdr");
+            Product p1 = productService.getById("T7000");
             //act
-            String expected = "Jdr";
+            String expected = "T700";
             String actual = p1.getModel();
             //assert
             log.info(ProductServiceConstants.REQUEST_SUCCESS);
             Assertions.assertEquals(expected, actual);
 
         } catch (Exception e) {
+            //act
+
             //assert
-            log.error(e.getMessage());
             Assertions.assertEquals(e.getMessage(), ProductServiceConstants.REQUEST_ERROR);
         }
     }

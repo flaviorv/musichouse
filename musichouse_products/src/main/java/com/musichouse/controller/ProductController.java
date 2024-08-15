@@ -69,6 +69,7 @@ public class ProductController {
     public ResponseEntity<?> getByModel(@PathVariable String model) {
         Optional<Product> product = productService.getByModel(model);
         if(product.isPresent()){
+            System.out.println(model + " is found");
             return ResponseEntity.ok(product);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
