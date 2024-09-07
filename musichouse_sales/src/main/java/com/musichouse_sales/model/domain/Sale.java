@@ -16,7 +16,12 @@ public class Sale {
     private String id;
     private Date date;
     private BigDecimal totalPrice = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_EVEN);
+    private Status status;
     private List<String> products = new ArrayList<>();
+
+    public void setStatus(Status status){
+        this.status = status;
+    }
 
     public void addProduct(Product product){
         System.out.println(totalPrice);

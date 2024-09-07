@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/sale")
 public class SaleController {
 
-    private static final Logger log = LoggerFactory.getLogger(SaleController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SaleController.class);
     private final SaleServiceImp saleServiceImp;
 
     public SaleController(SaleServiceImp saleServiceImp){
@@ -32,7 +32,7 @@ public class SaleController {
             saleServiceImp.addProductToAnExistentSale(saleId, model);
             return ResponseEntity.ok(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY);
         } catch (Exception e) {
-            log.error(SaleServiceConstants.CREATION_ERROR, e.getMessage());
+            LOG.error(SaleServiceConstants.CREATION_ERROR, e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
@@ -43,7 +43,18 @@ public class SaleController {
            saleServiceImp.addProductToANewSale(model);
            return ResponseEntity.ok(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/close")
+    public ResponseEntity closeSale(@RequestBody Sale _sale) throws Exception {
+        try {
+            Sale sale = saleServiceImp.close(_sale.getId());
+            return ResponseEntity.ok(sale);
+        }catch (Exception e) {
+            LOG.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
@@ -54,7 +65,7 @@ public class SaleController {
             saleServiceImp.delete(id);
             return ResponseEntity.ok().body(SaleServiceConstants.SALE_REMOVED_SUCCESSFULLY);
         }catch (Exception e){
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }

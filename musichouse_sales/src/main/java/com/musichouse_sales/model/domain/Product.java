@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.math.BigDecimal;
 
-//anti-corruption-layer
 @Data@AllArgsConstructor
 public class Product {
 
     private String model;
     private BigDecimal price;
+    private int quantity;
+
 }
 
 

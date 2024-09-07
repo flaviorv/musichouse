@@ -1,8 +1,14 @@
 package com.musichouse_sales.model.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.musichouse_sales.model.domain.Product;
 import com.musichouse_sales.model.domain.Sale;
+import com.musichouse_sales.model.domain.Status;
+import com.musichouse_sales.model.rabbitmq.SaleProducer;
 import com.musichouse_sales.model.repository.SaleRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
@@ -12,10 +18,22 @@ import java.util.Optional;
 public class SaleServiceImp implements SaleService {
     private final SaleRepository saleRepository;
     private final ProductService productService;
+    private final SaleProducer producer;
+    private static final Logger LOG = LoggerFactory.getLogger(SaleServiceImp.class);
 
-    public SaleServiceImp(SaleRepository saleRepository, ProductService productService) {
+    public SaleServiceImp(SaleRepository saleRepository, ProductService productService, SaleProducer producer) {
         this.saleRepository = saleRepository;
         this.productService = productService;
+        this.producer = producer;
+    }
+
+    public Sale close(String saleId) throws Exception {
+        Sale sale = getById(saleId);
+        sale.setStatus(Status.CLOSED);
+        producer.close(sale);
+        saleRepository.save(sale);
+
+        return sale;
     }
 
     public void addProductToANewSale(String model) throws Exception {
@@ -28,7 +46,7 @@ public class SaleServiceImp implements SaleService {
 
     @PostMapping("/{saleId}/{model}")
     public void addProductToAnExistentSale(String saleId, String model) throws Exception {
-        Sale sale = new Sale();
+        Sale sale;
         try {
             sale = getById(saleId);
         } catch (Exception e) {
