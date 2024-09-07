@@ -5,7 +5,7 @@ import java.util.List;
 
 @Data
 public class Sale {
-    private int id;
+    private String id;
     private List<Sale.Product> products;
 
     @Data

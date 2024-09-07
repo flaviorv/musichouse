@@ -44,4 +44,9 @@ public class ProductServiceImp implements ProductService {
         }
         productRepository.deleteAll();
     }
+
+    @Override
+    public Product update(Product product) {
+        return productRepository.save(product);
+    }
 }

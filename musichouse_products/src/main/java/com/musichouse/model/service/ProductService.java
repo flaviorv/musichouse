@@ -14,4 +14,6 @@ public interface ProductService {
     void deleteByModel(String model);
 
     void deleteAll();
+
+    Product update(Product product);
 }
