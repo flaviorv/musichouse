@@ -26,6 +26,7 @@ public class ElectricGuitarTests {
                 .price(7_000.99f)
                 .strings(7)
                 .activePickup(true)
+                .quantity(3)
                 .build();
 
         ElectricGuitar eg2 = ElectricGuitar.builder()
@@ -34,6 +35,7 @@ public class ElectricGuitarTests {
                 .price(2_500.99f)
                 .strings(6)
                 .activePickup(false)
+                .quantity(100)
                 .build();
 
         List<ElectricGuitar> all = electricGuitarServiceImp.getAll();
@@ -56,6 +58,7 @@ public class ElectricGuitarTests {
                 .model("t350")
                 .price(7_000.99f)
                 .strings(7)
+                .quantity(1)
                 .activePickup(true)
                 .build();
 

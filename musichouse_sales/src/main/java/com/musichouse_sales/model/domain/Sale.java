@@ -17,7 +17,7 @@ public class Sale {
     private Date date;
     private BigDecimal totalPrice = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_EVEN);
     private Status status;
-    private List<String> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     public void setStatus(Status status){
         this.status = status;
@@ -25,9 +25,23 @@ public class Sale {
 
     public void addProduct(Product product){
         System.out.println(totalPrice);
-        products.add(product.getModel());
+        Boolean exists = checkIfExists(product);
+        if(!exists){
+            product.setQuantity(1);
+            products.add(product);
+        }
+
         sumProductPrice(product.getPrice());
-        System.out.println(totalPrice);
+    }
+
+    public Boolean checkIfExists(Product productToAdd){
+        for(Product product : products){
+            if(product.getModel().equals(productToAdd.getModel())){
+                product.setQuantity(product.getQuantity() + 1);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void sumProductPrice(BigDecimal productPrice){

@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient("MH-PRODUCTS")
+@FeignClient("http://localhost:8080")
 public interface ProductClient {
     @GetMapping("/product/{model}")
     Product getById(@PathVariable String model);

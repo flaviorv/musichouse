@@ -6,9 +6,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-public class MusichouseApplication {
+public class MusichouseProductsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MusichouseApplication.class, args);
+        SpringApplication.run(MusichouseProductsApplication.class, args);
         System.out.println("MH - PRODUCTS Started");
     }
 }

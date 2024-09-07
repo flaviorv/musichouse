@@ -52,6 +52,7 @@ public class AmplifierTests {
                 .price(1500)
                 .watts(800)
                 .model("20kO32")
+                .quantity(23)
                 .speakerInch(15).build();
         amplifierServiceImp.save(amp1);
 
@@ -63,6 +64,7 @@ public class AmplifierTests {
         amp2.setBrand("Meteoro");
         amp2.setPrice(1300);
         amp2.setSpeakerInch(14);
+        amp2.setQuantity(110);
         amplifierServiceImp.update("20kO32", amp2);
 
         int updatedListSize = amps.size();

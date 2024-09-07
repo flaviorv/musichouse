@@ -8,4 +8,5 @@ public interface SaleService {
     public Sale getById(String id) throws Exception;
     public List<Sale> getAll();
     public void delete(String id) throws Exception;
+    public void deleteAll();
 }

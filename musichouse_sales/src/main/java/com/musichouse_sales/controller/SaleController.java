@@ -49,7 +49,7 @@ public class SaleController {
     }
 
     @PostMapping("/close")
-    public ResponseEntity closeSale(@RequestBody Sale _sale) throws Exception {
+    public ResponseEntity closeSale(@RequestBody Sale _sale) {
         try {
             Sale sale = saleServiceImp.close(_sale.getId());
             return ResponseEntity.ok(sale);
@@ -68,5 +68,11 @@ public class SaleController {
             LOG.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
+    }
+
+    @DeleteMapping()
+    public ResponseEntity deleteAll(){
+        saleServiceImp.deleteAll();
+        return ResponseEntity.ok().body("Sales deleted successfully");
     }
 }

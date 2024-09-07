@@ -14,5 +14,9 @@ public abstract class Product {
     protected String model;
     protected String brand;
     protected float price;
+    protected int quantity;
 
+    public void calculateQuantity(Sale.Product product){
+        this.quantity -= product.getQuantity();
+    }
 }

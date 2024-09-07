@@ -41,6 +41,7 @@ public class SaleServiceImp implements SaleService {
         sale.setCurrentDate();
         Product product = productService.getById(model);
         sale.addProduct(product);
+        sale.setStatus(Status.OPEN);
         saleRepository.save(sale);
     }
 
@@ -76,5 +77,9 @@ public class SaleServiceImp implements SaleService {
             throw new Exception(SaleServiceConstants.REMOVE_SALE_ERROR);
         }
         saleRepository.deleteById(id);
+    }
+
+    public void deleteAll() {
+        saleRepository.deleteAll();
     }
 }
