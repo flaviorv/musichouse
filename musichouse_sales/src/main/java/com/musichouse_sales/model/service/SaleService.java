@@ -9,4 +9,5 @@ public interface SaleService {
     public List<Sale> getAll();
     public void delete(String id) throws Exception;
     public void deleteAll();
+    public Sale update(Sale sale);
 }

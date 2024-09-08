@@ -3,6 +3,7 @@ package com.musichouse_sales.controller;
 import com.musichouse_sales.model.domain.Sale;
 import com.musichouse_sales.model.service.SaleServiceConstants;
 import com.musichouse_sales.model.service.SaleServiceImp;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/sale")
 public class SaleController {
@@ -29,6 +31,7 @@ public class SaleController {
     @PostMapping("/{saleId}/{model}")
     public ResponseEntity addProductToAnExistentSale(@PathVariable String saleId, @PathVariable String model){
         try {
+            LOG.info("Added product to sale " + saleId);
             saleServiceImp.addProductToAnExistentSale(saleId, model);
             return ResponseEntity.ok(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY);
         } catch (Exception e) {
@@ -41,6 +44,7 @@ public class SaleController {
     public ResponseEntity addProductToANewSale(@PathVariable String model){
         try {
            saleServiceImp.addProductToANewSale(model);
+           LOG.info("Added product to a new sale " + model);
            return ResponseEntity.ok(SaleServiceConstants.PRODUCT_ADDED_SUCCESSFULLY);
         } catch (Exception e) {
             LOG.error(e.getMessage());

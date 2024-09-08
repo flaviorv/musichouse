@@ -15,12 +15,6 @@ public class ProductService {
     }
 
     public Product getById(String model) throws Exception{
-        try {
-            return productClient.getById(model);
-        }catch (Exception e){
-            log.error(e.getMessage());
-            throw new Exception(ProductServiceConstants.REQUEST_ERROR);
-        }
-
+        return productClient.getById(model);
     }
 }

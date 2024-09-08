@@ -82,4 +82,8 @@ public class SaleServiceImp implements SaleService {
     public void deleteAll() {
         saleRepository.deleteAll();
     }
+
+    public Sale update(Sale sale) {
+        return saleRepository.save(sale);
+    }
 }

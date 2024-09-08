@@ -1,6 +1,7 @@
 package com.musichouse_sales.model.domain;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Getter
+@Slf4j
 @Document(collection = "sales")
 public class Sale {
     @Id
@@ -24,17 +26,19 @@ public class Sale {
     }
 
     public void addProduct(Product product){
-        System.out.println(totalPrice);
-        Boolean exists = checkIfExists(product);
-        if(!exists){
-            product.setQuantity(1);
-            products.add(product);
+        if(product.getQuantity() >= 1) {
+            Boolean exists = addExistent(product);
+            if (!exists) {
+                product.setQuantity(1);
+                products.add(product);
+            }
+            sumProductPrice(product.getPrice());
+        }else {
+            throw new RuntimeException("Insufficient quantity of the product in the stock.");
         }
-
-        sumProductPrice(product.getPrice());
     }
 
-    public Boolean checkIfExists(Product productToAdd){
+    public Boolean addExistent(Product productToAdd){
         for(Product product : products){
             if(product.getModel().equals(productToAdd.getModel())){
                 product.setQuantity(product.getQuantity() + 1);

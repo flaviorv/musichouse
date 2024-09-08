@@ -14,10 +14,13 @@ public class SaleProducer {
     private final AmqpTemplate amqpTemplate;
     private final ObjectMapper objectMapper;
 
-
     public void close(Sale sale) throws AmqpException, JsonProcessingException {
-        amqpTemplate.convertAndSend("sales_exc", "sales_rk", objectMapper.writeValueAsString(sale));
+        amqpTemplate.convertAndSend("sales_exc", "check_payment_rk", objectMapper.writeValueAsString(sale));
 
+    }
+
+    public void approvedPayment(Sale sale) throws AmqpException, JsonProcessingException {
+        amqpTemplate.convertAndSend("sales_exc", "approved_payment_rk", objectMapper.writeValueAsString(sale));
     }
 
 }

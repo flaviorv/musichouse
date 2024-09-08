@@ -19,10 +19,9 @@ import java.util.Optional;
 public class SaleConsumer {
     private final ObjectMapper objectMapper;
     private final ProductServiceImp productServiceImp;
-    @RabbitListener(queues = {"sales_queue"})
+    @RabbitListener(queues = {"product_queue"})
     public void receive(@Payload String json){
         try {
-            log.info(json);
             Sale sale =  objectMapper.readValue(json, Sale.class);
             for(Sale.Product product : sale.getProducts()){
                 Optional<Product> p = productServiceImp.getByModel(product.getModel());
