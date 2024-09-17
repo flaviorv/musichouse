@@ -1,0 +1,89 @@
+services:
+  eureka:
+    image: flaviorv/eureka:latest
+    container_name: EUREKA-SERVER
+    ports:
+      - "8761:8761"
+    networks:
+      - musichouse
+
+  mongo:
+    image: mongo:7-jammy
+    container_name: MONGO-SERVER
+    ports:
+     - "27017:27017"
+    volumes:
+      - ./mongodb-data:/data
+    networks:
+      - musichouse
+
+  mysql:
+    image: mysql:8.0
+    container_name: MYSQL-SERVER
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_products
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: 123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - musichouse
+
+
+  rabbit:
+    image: rabbitmq:3.13-management
+    container_name: RABBITMQ-SERVER
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - musichouse
+
+  MH-PRODUCTS:
+    image: flaviorv/mh-products:latest
+    depends_on:
+      - mysql
+      - eureka
+#      - rabbit
+    deploy:
+      replicas: 2
+    networks:
+      - musichouse
+
+  MH-SALES:
+    image: flaviorv/mh-sales:latest
+    depends_on:
+      - mongo
+      - eureka
+#      - rabbit
+    deploy:
+      replicas: 2
+    networks:
+      - musichouse
+
+  payment_service:
+    image: flaviorv/payment:latest
+#    depends_on:
+#      - rabbit
+    deploy:
+      replicas: 1
+    networks:
+      - musichouse
+
+  MH-GATEWAY:
+    image: flaviorv/mh-gateway:latest
+    depends_on:
+#      - MH-PRODUCTS
+#      - MH-SALES
+      - eureka
+    ports:
+      - "9999:9999"
+    networks:
+      - musichouse
+
+networks:
+  musichouse:
+    driver: bridge
