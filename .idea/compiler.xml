@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka_server" />
+        <module name="payment_service" />
         <module name="musichouse_products" />
         <module name="gateway" />
         <module name="musichouse_sales" />
@@ -20,6 +21,7 @@
       <module name="gateway" options="-parameters" />
       <module name="musichouse_products" options="-parameters" />
       <module name="musichouse_sales" options="-parameters" />
+      <module name="payment_service" options="-parameters" />
     </option>
   </component>
 </project>

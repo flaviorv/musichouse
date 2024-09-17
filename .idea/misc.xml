@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/musichouse_sales/pom.xml" />
         <option value="$PROJECT_DIR$/musichouse_products/pom.xml" />
         <option value="$PROJECT_DIR$/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/payment_service/pom.xml" />
       </list>
     </option>
   </component>
