@@ -1,0 +1,55 @@
+#home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#products {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.sale {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#products-table {
+  width: 50%;
+  text-align: center;
+  border: 1px solid ;
+  cursor: context-menu;
+}
+
+#product-row:hover{
+  cursor: pointer;
+  font-weight: 500;
+  font-size: larger;
+}
+
+#navbar {
+  display: flex;
+  font-family: 'Courier New', Courier, monospace;
+  justify-content: center;
+  width: 100%;
+  font-size: medium;
+  font-weight: 600;
+}
+
+.navlink {
+  padding: 10px;
+  color: black;
+}
+
+
+
+
+
+
+
+

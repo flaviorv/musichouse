@@ -1,6 +1,16 @@
 spring:
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+        add-to-simple-url-handler-mapping: true
       routes:
         - id: products
           uri: lb://MH-PRODUCTS
@@ -22,7 +32,7 @@ eureka:
     service-url:
       defaultZone: http://EUREKA-SERVER:8761/eureka/
     fetch-registry: true
-    register-with-eureka: false
+    register-with-eureka: true
     enabled: true
 management:
   endpoint:

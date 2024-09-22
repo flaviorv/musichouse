@@ -36,27 +36,32 @@ public class SaleServiceImp implements SaleService {
         return sale;
     }
 
-    public void addProductToANewSale(String model) throws Exception {
+    public Sale addProductToANewSale(String model) throws Exception {
         Sale sale = new Sale();
         sale.setCurrentDate();
         Product product = productService.getById(model);
         sale.addProduct(product);
         sale.setStatus(Status.OPEN);
-        saleRepository.save(sale);
+        return saleRepository.save(sale);
     }
 
-    @PostMapping("/{saleId}/{model}")
-    public void addProductToAnExistentSale(String saleId, String model) throws Exception {
+
+    public Sale addProductToAnExistentSale(String saleId, String model) throws Exception {
         Sale sale;
         try {
             sale = getById(saleId);
         } catch (Exception e) {
             throw new Exception(SaleServiceConstants.SALE_NOT_FOUND);
         }
-        sale.setCurrentDate();
-        Product product = productService.getById(model);
-        sale.addProduct(product);
-        saleRepository.save(sale);
+        if(sale.getStatus() == Status.OPEN ) {
+            sale.setCurrentDate();
+            Product product = productService.getById(model);
+            sale.addProduct(product);
+            return saleRepository.save(sale);
+        }else {
+            throw new Exception("Cannot add product to this sale: status = " + sale.getStatus());
+        }
+
     }
 
 
