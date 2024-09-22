@@ -1,6 +1,6 @@
 services:
   eureka:
-    image: flaviorv/eureka:latest
+    image: flaviorv/eureka-server:v1
     container_name: EUREKA-SERVER
     ports:
       - "8761:8761"
@@ -43,41 +43,41 @@ services:
       - musichouse
 
   MH-PRODUCTS:
-    image: flaviorv/mh-products:latest
+    image: flaviorv/mh-products:v1
     depends_on:
       - mysql
       - eureka
-#      - rabbit
+      - rabbit
     deploy:
       replicas: 2
     networks:
       - musichouse
 
   MH-SALES:
-    image: flaviorv/mh-sales:latest
+    image: flaviorv/mh-sales:v1
     depends_on:
       - mongo
       - eureka
-#      - rabbit
+      - rabbit
     deploy:
       replicas: 2
     networks:
       - musichouse
 
   payment_service:
-    image: flaviorv/payment:latest
-#    depends_on:
-#      - rabbit
+    image: flaviorv/payment-service:v1
+    depends_on:
+      - rabbit
     deploy:
       replicas: 1
     networks:
       - musichouse
 
   MH-GATEWAY:
-    image: flaviorv/mh-gateway:latest
+    image: flaviorv/mh-gateway:v1
     depends_on:
-#      - MH-PRODUCTS
-#      - MH-SALES
+      - MH-PRODUCTS
+      - MH-SALES
       - eureka
     ports:
       - "9999:9999"

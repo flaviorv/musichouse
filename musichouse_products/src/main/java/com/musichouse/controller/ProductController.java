@@ -107,13 +107,12 @@ public class ProductController {
                             schema = @Schema(implementation = MessagePayload.class)
                     )}
             ),
-            @ApiResponse(responseCode = "404", description = "No products to delete",
+            @ApiResponse(responseCode = "204", description = "No products to delete",
                     content = {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MessagePayload.class)
                     )}
             )
-
     })
     @DeleteMapping
     public ResponseEntity<?> deleteAll(){
@@ -121,7 +120,7 @@ public class ProductController {
             productService.deleteAll();
             return ResponseEntity.ok(new MessagePayload("All products have been deleted"));
         }catch (EntityExistsException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.noContent().build();
         }
     }
 }

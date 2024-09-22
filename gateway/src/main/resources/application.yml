@@ -6,6 +6,7 @@ spring:
           uri: lb://MH-PRODUCTS
           predicates:
             - Path=/product/**,/electricguitar/**,/amplifier/**
+
         - id: sales
           uri: lb://MH-SALES
           predicates:
@@ -22,6 +23,7 @@ eureka:
       defaultZone: http://EUREKA-SERVER:8761/eureka/
     fetch-registry: true
     register-with-eureka: false
+    enabled: true
 management:
   endpoint:
     gateway:

@@ -27,7 +27,6 @@ public class SaleConsumer {
                 Optional<Product> p = productServiceImp.getByModel(product.getModel());
                 if(p.isPresent()){
                     p.get().setQuantity(p.get().getQuantity() - product.getQuantity());
-                    log.info(p.get().getModel() + " quantity was updated from : " + (p.get().getQuantity() + product.getQuantity()) + " to " + p.get().getQuantity());
                     productServiceImp.update(p.get());
                 }
             }
