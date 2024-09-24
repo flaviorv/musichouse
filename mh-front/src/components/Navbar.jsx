@@ -5,8 +5,7 @@ export default function Navbar(){
         <div id="navbar">
             <Link className="navlink" to="/">Home</Link>
             <Link className="navlink" to="/products">Products</Link>
-            <Link className="navlink" to="/open-sale">Open Sale</Link>
-            <Link className="navlink" >All Sales</Link>
+            <Link className="navlink" to="/sales">Sales</Link>
         </div>
     )
 }

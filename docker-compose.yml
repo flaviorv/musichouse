@@ -74,7 +74,7 @@ services:
       - musichouse
 
   MH-GATEWAY:
-    image: flaviorv/mh-gateway:v1
+    image: flaviorv/mh-gateway:v4
     depends_on:
       - MH-PRODUCTS
       - MH-SALES
@@ -83,6 +83,8 @@ services:
       - "9999:9999"
     networks:
       - musichouse
+
+
 
 networks:
   musichouse:

@@ -19,10 +19,31 @@
   flex-direction: column;
 }
 
-#products-table {
+.sales {
+  display: flex;
+  border: 1px, solid;
+  width: 80%;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.sales div {
+  border: 1 solid black;
   width: 50%;
   text-align: center;
-  border: 1px solid ;
+}
+
+
+
+.sales:hover {
+  cursor: pointer;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+.products-table {
+  width: 50%;
+  text-align: center;
   cursor: context-menu;
 }
 

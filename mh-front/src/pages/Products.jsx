@@ -23,7 +23,7 @@ function Products() {
 
     const addProductToAnExistentSale = async(saleId, productId) => {
         try{    
-            const response = await axios.post("http://localhost:9999/sale/"+saleId+"/"+productId.toString())
+            const response = await axios.post("http://localhost:9999/sale/"+saleId.toString()+"/"+productId.toString())
             const data = response.data
             console.log("Product added to an existent sale: " + data.id)
             navigate("/open-sale", {state: {saleId: data.id}})
@@ -47,11 +47,9 @@ function Products() {
             setProducts(data)
             console.log("Products were loaded successfuly: ", data)
         }catch(error){
-            if(error.response.status === 404){
-                console.log("No products")
-                return []
-            }
             console.log(error)
+            console.log("No products")
+            return []
         }
     }
 
@@ -63,7 +61,7 @@ function Products() {
         <div id='products'>
             <Navbar/>
             <h1>PRODUCTS</h1>
-            <Table id='products-table'>
+            <Table className='products-table'>
                 <thead>
                     <tr>
                         <th>Brand</th>
@@ -78,7 +76,7 @@ function Products() {
                             <td>{product.brand}</td>
                             <td>{product.model}</td>
                             <td>{product.quantity} units</td>
-                            <td>$ {product.price}</td>
+                            <td>$ {product.price.toFixed(2)}</td>
                         </tr>
                     )}
                 </tbody>  
