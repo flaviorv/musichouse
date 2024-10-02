@@ -44,7 +44,7 @@ export default function Sales() {
                             <tr><th>Items: </th></tr>
                         </thead>
                         {sale.products.map((product) =>
-                            <tbody>
+                            <tbody key={product.model}>
                                 <tr>
                                     <td>model: {product.model} ---- quantity: {product.quantity} ---- price: $ {product.price.toFixed(2)}</td>  
                                 </tr>

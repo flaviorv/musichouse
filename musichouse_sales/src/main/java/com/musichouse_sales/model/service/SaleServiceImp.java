@@ -1,16 +1,11 @@
 package com.musichouse_sales.model.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.musichouse_sales.model.domain.Product;
 import com.musichouse_sales.model.domain.Sale;
 import com.musichouse_sales.model.domain.Status;
 import com.musichouse_sales.model.rabbitmq.SaleProducer;
 import com.musichouse_sales.model.repository.SaleRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.amqp.AmqpException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +14,6 @@ public class SaleServiceImp implements SaleService {
     private final SaleRepository saleRepository;
     private final ProductService productService;
     private final SaleProducer producer;
-    private static final Logger LOG = LoggerFactory.getLogger(SaleServiceImp.class);
 
     public SaleServiceImp(SaleRepository saleRepository, ProductService productService, SaleProducer producer) {
         this.saleRepository = saleRepository;

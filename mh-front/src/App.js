@@ -4,7 +4,8 @@ import Home from './pages/Home.jsx'
 import Products from './pages/Products.jsx'
 import Sales from './pages/Sales.jsx'
 import OpenSale from './pages/OpenSale.jsx'
-import ClosedSale from './pages/ClosedSale.jsx'
+import Detailed from './pages/Detailed.jsx';
+
 
 function App(){
   return (
@@ -14,7 +15,7 @@ function App(){
         <Route path="/products" index element={<Products/>}/>
         <Route path='/sales' element={<Sales/>} />
         <Route path='/open-sale' element={<OpenSale/>} />
-        <Route path='/closed-sale' element={<ClosedSale/>} />
+        <Route path='/detailed' element={<Detailed/>} />
       </Routes>
     </BrowserRouter>
   )

@@ -23,13 +23,14 @@ public class SaleConsumer {
     private static final Logger LOG = LoggerFactory.getLogger(SaleConsumer.class);
 
     @RabbitListener(queues = {"payment_queue"})
-    public void receive(@Payload String json) throws JsonProcessingException {
+    public void receive(@Payload String json) throws JsonProcessingException, InterruptedException {
         JsonNode _saleId = mapper.readTree(json).get("id");
         String saleId = mapper.readValue(_saleId.toString(), String.class);
 
         int random = new Random().nextInt(11);
         HashMap<String, String> response = new HashMap<>();
 
+        Thread.sleep(10_000);
         if (random > 4) {
             response.put(saleId, "Approved Payment");
         } else{

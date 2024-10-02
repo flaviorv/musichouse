@@ -12,6 +12,11 @@
   flex-direction: column;
 }
 
+#detailed-link {
+  margin-top: 50px;
+  
+}
+
 .sale {
   display: flex;
   align-items: center;

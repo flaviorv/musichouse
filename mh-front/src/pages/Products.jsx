@@ -2,7 +2,8 @@ import Navbar from '../components/Navbar'
 import axios from 'axios'
 import Table from 'react-bootstrap/Table'
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import Detailed from './Detailed'
 
 function Products() {
     const {state} = useLocation()
@@ -80,7 +81,10 @@ function Products() {
                         </tr>
                     )}
                 </tbody>  
-            </Table>            
+            </Table>
+            
+            <Link id='detailed-link'  to="/detailed" >Detailed</Link>
+
         </div>
     )
 }

@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-
 export default function OpenSale() {
     const navigate = useNavigate()
     const {state} = useLocation()
@@ -15,8 +14,10 @@ export default function OpenSale() {
             try{
                 const response = await axios.get("http://localhost:9999/sale/" + state.saleId.toString())
                 const data = response.data
-                setSale(data)
-                setProducts(data.products)
+                if(JSON.stringify(data) !== JSON.stringify(sale)){
+                    setSale(data)
+                    setProducts(data.products)
+                }
             }catch(error) {
                 console.log("Cannot get the sale")
                 console.log(error)
@@ -41,6 +42,13 @@ export default function OpenSale() {
     
     useEffect(()=>{
         getSale()
+        const interval = setInterval(() => {
+            console.log("getSale()")
+            getSale()
+          }, 5000);
+        return () => {
+            clearInterval(interval);
+        };
     },[])
 
 
