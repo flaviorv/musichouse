@@ -1,0 +1,14 @@
+#home {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    flex-direction: column;
+    color: beige;
+    /* margin-top: 10px; */
+  }
+
+  #home h3 {
+    margin-top: 30px;
+    font-size: 3em;
+
+  }

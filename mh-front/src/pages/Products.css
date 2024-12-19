@@ -1,0 +1,43 @@
+#products {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: beige;
+  }
+  
+#title {
+    color: grey;
+}
+
+#detailed-link {
+    margin-top: 50px;
+    
+}
+
+#table-head {
+    font-size: 2em;
+}
+
+.products-table {
+    width: 70%;
+    background-color: black;
+    text-align: center;
+    cursor: context-menu;
+    margin-top: 30px;
+  }
+
+#product-row {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  
+    font-size: 1.7em;
+    padding: 150px;
+} 
+  
+  #product-row:hover{
+    cursor: pointer;
+    font-weight: bolder;
+  }
+
+  #product-row:nth-child(even) {
+    background-color: grey;
+  }

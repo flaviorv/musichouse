@@ -1,5 +1,4 @@
 import { useLocation, Link, useNavigate } from "react-router-dom"
-import Navbar from "../components/Navbar"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
@@ -54,7 +53,6 @@ export default function OpenSale() {
 
     return (
         <div>
-        <Navbar/>
         {sale != null  ? 
             <div className="sale">
                 <h1>SALE: {sale.id}</h1>

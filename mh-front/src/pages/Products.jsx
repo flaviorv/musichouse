@@ -1,9 +1,9 @@
-import Navbar from '../components/Navbar'
 import axios from 'axios'
 import Table from 'react-bootstrap/Table'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Detailed from './Detailed'
+import "./Products.css"
 
 function Products() {
     const {state} = useLocation()
@@ -60,10 +60,9 @@ function Products() {
 
     return (
         <div id='products'>
-            <Navbar/>
-            <h1>PRODUCTS</h1>
+            <h1 id="title">Products</h1>
             <Table className='products-table'>
-                <thead>
+                <thead id='table-head'>
                     <tr>
                         <th>Brand</th>
                         <th>Model</th>
@@ -74,10 +73,10 @@ function Products() {
                 <tbody>
                     {products.map((product) => 
                         <tr id='product-row' key={product.model} onClick={() => checkSale(product.model)}>
-                            <td>{product.brand}</td>
-                            <td>{product.model}</td>
-                            <td>{product.quantity} units</td>
-                            <td>$ {product.price.toFixed(2)}</td>
+                            <td id="row1">{product.brand}</td>
+                            <td id="row2">{product.model}</td>
+                            <td id="row3">{product.quantity} units</td>
+                            <td id="row4">$ {product.price.toFixed(2)}</td>
                         </tr>
                     )}
                 </tbody>  

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom"
-import Navbar from "../components/Navbar"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { Table } from "react-bootstrap"
@@ -23,10 +22,9 @@ export default function Sales() {
 
     return (
         <div>
-            <Navbar/>
             {allSales != null ? 
             <div className="sale">
-                <h1>SALES</h1>
+                <h1>ORDERS</h1>
                 {allSales.map((sale) => 
                 <div key={sale.id} className="sales" onClick={()=>{
                     if(sale.status === "OPEN"){
@@ -34,7 +32,7 @@ export default function Sales() {
                     }
                 }}>
                     <div>
-                        <h2>SALE: {sale.id}</h2>
+                        <h2>Order: {sale.id}</h2>
                         <h2>Date: {sale.date}</h2>
                         <h2>Status: {sale.status}</h2>
                         <h2>Total Price: $ {sale.totalPrice}</h2>

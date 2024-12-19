@@ -1,5 +1,4 @@
 
-import Navbar from "../components/Navbar.jsx"
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
@@ -44,7 +43,6 @@ function Detailed() {
 
     return (
         <div id='products'>
-            <Navbar/>
             <h1>Instruments</h1>
             <h3>Electric Guitars</h3>
             <Table className='products-table'>

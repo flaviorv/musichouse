@@ -1,11 +1,16 @@
-import { Link } from "react-router-dom"
 
-export default function Navbar(){
+import BurgerMenu from "./BurgerMenu"
+import "./Navbar.css"
+
+export default function Navbar() {
     return (
         <div id="navbar">
-            <Link className="navlink" to="/">Home</Link>
-            <Link className="navlink" to="/products">Products</Link>
-            <Link className="navlink" to="/sales">Sales</Link>
+            <div id="logo">  
+                <img src={require("../images/icon_guitar_dark.png")} width={40} height={40}/>
+                <h1>Music House</h1>
+            </div>
+            <BurgerMenu/>
         </div>
+        
     )
 }

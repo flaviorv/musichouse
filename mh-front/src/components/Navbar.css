@@ -1,0 +1,17 @@
+#navbar {
+    display: flex;
+    font-family: 'Courier New', Courier, monospace;
+    justify-content: space-between;
+    width: 100%;
+    font-size: medium;
+    font-weight: 600;
+    color: greenyellow;
+    background-color: black;
+    align-items: center;
+  }
+  
+  #logo{
+    display: flex;
+    align-items: center;
+    margin-left: 40px;
+  }
