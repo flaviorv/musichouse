@@ -84,6 +84,13 @@ services:
     networks:
       - musichouse
 
+  mh-front:
+    depends_on:
+      - MH-GATEWAY
+    ports:
+      - "3000:3000"
+    networks:
+      - musichouse
 networks:
   musichouse:
     driver: bridge
