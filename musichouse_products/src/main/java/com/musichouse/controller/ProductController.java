@@ -1,6 +1,10 @@
 package com.musichouse.controller;
 
+import com.musichouse.model.domain.Amplifier;
+import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.domain.Product;
+import com.musichouse.model.service.AmplifierServiceImp;
+import com.musichouse.model.service.ElectricGuitarServiceImp;
 import com.musichouse.model.service.ProductServiceImp;
 import com.musichouse.payload.MessagePayload;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,9 +24,13 @@ import java.util.Optional;
 @RequestMapping("/product")
 public class ProductController {
     private final ProductServiceImp productService;
+    private final ElectricGuitarServiceImp electricGuitarServiceImp;
+    private final AmplifierServiceImp amplifierServiceImp;
 
-    public ProductController(ProductServiceImp productService) {
+    public ProductController(ProductServiceImp productService, ElectricGuitarServiceImp electricGuitarServiceImp, AmplifierServiceImp amplifierServiceImp) {
         this.productService = productService;
+        this.electricGuitarServiceImp = electricGuitarServiceImp;
+        this.amplifierServiceImp = amplifierServiceImp;
     }
 
     @Operation(summary = "Listing all products")
@@ -44,7 +52,25 @@ public class ProductController {
     public ResponseEntity<?> getAll() {
         List<Product> products = productService.getAll();
         if(products.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("There are no products"));
+            ElectricGuitar e1 = ElectricGuitar.builder()
+                    .model("RG121").brand("Ibanez").price(207.12f).quantity(1700).strings(6).activePickup(false).build();
+            ElectricGuitar e2 = ElectricGuitar.builder()
+                    .model("Soloist").brand("Jackson").price(300.54f).quantity(650).strings(7).activePickup(true).build();
+            ElectricGuitar e3 = ElectricGuitar.builder()
+                    .model("T500").brand("Tagima").price(400f).quantity(380).strings(6).activePickup(false).build();
+
+            Amplifier a1 = Amplifier.builder()
+                    .model("GS100").brand("Meteoro").price(1523.12f).quantity(430).speakerInch(12).watts(100).build();
+            Amplifier a2 = Amplifier.builder()
+                    .model("MG30FX").brand("Marshall").price(1730.12f).quantity(430).speakerInch(10).watts(30).build();
+
+            electricGuitarServiceImp.save(e1);
+            electricGuitarServiceImp.save(e2);
+            electricGuitarServiceImp.save(e3);
+            amplifierServiceImp.save(a1);
+            amplifierServiceImp.save(a2);
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("New products just arrived in stock"));
         }
         return ResponseEntity.ok(products);
     }

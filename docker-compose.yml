@@ -43,7 +43,7 @@ services:
       - musichouse
 
   MH-PRODUCTS:
-    image: flaviorv/mh-products:v1
+    image: flaviorv/mh-products:v2
     depends_on:
       - mysql
       - eureka
@@ -84,13 +84,14 @@ services:
     networks:
       - musichouse
 
-  mh-front:
-    depends_on:
-      - MH-GATEWAY
-    ports:
-      - "3000:3000"
-    networks:
-      - musichouse
+#  mh-front:
+#    depends_on:
+#      - MH-GATEWAY
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - musichouse
+
 networks:
   musichouse:
     driver: bridge
