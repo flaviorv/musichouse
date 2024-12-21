@@ -1,0 +1,28 @@
+.sale {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .sales {
+    display: flex;
+    border: 1px, solid;
+    width: 80%;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .sales div {
+    border: 1 solid black;
+    width: 50%;
+    text-align: center;
+  }
+  
+  
+  
+  .sales:hover {
+    cursor: pointer;
+    font-size: larger;
+    font-weight: bolder;
+  }

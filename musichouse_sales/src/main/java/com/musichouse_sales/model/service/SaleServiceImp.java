@@ -31,6 +31,10 @@ public class SaleServiceImp implements SaleService {
     }
 
     public Sale addProductToANewSale(String model) throws Exception {
+        Optional<Sale> openSale = saleRepository.findOpenSale(Status.OPEN);
+        if (openSale.isPresent()) {
+            throw new Exception(SaleServiceConstants.OPEN_SALE_ALREADY_EXISTS);
+        }
         Sale sale = new Sale();
         sale.setCurrentDate();
         Product product = productService.getById(model);
@@ -38,7 +42,6 @@ public class SaleServiceImp implements SaleService {
         sale.setStatus(Status.OPEN);
         return saleRepository.save(sale);
     }
-
 
     public Sale addProductToAnExistentSale(String saleId, String model) throws Exception {
         Sale sale;
@@ -53,9 +56,8 @@ public class SaleServiceImp implements SaleService {
             sale.addProduct(product);
             return saleRepository.save(sale);
         }else {
-            throw new Exception("Cannot add product to this sale: status = " + sale.getStatus());
+            throw new Exception(SaleServiceConstants.OPEN_STATUS_EXCEPTION);
         }
-
     }
 
 
@@ -84,5 +86,9 @@ public class SaleServiceImp implements SaleService {
 
     public Sale update(Sale sale) {
         return saleRepository.save(sale);
+    }
+
+    public Optional<Sale> findOpenSale() {
+        return saleRepository.findOpenSale(Status.OPEN);
     }
 }

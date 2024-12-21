@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/sale")
@@ -21,19 +22,33 @@ public class SaleController {
         this.saleServiceImp = saleServiceImp;
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public List<Sale> getAll(){
         return saleServiceImp.getAll();
     }
 
-    @GetMapping("/{saleId}")
-    public ResponseEntity byId(@PathVariable String saleId){
+    @GetMapping()
+    public ResponseEntity byId(@RequestParam String id){
         try{
-            Sale sale = saleServiceImp.getById(saleId);
+            Sale sale = saleServiceImp.getById(id);
             return ResponseEntity.ok().body(sale);
         }catch (Exception e){
             LOG.error(e.getMessage());
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/open")
+    public ResponseEntity findOpenSale(){
+        try{
+            Optional<Sale> sale = saleServiceImp.findOpenSale();
+            if(sale.isPresent()){
+                return ResponseEntity.ok().body(sale.get());
+            }
+            throw new Exception("No open sale");
+        }catch (Exception e){
+            LOG.error(e.getMessage());
+            return ResponseEntity.noContent().build();
         }
     }
 

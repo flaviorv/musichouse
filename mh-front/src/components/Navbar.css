@@ -15,3 +15,7 @@
     align-items: center;
     margin-left: 40px;
   }
+
+  #logo img{
+    border-radius: 50px;
+  }

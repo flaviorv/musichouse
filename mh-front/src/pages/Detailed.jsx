@@ -1,102 +1,93 @@
 
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Detailed() {
-    const [guitars, setGuitars] = useState()
-    const [amplifiers, setAmplifiers] = useState()
+    const navigate = useNavigate()
+    const {state} = useLocation()
+    const [product, setProduct] = useState()
+    const [saleId, setSaleId] = useState()
 
-    const getGuitars = async() => {
+    
+    const getProduct = async() => {
         try{
-            const response = await axios.get("http://localhost:9999/electricguitar")
+            const response = await axios.get("http://localhost:9999/product/" + state.productId)
             const data = response.data
-            setGuitars(data)
+            setProduct(data)
             console.log(data)
-            console.log("Guitars were loaded successfuly: ", data)
         }catch(error){
             console.log(error)
-            console.log("No guitars")
+            console.log("No products")
             return []
         }
     }
 
-    const getAmplifiers = async() => {
-        try{
-            const response = await axios.get("http://localhost:9999/amplifier")
+
+     const addProductToANewSale = async(productId) => {
+        try{    
+            const response = await axios.post("http://localhost:9999/sale/"+productId.toString())
             const data = response.data
-            setAmplifiers(data)
-            console.log(data)
-            console.log("Amplifiers were loaded successfuly: ", data)
-        }catch(error){
+            console.log("Product added to new sale: " + data.id)
+            navigate("/open-sale", {state: {saleId: data.id}})
+        }catch(error) {
             console.log(error)
-            console.log("No amps")
-            return []
+        }
+        
+    }
+
+    const addProductToAnExistentSale = async(saleId, productId) => {
+        try{    
+            const response = await axios.post("http://localhost:9999/sale/"+saleId.toString()+"/"+productId.toString())
+            const data = response.data
+            console.log("Product added to an existent sale: " + data.id)
+            navigate("/open-sale", {state: {saleId: data.id}})
+        }catch(error) {
+            console.log(error)
         }
     }
+
+
+    function addProduct(){
+        console.log(saleId)
+        if(saleId !== false){
+            addProductToAnExistentSale(saleId, state.productId)
+        }else{
+            addProductToANewSale(state.productId)
+        }
+    }
+
+    const getOpenSale = async() => {
+        const response = await axios.get("http://localhost:9999/sale/open")
+        const data = response.data
+        data != null ? setSaleId(data.id) : setSaleId(false)
+    }
+
 
     useEffect(() => {
-        getGuitars() 
-        getAmplifiers()
+        getOpenSale()
+        getProduct() 
     },[])
     
 
     return (
         <div id='products'>
-            <h1>Instruments</h1>
-            <h3>Electric Guitars</h3>
-            <Table className='products-table'>
-                <thead>
-                    <tr>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Strings</th>
-                        <th>Active Pickups</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {guitars != undefined? guitars.map((guitar) => 
-                        <tr id='guitar-row' key={guitar.model}>
-                            <td>{guitar.model}</td>
-                            <td>{guitar.brand}</td>
-                            <td>{guitar.strings}</td>
-                            {guitar.activePickup ? 
-                             <td>yes</td> : <td>no</td> }
-                            
-                        </tr>
-                    ) :
-                    <h2>Error on loading guitars</h2>
-                    
-                    }
-                </tbody>  
-            </Table>
-           
-            <h3>Amplifiers</h3>
-
-            <Table className='products-table'>
-                <thead>
-                    <tr>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Speaker Inch</th>
-                        <th>Power</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {amplifiers != undefined? amplifiers.map((amplifier) => 
-                        <tr id='amplifier-row' key={amplifier.model}>
-                            <td>{amplifier.model}</td>
-                            <td>{amplifier.brand}</td>
-                            <td>{amplifier.speakerInch}"</td>
-                            <td>{amplifier.watts} watts</td>
-                        </tr>
-                    ) :
-                    <h2>Error on loading amplifiers</h2>
-                    
-                    }
-                </tbody>  
-            </Table>
-        
+            {product !== undefined ?
+                <>
+                    <h1 className="title">Electric Guitar</h1>
+                    <h1>{product.brand} {product.model}</h1>
+                    <h2 className="title">Specifications:</h2>
+                    {product.strings ? 
+                        <><h3>"Active Pickups: " {product.activePickup}</h3>
+                        <h3>Strings: {product.strings}</h3></>
+                    : 
+                        <><h3>Speacher Inch: {product.speakerInch}"</h3>
+                        <h3>Power: {product.watts} watts</h3></>}
+                    <h3 className="price">Price: $ {product.price.toFixed(2)}</h3>
+                    <button onClick={() => addProduct()}>Add to Order</button>
+                </>
+            :<h1 className="title">Unable to load product</h1>}
+            
         </div>
     )
 }

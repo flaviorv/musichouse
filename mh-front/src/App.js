@@ -5,6 +5,7 @@ import Products from './pages/Products.jsx'
 import Sales from './pages/Sales.jsx'
 import OpenSale from './pages/OpenSale.jsx'
 import Detailed from './pages/Detailed.jsx';
+import Payment from './pages/Payment.jsx'
 
 
 function App(){
@@ -16,6 +17,7 @@ function App(){
         <Route path='/sales' element={<Sales/>} />
         <Route path='/open-sale' element={<OpenSale/>} />
         <Route path='/detailed' element={<Detailed/>} />
+        <Route path='/payment' element={<Payment/>} />
       </Routes>
     </BrowserRouter>
   )

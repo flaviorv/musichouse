@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { Table } from "react-bootstrap"
+import "./Sales.css"
 
 export default function Sales() {
     
@@ -9,7 +10,7 @@ export default function Sales() {
     const [allSales, setAllSales] = useState([])
 
     const getAllSales = async() => {
-        const response = await axios.get("http://localhost:9999/sale")
+        const response = await axios.get("http://localhost:9999/sale/all")
         const data = response.data
         console.log(data)
         setAllSales(data)

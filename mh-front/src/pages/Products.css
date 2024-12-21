@@ -6,7 +6,7 @@
     color: beige;
   }
   
-#title {
+.title {
     color: grey;
 }
 
@@ -15,8 +15,16 @@
     
 }
 
-#table-head {
+.price {
+  color: lightgreen;
+}
+
+.table-head {
     font-size: 2em;
+}
+
+.table-head, th {
+  color: gold;
 }
 
 .products-table {
@@ -27,17 +35,17 @@
     margin-top: 30px;
   }
 
-#product-row {
+.product-row {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  
     font-size: 1.7em;
-    padding: 150px;
+    color: lightgoldenrodyellow;
 } 
   
-  #product-row:hover{
+  .product-row:hover{
     cursor: pointer;
     font-weight: bolder;
   }
 
-  #product-row:nth-child(even) {
+  .product-row:nth-child(even) {
     background-color: grey;
   }
