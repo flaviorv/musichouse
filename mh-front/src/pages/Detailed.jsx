@@ -74,14 +74,17 @@ function Detailed() {
         <div id='products'>
             {product !== undefined ?
                 <>
-                    <h1 className="title">Electric Guitar</h1>
-                    <h1>{product.brand} {product.model}</h1>
-                    <h2 className="title">Specifications:</h2>
                     {product.strings ? 
-                        <><h3>"Active Pickups: " {product.activePickup}</h3>
+                        <><h1 className="title">Electric Guitar</h1>
+                        <h1>{product.brand} {product.model}</h1>
+                        <h2 className="title">Specifications:</h2>
+                        <h3>Active Pickups: {product.activePickup? "Yes" : "No"}</h3>
                         <h3>Strings: {product.strings}</h3></>
-                    : 
-                        <><h3>Speacher Inch: {product.speakerInch}"</h3>
+                    :
+                        <><h1 className="title">Amplifier</h1>
+                        <h1>{product.brand} {product.model}</h1>
+                        <h2 className="title">Specifications:</h2>
+                        <h3>Speacher Inch: {product.speakerInch}"</h3>
                         <h3>Power: {product.watts} watts</h3></>}
                     <h3 className="price">Price: $ {product.price.toFixed(2)}</h3>
                     <button onClick={() => addProduct()}>Add to Order</button>

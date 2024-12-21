@@ -6,9 +6,7 @@
     color: beige;
   }
   
-.title {
-    color: grey;
-}
+
 
 #detailed-link {
     margin-top: 50px;
@@ -16,7 +14,8 @@
 }
 
 .price {
-  color: lightgreen;
+  color: rgb(121, 225, 121);
+  font-weight: bolder;
 }
 
 .table-head {
@@ -24,7 +23,7 @@
 }
 
 .table-head, th {
-  color: gold;
+  color: rgb(203, 190, 117);
 }
 
 .products-table {
@@ -38,14 +37,23 @@
 .product-row {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  
     font-size: 1.7em;
-    color: lightgoldenrodyellow;
+    color: coral;
 } 
   
-  .product-row:hover{
-    cursor: pointer;
-    font-weight: bolder;
+.product-row:hover{
+  cursor: pointer;
+  color: beige;
+  .price {
+    color: beige;
   }
+}
 
-  .product-row:nth-child(even) {
-    background-color: grey;
-  }
+.product-row:nth-child(even) {
+  background-color: rgb(124, 120, 120);
+  color: black;
+}
+
+.product-row:nth-child(even):hover {
+  cursor: pointer;
+  color: rgb(225, 219, 217);
+}

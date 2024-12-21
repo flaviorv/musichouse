@@ -54,7 +54,7 @@ services:
       - musichouse
 
   MH-SALES:
-    image: flaviorv/mh-sales:v2.1
+    image: flaviorv/mh-sales:v2.2
     depends_on:
       - mongo
       - eureka

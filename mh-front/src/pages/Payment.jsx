@@ -1,18 +1,11 @@
-import { useState } from "react";
 import { ScaleLoader } from "react-spinners";
 import { useState, useEffect, useLocation } from "react";
 
-const [loading, setLoading] = useState(true)
-const {state} = useLocation()
-
-function checkPayment() {
-    
-}
 
 
-useEffect(() => {
-    setTimeout(()=> , 5000)
-},[])
+// useEffect(() => {
+//     setTimeout(()=> , 5000)
+// },[])
 
 
 // useEffect(()=>{
@@ -27,7 +20,21 @@ useEffect(() => {
 // },[])
 
 export default function Payment() {
+
+    const [loading, setLoading] = useState(true)
+    const {state} = useLocation()
+
+    function checkPayment() {
+    
+    }
+
+
+
     return (
+        <>
+        
+        
+        </>
         
     )
 }

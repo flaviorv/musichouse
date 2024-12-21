@@ -1,4 +1,66 @@
-.title {
+#open-sale-products {
+   margin-top: 60px;
+}
+
+button{
+   height: 50px;
+}
+
+#open-sale {
+   color: grey;
+   padding: 20px;
+   margin-top: 60px;
+   font-family: 'Courier New', Courier, monospace;
    text-align: center;
-   justify-content: center;
+   font-size: .8em;
+}
+
+#all-content {
+   display: flex;
+   flex-direction: row-reverse;
+   justify-content: space-evenly;
+   background-color: rgb(13, 13, 12);
+   width: 70%;
+   padding: 50px;
+   margin: auto; 
+}
+
+#open-sale-products {
+   color: blanchedalmond;
+}
+
+#open-sale-item {
+   cursor: pointer;
+}
+
+#open-sale-item:hover {
+   color: coral;
+}
+
+.title2 {
+   color: rgb(155, 147, 105);
+}
+
+#continue-shopping {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+#shopping-img {
+   width: 50px;
+   height: 50px;
+}
+
+
+#continue-shopping-button {
+   width: 150px;
+   height: 30px;
+   font-size: 0.9em;
+   margin: 30px;
+}
+
+#close-order-button {
+   height: 35px;
+   width: 140px;
 }

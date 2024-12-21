@@ -1,11 +1,10 @@
-import { useLocation, Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import "./OpenSale.css"
 
 export default function OpenSale() {
     const navigate = useNavigate()
-    const {state} = useLocation()
     const [sale, setSale] = useState()
     const [products, setProducts] = useState([])
     
@@ -25,7 +24,7 @@ export default function OpenSale() {
 
     const closeSale = async() => {
         try{
-            const response = await axios.post("http://localhost:9999/sale/close", {"id": state.saleId} )
+            const response = await axios.post("http://localhost:9999/sale/close", {"id": sale.id} )
             const data = response.data
             console.log(data)
             navigate("/payment", {state:sale.id} )
@@ -38,37 +37,38 @@ export default function OpenSale() {
     
     useEffect(()=>{
         getOpenSale()
-        const interval = setInterval(() => {
-            console.log("getOpenSale()")
-            getOpenSale()
-          }, 5000);
-        return () => {
-            clearInterval(interval);
-        };
     },[])
 
 
     return (
-        <div>
+        <>
         {sale != null  ? 
-            <div className="sale">
-                <h1>SALE: {sale.id}</h1>
-                <h2>Date: {sale.date}</h2>
-                <h2>{sale.status}</h2>
-                <h2>Total Price: $ {sale.totalPrice}</h2>
-                <Link to="/products" >Add more products</Link>
-                {products.map((product) => 
-                <div key={product.model}>
-                    <h3>____________________________________________________________________________________________</h3>
-                    <h3>Item = model: {product.model} ---- quantity: {product.quantity} ---- price: $ {product.price.toFixed(2)}</h3>  
-                    <h3>____________________________________________________________________________________________</h3>
+            <div id="all-content">
+                <div id="open-sale">
+                    <h1 className="title2">My Order</h1>
+                    <h2>Date: {sale.date.replace("T", " ").slice(0, 19)}</h2>
+                    <h2 id="open-sale-id">Code: {sale.id}</h2>
+                    <h2>Total Price: $ {sale.totalPrice}</h2>
+                    <button id="close-order-button" onClick={() => closeSale()}>Close Order</button>
                 </div>
-                )}
-                 <button onClick={() => closeSale()} >Close Sale</button>
-            </div> :
-            <h2 className="title">No Order with open status</h2>
-        }
-        </div>
-
+                <img id="shopping-img" src={require("../images/icon_shopping2.png")} alt="" />
+                <div id="open-sale-products">
+                    <div id="continue-shopping">
+                        <button id="continue-shopping-button" onClick={() => navigate("/products")} >Continue Shopping</button>
+                    </div>
+                
+                    <h2 className="title2">Added Products</h2>
+                    {products.map((product) => 
+                    <div key={product.model}>
+                        <h3 id="open-sale-item" onClick={() => navigate("/detailed", {state: {productId:product.model}})}>{product.model} --- Price: $ {product.price.toFixed(2)} --- Quantity: {product.quantity}</h3> 
+                    </div>
+                    )}
+                    
+                    
+                </div>
+            </div> 
+        :
+            <h2 className="title">No Order with open status</h2>}
+        </>
     )
 }

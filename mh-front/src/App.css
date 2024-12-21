@@ -3,7 +3,7 @@ html{
 }
 
 button {
-  background-color: rgb(106, 142, 34);
+  background-color: yellowgreen;
   border: 0;
   border-radius: 10px;
   font-size: 1.1em;
@@ -17,4 +17,9 @@ button {
 button:hover {
   background-color: rgb(200, 218, 130);
   color: rgb(84, 86, 83);
+}
+
+.title {
+  color: grey;
+  text-align: center;
 }
