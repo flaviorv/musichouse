@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { Table } from "react-bootstrap"
 import "./Sales.css"
 
 export default function Sales() {
@@ -16,6 +15,10 @@ export default function Sales() {
         setAllSales(data)
     }
 
+    const detailed = (sale) => {
+        sale.status == "OPEN" ? navigate("/open-sale") : navigate("/detailed/sale", {state: {sale: sale}})
+    }
+
     useEffect(()=>{
         getAllSales()
         console.log("getAllSales()")
@@ -24,35 +27,21 @@ export default function Sales() {
     return (
         <div>
             {allSales != null ? 
-            <div className="sale">
-                <h1>ORDERS</h1>
-                {allSales.map((sale) => 
-                <div key={sale.id} className="sales" onClick={()=>{
-                    if(sale.status === "OPEN"){
-                        navigate("/open-sale", {state: {saleId: sale.id}})
-                    }
-                }}>
-                    <div>
-                        <h2>Order: {sale.id}</h2>
-                        <h2>Date: {sale.date}</h2>
-                        <h2>Status: {sale.status}</h2>
-                        <h2>Total Price: $ {sale.totalPrice}</h2>
-                    </div>
-                    <Table className="products-table">
-                        <thead>
-                            <tr><th>Items: </th></tr>
-                        </thead>
-                        {sale.products.map((product) =>
-                            <tbody key={product.model}>
-                                <tr>
-                                    <td>model: {product.model} ---- quantity: {product.quantity} ---- price: $ {product.price.toFixed(2)}</td>  
-                                </tr>
-                            </tbody>
-                        )}
-                    </Table>
-                </div>
-               
-                )}
+            <div id="sales-history">
+                <h1 className="title">History</h1>
+                        <div id="history-head">
+                            <h3>Date</h3>
+                            <h3>Status</h3>
+                            <h3>Total Price</h3>
+                        </div>
+                
+                
+                    {allSales.map((sale) => 
+                        <div id="history-body" key={sale.id} onClick={() => detailed(sale)}>
+                            <h3>{sale.date.replace("T", " ").slice(0,19)}</h3>
+                            <h3>{sale.status}</h3>
+                            <h3>$ {sale.totalPrice}</h3>
+                        </div>)}     
             </div> :
             <h2>Error loading all sales</h2>
             }

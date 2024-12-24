@@ -5,7 +5,6 @@
     width: 100%;
     font-size: medium;
     font-weight: 600;
-    color: greenyellow;
     background-color: black;
     align-items: center;
   }
@@ -14,8 +13,13 @@
     display: flex;
     align-items: center;
     margin-left: 40px;
+    font-family: cursive;
+    text-decoration: none;
+    color: greenyellow;
   }
 
   #logo img{
     border-radius: 50px;
+    width: 40px;
+    height: 40px;
   }

@@ -3,11 +3,6 @@ package com.musichouse.controller;
 import com.musichouse.model.domain.Amplifier;
 import com.musichouse.model.service.AmplifierServiceImp;
 import com.musichouse.payload.MessagePayload;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -27,21 +22,6 @@ public class AmplifierController {
         this.amplifierService = amplifierService;
     }
 
-    @Operation(summary = "Registering a new amplifier")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully registered",
-                    content = {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = Amplifier.class)
-                    )}
-            ),
-            @ApiResponse(responseCode = "400", description = "Registration cannot be carried out",
-                    content= {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = MessagePayload.class)
-                    )}
-            )
-    })
     @PostMapping
     public ResponseEntity<?> save(@RequestBody Amplifier amplifier) {
        try{
@@ -52,22 +32,6 @@ public class AmplifierController {
        }
     }
 
-
-    @Operation(summary = "Listing all amplifiers")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Showing all amplifiers",
-                    content = {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = Amplifier.class)
-                    )}
-            ),
-            @ApiResponse(responseCode = "404", description = "Cannot show the amplifiers",
-                    content= {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = MessagePayload.class)
-                    )}
-            )
-    })
     @GetMapping
     public ResponseEntity<?> getAll() {
         List<Amplifier> amplifiers = amplifierService.getAll();
@@ -77,21 +41,6 @@ public class AmplifierController {
         return ResponseEntity.ok(amplifiers);
     }
 
-    @Operation(summary = "One amplifier by model")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Showing amplifier by model",
-                    content = {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = Amplifier.class)
-                    )}
-            ),
-            @ApiResponse(responseCode = "404", description = "Cannot show the amplifier",
-                    content= {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = MessagePayload.class)
-                    )}
-            )
-    })
     @GetMapping("/{model}")
     public ResponseEntity<?> getByModel(@PathVariable String model) {
         Optional<Amplifier> amplifier = amplifierService.getByModel(model);
@@ -101,21 +50,6 @@ public class AmplifierController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
     }
 
-    @Operation(summary = "Updating amplifier")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Amplifier updated",
-                    content = {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = Amplifier.class)
-                    )}
-            ),
-            @ApiResponse(responseCode = "404", description = "There is no amplifier",
-                    content= {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = MessagePayload.class)
-                    )}
-            )
-    })
     @PutMapping("/{model}")
     public ResponseEntity<?> update(@PathVariable String model, @RequestBody Amplifier amplifier) {
         try{
@@ -126,21 +60,6 @@ public class AmplifierController {
         }
     }
 
-    @Operation(summary = "Deleting amplifier")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Amplifier deleted",
-                    content = {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = MessagePayload.class)
-                    )}
-            ),
-            @ApiResponse(responseCode = "404", description = "There is no amplifier",
-                    content= {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = MessagePayload.class)
-                    )}
-            )
-    })
     @DeleteMapping("/{model}")
     public ResponseEntity<?> deleteById(@PathVariable String model) {
         try{

@@ -1,4 +1,4 @@
-
+import "./Detailed.css"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,7 +15,6 @@ function Detailed() {
             const response = await axios.get("http://localhost:9999/product/" + state.productId)
             const data = response.data
             setProduct(data)
-            console.log(data)
         }catch(error){
             console.log(error)
             console.log("No products")
@@ -50,7 +49,7 @@ function Detailed() {
 
     function addProduct(){
         console.log(saleId)
-        if(saleId !== false){
+        if(saleId != undefined){
             addProductToAnExistentSale(saleId, state.productId)
         }else{
             addProductToANewSale(state.productId)
@@ -60,7 +59,7 @@ function Detailed() {
     const getOpenSale = async() => {
         const response = await axios.get("http://localhost:9999/sale/open")
         const data = response.data
-        data != null ? setSaleId(data.id) : setSaleId(false)
+        data != "" ? setSaleId(data.id) : setSaleId(undefined)
     }
 
 
@@ -87,7 +86,7 @@ function Detailed() {
                         <h3>Speacher Inch: {product.speakerInch}"</h3>
                         <h3>Power: {product.watts} watts</h3></>}
                     <h3 className="price">Price: $ {product.price.toFixed(2)}</h3>
-                    <button onClick={() => addProduct()}>Add to Order</button>
+                    <button id="detailed-button" onClick={() => addProduct()}>Add to Order</button>
                 </>
             :<h1 className="title">Unable to load product</h1>}
             

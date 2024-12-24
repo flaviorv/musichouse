@@ -9,17 +9,17 @@ public class MsgConfig {
 
     @Bean public Queue queue()
     {
-        return new Queue("sale_queue", false);
+        return new Queue("sale_queue", true);
     }
 
     @Bean public Queue queue2()
     {
-        return new Queue("product_queue", false);
+        return new Queue("product_queue", true);
     }
 
     @Bean public Queue queue3()
     {
-        return new Queue("payment_queue", false);
+        return new Queue("payment_queue", true);
     }
 
     @Bean public Exchange exchange()

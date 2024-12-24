@@ -43,7 +43,7 @@ services:
       - musichouse
 
   MH-PRODUCTS:
-    image: flaviorv/mh-products:v2
+    image: flaviorv/mh-products:v2.1
     depends_on:
       - mysql
       - eureka

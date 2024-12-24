@@ -12,9 +12,11 @@ export default function OpenSale() {
         try{
             const response = await axios.get("http://localhost:9999/sale/open")
             const data = response.data
-            if(JSON.stringify(data) !== JSON.stringify(sale)){
+            if(data !== ""){
                 setSale(data)
                 setProducts(data.products)
+            }else{
+                console.log("No open sale")
             }
         }catch(error) {
             console.log("Cannot get the sale")
@@ -27,7 +29,7 @@ export default function OpenSale() {
             const response = await axios.post("http://localhost:9999/sale/close", {"id": sale.id} )
             const data = response.data
             console.log(data)
-            navigate("/payment", {state:sale.id} )
+            navigate("/payment", {state:{saleId:sale.id}} )
         }catch(error) {
             console.log("Cannot get the sale")
             console.log(error)
@@ -68,7 +70,7 @@ export default function OpenSale() {
                 </div>
             </div> 
         :
-            <h2 className="title">No Order with open status</h2>}
+            <h2 className="title">No items in the order</h2>}
         </>
     )
 }
