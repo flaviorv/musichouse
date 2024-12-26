@@ -66,11 +66,13 @@ export default function OpenSale() {
                     </div>
                     )}
                     
-                    
                 </div>
             </div> 
-        :
-            <h2 className="title">No items in the order</h2>}
+        :   
+            <div id="no-items-div">
+                <h2 className="title">No items in the order</h2>
+                <button id="go-to-products-button" onClick={() => navigate("/products") }>Go to products</button>
+            </div>}
         </>
     )
 }

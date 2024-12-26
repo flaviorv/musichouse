@@ -1,5 +1,6 @@
 #open-sale-products {
    margin-top: 60px;
+   color: blanchedalmond;
 }
 
 button{
@@ -23,10 +24,6 @@ button{
    width: 70%;
    padding: 50px;
    margin: auto; 
-}
-
-#open-sale-products {
-   color: blanchedalmond;
 }
 
 #open-sale-item {
@@ -63,4 +60,15 @@ button{
 #close-order-button {
    height: 35px;
    width: 140px;
+}
+
+#no-items-div {
+   margin-top: 50px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+#go-to-products-button {
+   margin-top: 50px;
 }

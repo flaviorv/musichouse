@@ -1,6 +1,12 @@
-#progress-bar-div {
-    width: 50%;
-    height: 20px;
+.ordered-items {
+    display: grid;
+    grid-template-columns: 20% 20% 20%;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(13, 13, 12);
+    color: bisque;
+    width: 100%;
+    padding: 10px 0px;
     margin: auto;
-    background-color: black;
+
 }

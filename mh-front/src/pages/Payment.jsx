@@ -58,7 +58,7 @@ export default function Payment() {
                 :
                     <div id="payment-result">
                         <h2 className="payment-title">{status === "PAID"? paidResponse : canceledResponse}</h2>
-                        <button id="order-details-button" onClick={() => navigate("/detailed/sale", {replace: true})}>Order Details</button>
+                        <button id="order-details-button" onClick={() => navigate("/detailed/sale", {state:{saleId:state.saleId}, replace:true})}>Order Details</button>
                     </div>
             }
         </>

@@ -16,7 +16,7 @@ export default function Sales() {
     }
 
     const detailed = (sale) => {
-        sale.status == "OPEN" ? navigate("/open-sale") : navigate("/detailed/sale", {state: {sale: sale}})
+        sale.status === "OPEN" ? navigate("/open-sale") : navigate("/detailed/sale", {state: {saleId: sale.id}})
     }
 
     useEffect(()=>{
