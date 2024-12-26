@@ -84,13 +84,14 @@ services:
     networks:
       - musichouse
 
-#  mh-front:
-#    depends_on:
-#      - MH-GATEWAY
-#    ports:
-#      - "3000:3000"
-#    networks:
-#      - musichouse
+  mh-front:
+    image: flaviorv/mh-front:v2
+    depends_on:
+      - MH-GATEWAY
+    ports:
+      - "3000:3000"
+    networks:
+      - musichouse
 
 networks:
   musichouse:
