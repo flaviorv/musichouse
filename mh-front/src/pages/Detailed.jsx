@@ -9,7 +9,6 @@ function Detailed() {
     const [product, setProduct] = useState()
     const [saleId, setSaleId] = useState()
 
-    
     const getProduct = async() => {
         try{
             const response = await axios.get("http://localhost:9999/product/" + state.productId)
@@ -21,7 +20,6 @@ function Detailed() {
             return []
         }
     }
-
 
      const addProductToANewSale = async(productId) => {
         try{    
@@ -62,13 +60,11 @@ function Detailed() {
         data != "" ? setSaleId(data.id) : setSaleId(undefined)
     }
 
-
     useEffect(() => {
         getOpenSale()
         getProduct() 
     },[])
     
-
     return (
         <div id='products'>
             {product !== undefined ?

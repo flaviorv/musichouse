@@ -1,4 +1,4 @@
-:root{
+:root {
   background-color: rgb(24, 25, 32);
 }
 
@@ -9,8 +9,8 @@ button {
   font-size: 1.1em;
   padding: 6px 5px;
   cursor: pointer;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+
   font-weight: 600;
 }
 

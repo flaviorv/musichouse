@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/musichouse.iml" filepath="$PROJECT_DIR$/.idea/musichouse.iml" />
-      <module fileurl="file://$PROJECT_DIR$/musichouse_products/musichouse_products.iml" filepath="$PROJECT_DIR$/musichouse_products/musichouse_products.iml" />
-    </modules>
-  </component>
-</project>

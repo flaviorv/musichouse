@@ -1,27 +1,25 @@
 #navbar {
-    display: flex;
-    font-family: 'Courier New', Courier, monospace;
-    justify-content: space-between;
-    width: 100%;
-    font-size: medium;
-    font-weight: 600;
-    background-color: black;
-    align-items: center;
-  }
-  
-  #logo{
-    display: flex;
-    align-items: center;
-    margin-left: 40px;
-    font-family: cursive;
-    text-decoration: none;
-    color: greenyellow;
-  }
+  display: flex;
+  font-family: "Courier New", Courier, monospace;
+  justify-content: space-between;
+  width: 100%;
+  font-size: medium;
+  font-weight: 600;
+  background-color: black;
+  align-items: center;
+}
 
-  #logo img{
-    border-radius: 50px;
-    width: 40px;
-    height: 40px;
-  }
+#logo {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+  font-family: cursive;
+  text-decoration: none;
+  color: greenyellow;
+}
 
-  
+#logo img {
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+}

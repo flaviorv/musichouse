@@ -1,0 +1,29 @@
+.card {
+  display: inline-block;
+  border: 1px solid black;
+  box-shadow: 2px 6px 10px black;
+  width: 200px;
+  height: fit-content;
+  padding: 20px;
+  text-align: center;
+  align-content: center;
+  margin: 5px;
+}
+
+.card:hover {
+  cursor: pointer;
+  zoom: 1.1;
+}
+
+.card-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 100px;
+  border: 1px solid lightblue;
+}
+.card-title {
+  color: bisque;
+}
+.card-price {
+  color: darkseagreen;
+}
