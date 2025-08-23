@@ -23,7 +23,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: db_products
-      MYSQL_USER: usuario
+      MYSQL_USER: user
       MYSQL_PASSWORD: 123
     ports:
       - "3306:3306"
@@ -31,7 +31,6 @@ services:
       - ./mysql-data:/var/lib/mysql
     networks:
       - musichouse
-
 
   rabbit:
     image: rabbitmq:3.13-management
@@ -43,7 +42,7 @@ services:
       - musichouse
 
   MH-PRODUCTS:
-    image: flaviorv/mh-products:v2.1
+    image: flaviorv/mh-products:v2.3
     depends_on:
       - mysql
       - eureka
@@ -76,22 +75,20 @@ services:
   MH-GATEWAY:
     image: flaviorv/mh-gateway:v2
     depends_on:
-      - MH-PRODUCTS
-      - MH-SALES
       - eureka
     ports:
       - "9999:9999"
     networks:
       - musichouse
 
-#  mh-front:
-#    image: flaviorv/mh-front:v2
-#    depends_on:
-#      - MH-GATEWAY
-#    ports:
-#      - "3000:3000"
-#    networks:
-#      - musichouse
+  mh-front:
+    image: flaviorv/mh-front:v2.1
+    depends_on:
+      - MH-GATEWAY
+    ports:
+      - "3000:3000"
+    networks:
+      - musichouse
 
 networks:
   musichouse:

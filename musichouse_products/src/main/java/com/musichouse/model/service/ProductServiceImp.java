@@ -1,7 +1,7 @@
 package com.musichouse.model.service;
 
-import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.domain.Product;
+import com.musichouse.model.domain.Sale;
 import com.musichouse.model.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,11 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
+    @Override
     public void deleteByModel(String model) {
         if (getByModel(model).isPresent()) {
             productRepository.deleteById(model);
@@ -48,5 +53,16 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Product update(Product product) {
         return productRepository.save(product);
+    }
+
+    @Override
+    public void updateStock(Sale sale) {
+        for(Sale.Product product : sale.getProducts()){
+            Optional<Product> p = getByModel(product.getModel());
+            if(p.isPresent()){
+                p.get().setQuantity(p.get().getQuantity() - product.getQuantity());
+                update(p.get());
+            }
+        }
     }
 }

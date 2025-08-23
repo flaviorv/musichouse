@@ -11,25 +11,18 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class SaleConsumer {
     private final ObjectMapper objectMapper;
     private final ProductServiceImp productServiceImp;
+
     @RabbitListener(queues = {"product_queue"})
     public void receive(@Payload String json){
-        try {
+        try{
             Sale sale =  objectMapper.readValue(json, Sale.class);
-            for(Sale.Product product : sale.getProducts()){
-                Optional<Product> p = productServiceImp.getByModel(product.getModel());
-                if(p.isPresent()){
-                    p.get().setQuantity(p.get().getQuantity() - product.getQuantity());
-                    productServiceImp.update(p.get());
-                }
-            }
+            productServiceImp.updateStock(sale);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

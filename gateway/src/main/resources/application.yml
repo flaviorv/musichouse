@@ -20,7 +20,7 @@ spring:
         - id: products
           uri: lb://MH-PRODUCTS
           predicates:
-            - Path=/product/**,/electricguitar/**,/amplifier/**
+            - Path=/product/**
 
         - id: sales
           uri: lb://MH-SALES
