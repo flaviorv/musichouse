@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Home.css";
-import Card from "../components/Card";
 import GroupedProducts from "../components/CategoryGroup";
 
 function Home() {

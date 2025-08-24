@@ -8,6 +8,7 @@
   text-align: center;
   align-content: center;
   margin: 5px;
+  background-color: rgb(78, 77, 79);
 }
 
 .card:hover {
@@ -19,10 +20,10 @@
   width: 150px;
   height: 150px;
   border-radius: 100px;
-  border: 1px solid lightblue;
+  border: 1px solid rgb(0, 0, 0);
 }
 .card-title {
-  color: bisque;
+  color: rgb(245, 245, 245);
 }
 .card-price {
   color: darkseagreen;

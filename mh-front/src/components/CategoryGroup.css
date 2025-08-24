@@ -1,7 +1,7 @@
 .pagination-controls button {
   background: none;
   border: none;
-  color: lightblue;
+  color: rgb(251, 254, 255);
   font-size: 1.2rem;
   cursor: pointer;
 }
@@ -16,4 +16,23 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.grouped-products {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 92%;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin: 30px;
+}
+
+.category-title {
+  text-align: center;
+  color: rgb(73, 73, 73);
+}
+
+.category-title:hover {
+  cursor: default;
 }

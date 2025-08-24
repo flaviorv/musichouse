@@ -11,21 +11,7 @@
   font-size: 3em;
 }
 
-.grouped-products {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 92%;
-  overflow-x: auto;
-  white-space: nowrap;
-  margin: 30px;
-}
-
 .load-error {
   margin: 50px 0;
-  text-align: center;
-}
-
-.category-title {
   text-align: center;
 }

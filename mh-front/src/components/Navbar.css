@@ -5,8 +5,9 @@
   width: 100%;
   font-size: medium;
   font-weight: 600;
-  background-color: black;
+  background-color: rgb(31, 29, 29);
   align-items: center;
+  height: 65px;
 }
 
 #logo {
@@ -15,7 +16,7 @@
   margin-left: 40px;
   font-family: cursive;
   text-decoration: none;
-  color: greenyellow;
+  color: white;
 }
 
 #logo img {
