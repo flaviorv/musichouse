@@ -12,8 +12,9 @@ public class Amplifier extends Product{
     private int watts;
     private int speakerInch;
 
-    public Amplifier(String model, String brand, float price, int quantity, byte[] image, int watts, int speakerInch) {
+    public Amplifier(String model, String type, String brand, float price, int quantity, byte[] image, int watts, int speakerInch) {
         this.model = model;
+        this.type = type;
         this.brand = brand;
         this.price = price;
         this.quantity = quantity;
@@ -22,14 +23,4 @@ public class Amplifier extends Product{
         this.speakerInch = speakerInch;
     }
 
-    @Override
-    public String toString() {
-        return "Amplifier " +
-                "[brand=" + brand +
-                ", model=" + model +
-                ", price=" + price +
-                ", watts=" + watts +
-                ", speakerInch=" + speakerInch + "]";
-
-    }
 }

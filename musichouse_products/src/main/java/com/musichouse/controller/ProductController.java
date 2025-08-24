@@ -20,14 +20,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAll() {
-        List<Product> products = productService.getAll();
-        if(products.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("There are no products."));
+        @GetMapping
+        public ResponseEntity<?> getAll() {
+            List<Product> products = productService.getAll();
+            if(products.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("There are no products."));
+            }
+            return ResponseEntity.ok(products);
         }
-        return ResponseEntity.ok(products);
-    }
 
     @GetMapping("/{model}")
     public ResponseEntity<?> getByModel(@PathVariable String model) {

@@ -1,7 +1,5 @@
 package com.musichouse.model.domain;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,15 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type"
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = ElectricGuitar.class, name = "guitar"),
-        @JsonSubTypes.Type(value = Amplifier.class, name = "amplifier")
-})
 @Data@AllArgsConstructor@NoArgsConstructor@SuperBuilder
 @Entity
 @Slf4j
@@ -28,6 +17,8 @@ import java.io.InputStream;
 public abstract class Product {
     @Id
     protected String model;
+    @Column(name = "_type")
+    protected String type;
     protected String brand;
     protected float price;
     protected int quantity;

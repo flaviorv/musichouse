@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import "./Home.css";
 import Card from "../components/Card";
-import HomeImage from "../images/mh-home3.png";
-import axios from "axios";
+import GroupedProducts from "../components/CategoryGroup";
 
 function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+
   const FEATURED_PRODUCTS_NUMBER = 4;
+
   async function getProducts() {
     try {
       const response = await axios.get("http://localhost:9999/product");
       const data = await response.data;
       selectFeaturedProducts(FEATURED_PRODUCTS_NUMBER, data);
+      setProducts(data);
     } catch (error) {
       console.log(error);
-      console.log("No products");
       return [];
     }
   }
@@ -39,18 +42,26 @@ function Home() {
     getProducts();
   }, []);
 
+  const groupedProducts = products.reduce((acc, product) => {
+    const type = product.type || "unknown";
+    if (!acc[type]) {
+      acc[type] = [];
+    }
+    acc[type].push(product);
+    return acc;
+  }, {});
+
   return (
     <div id="home">
-      <h3>Featured Products</h3>
-      <ul className="featured-products">
-        {featuredProducts ? (
-          featuredProducts.map((product) => (
-            <Card key={product.model} product={product} />
-          ))
-        ) : (
-          <h1>No Products</h1>
-        )}
-      </ul>
+      {featuredProducts.length !== 0 ? (
+        <GroupedProducts groupedProducts={{ "Featured Products": featuredProducts }} nProductsToShow={4} />
+      ) : (
+        <div className="load-error">
+          <h1>Sorry, an error occurred.</h1>
+          <h1>Please try later.</h1>
+        </div>
+      )}
+      <GroupedProducts groupedProducts={groupedProducts} nProductsToShow={5} />
     </div>
   );
 }

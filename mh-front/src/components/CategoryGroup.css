@@ -1,0 +1,19 @@
+.pagination-controls button {
+  background: none;
+  border: none;
+  color: lightblue;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  color: gray;
+  cursor: default;
+}
+
+.pagination-controls {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

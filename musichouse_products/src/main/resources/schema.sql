@@ -1,11 +1,12 @@
 USE db_products;
 
 CREATE TABLE IF NOT EXISTS product (
-     model VARCHAR(50) PRIMARY KEY,
-     brand VARCHAR(50) NOT NULL,
-     price DECIMAL(10,2) NOT NULL,
-     quantity INT NOT NULL,
-     image LONGBLOB
+    model VARCHAR(50) PRIMARY KEY,
+    _type VARCHAR(30),
+    brand VARCHAR(50) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    quantity INT NOT NULL,
+    image LONGBLOB
 );
 
 CREATE TABLE IF NOT EXISTS electric_guitar (

@@ -1,16 +1,13 @@
 #products {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    color: beige;
-  }
-  
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: beige;
+}
 
 #detailed-link {
-    margin-top: 50px;
-    
+  margin-top: 50px;
 }
 
 .price {
@@ -19,28 +16,29 @@
 }
 
 .table-head {
-    font-size: 2em;
+  font-size: 2em;
 }
 
-.table-head, th {
+.table-head,
+th {
   color: rgb(165, 164, 159);
 }
 
 .products-table {
-    width: 70%;
-    background-color: black;
-    text-align: center;
-    cursor: context-menu;
-    margin-top: 30px;
-  }
+  width: 70%;
+  background-color: black;
+  text-align: center;
+  cursor: context-menu;
+  margin-top: 30px;
+}
 
 .product-row {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  
-    font-size: 1.7em;
-    color: coral;
-} 
-  
-.product-row:hover{
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 1.7em;
+  color: coral;
+}
+
+.product-row:hover {
   cursor: pointer;
   color: beige;
   .price {

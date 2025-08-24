@@ -1,4 +1,3 @@
-
 .bm-item {
   display: inline-block;
   /* Our sidebar item styling */
@@ -8,8 +7,6 @@
   transition: color 0.2s;
   margin: 20px;
   text-align: center;
-  
-
 }
 
 .bm-item:hover {
@@ -28,7 +25,6 @@
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
   background: greenyellow;
-  ;
 }
 
 /* Position and sizing of clickable cross button */
@@ -59,8 +55,7 @@
   color: #b8b7ad;
 }
 
-Styling of overlay
-.bm-overlay {
+Styling of overlay .bm-overlay {
   background: rgba(0, 0, 0, 0.3);
 }
 

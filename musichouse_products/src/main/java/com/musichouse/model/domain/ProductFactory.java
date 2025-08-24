@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.Map;
 
 public class ProductFactory {
-    public static Product createProduct(String type, Map<String, Object> attributes) throws IOException {
+    public static Product createProduct(Map<String, Object> attributes) throws IOException {
+        String type = (String) attributes.get("type");
         String model = (String) attributes.get("model");
         String brand = (String) attributes.get("brand");
         float price = ((Number) attributes.get("price")).floatValue();
@@ -16,12 +17,12 @@ public class ProductFactory {
             case "guitar" -> {
                 int strings = ((Number) attributes.get("strings")).intValue();
                 boolean activePickup = (Boolean) attributes.get("activePickup");
-                yield new ElectricGuitar(model, brand, price, quantity, bImage, strings, activePickup);
+                yield new ElectricGuitar(model, type, brand, price, quantity, bImage, strings, activePickup);
             }
             case "amplifier" -> {
                 int watts = ((Number) attributes.get("watts")).intValue();
                 int speakerInch = ((Number) attributes.get("speakerInch")).intValue();
-                yield new Amplifier(model, brand, price, quantity, bImage, watts, speakerInch);
+                yield new Amplifier(model, type, brand, price, quantity, bImage, watts, speakerInch);
             }
             default -> throw new IllegalArgumentException("Unknown product type: " + type);
         };

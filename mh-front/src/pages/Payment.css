@@ -1,56 +1,56 @@
 #error-div {
-    margin-top: 150px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: default;
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
 }
 
 #payment-reload-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50px;
-    opacity: 0.4;
-    width: 30px;
-    height: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  opacity: 0.4;
+  width: 30px;
+  height: 30px;
 }
 
 #try-again-div:hover {
-    #payment-reload-icon {
-        opacity: 1;
-    }
-    #try-again-text {
-        color: beige;
-    }
-    cursor: pointer;
+  #payment-reload-icon {
+    opacity: 1;
+  }
+  #try-again-text {
+    color: beige;
+  }
+  cursor: pointer;
 }
 
 #try-again-div {
-    display: flex;
-    align-items: center;
-    color: rgb(70, 70, 79);
+  display: flex;
+  align-items: center;
+  color: rgb(70, 70, 79);
 }
 
 #payment-loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: gray;
-    margin-top: 260px;
-    font-size: 1.3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: gray;
+  margin-top: 260px;
+  font-size: 1.3em;
 }
 
 #payment-result {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: gray;
-    margin-top: 220px;
-    font-size: 1.1em;   
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: gray;
+  margin-top: 220px;
+  font-size: 1.1em;
 }
 
 #order-details-button {
-    margin-top: 20px;
-    height: 30px;
+  margin-top: 20px;
+  height: 30px;
 }

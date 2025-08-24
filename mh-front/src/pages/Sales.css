@@ -1,19 +1,16 @@
-#history-head, #history-body{
+#history-head,
+#history-body {
   display: grid;
   grid-template-columns: 20% 20% 20%;
   justify-content: center;
   text-align: center;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   font-size: 1.3em;
   border-bottom-style: dashed;
   border-color: black;
 }
 
-
 #history-body:hover {
   cursor: pointer;
   color: rgb(244, 221, 194);
 }
-
-
-

@@ -12,8 +12,9 @@ public class ElectricGuitar extends Product {
     private int strings;
     private Boolean activePickup;
 
-    public ElectricGuitar(String model, String brand, float price, int quantity, byte[] image, int strings, boolean activePickup) {
+    public ElectricGuitar(String model, String type, String brand, float price, int quantity, byte[] image, int strings, boolean activePickup) {
         this.model = model;
+        this.type = type;
         this.brand = brand;
         this.price = price;
         this.quantity = quantity;
@@ -22,13 +23,4 @@ public class ElectricGuitar extends Product {
         this.activePickup = activePickup;
     }
 
-    @Override
-    public String toString() {
-        return "ElectricGuitar " +
-                "[brand=" + brand +
-                ", model=" + model +
-                ", price=" + price +
-                ", strings=" + strings +
-                ", activePickup=" + activePickup + "]";
-    }
 }
