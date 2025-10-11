@@ -1,4 +1,4 @@
-package com.musichouse.model.rabbitmq;
+package com.musichouse.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;

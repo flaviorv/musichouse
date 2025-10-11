@@ -33,7 +33,7 @@
     </appender>
 
     <springProfile name="default">
-        <root level="INFO">
+        <root level="ERROR">
             <appender-ref ref="STDOUT"/>
             <appender-ref ref="PAPERTRAIL"/>
         </root>

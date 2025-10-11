@@ -2,7 +2,6 @@ package com.musichouse.model.rabbitmq;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musichouse.model.domain.Product;
 import com.musichouse.model.domain.Sale;
 import com.musichouse.model.service.ProductServiceImp;
 import lombok.RequiredArgsConstructor;

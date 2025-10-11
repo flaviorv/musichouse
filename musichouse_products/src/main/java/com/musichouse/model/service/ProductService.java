@@ -1,8 +1,8 @@
 package com.musichouse.model.service;
 
+import com.musichouse.dto.ProductFilter;
 import com.musichouse.model.domain.Product;
 import com.musichouse.model.domain.Sale;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +21,7 @@ public interface ProductService {
     Product update(Product product);
 
     void updateStock(Sale sale);
+
+    List<Product> dynamicSearch(ProductFilter filter);
+
 }
