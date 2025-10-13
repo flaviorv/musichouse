@@ -1,55 +1,44 @@
 package com.musichouse.model.repository.specification;
 
 import com.musichouse.model.domain.Product;
+import io.micrometer.common.util.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class ProductSpecification {
-    public static Specification<Product> byModel(String m) {
-        if (m == null || m.isEmpty()) {
-            return null;
-        }
-        return (root, cq, cb) -> cb.equal(root.get("model"), m);
-    }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProductSpecification implements Specification<Product> {
 
-    public static Specification<Product> byType(String t) {
-        if (t == null || t.isEmpty()) {
-            return null;
-        }
-        return (root, cq, cb) -> cb.equal(root.get("category"), t);
-    }
+    private String model;
+    private String type;
+    private String brand;
 
-    public static Specification<Product> byBrand(String b) {
-        if (b == null || b.isEmpty()) {
-            return null;
+    @Override
+    public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+        List<Predicate> predicates = new ArrayList<>();
+        if (model != null && !model.isEmpty()) {
+            predicates.add(cb.like(root.get("model"), "%" + model + "%"));
         }
-        return (root, cq, cb) -> cb.equal(root.get("brand"), b);
-    }
+        if (type != null && !type.isEmpty()) {
+            predicates.add(cb.like(root.get("type"), "%" + type + "%"));
+        }
+        if (brand != null && !brand.isEmpty()) {
+            predicates.add(cb.like(root.get("brand"), "%" + brand + "%"));
+        }
 
-    public static Specification<Product> byStrings(Integer s) {
-        if (s == null) {
-            return null;
+        if (predicates.isEmpty()) {
+            return cb.conjunction();
+        } else {
+            return cb.and(predicates.toArray(new Predicate[0]));
         }
-        return (root, cq, cb) -> cb.equal(root.get("strings"), s);
-    }
-
-    public static Specification<Product> byActivePickup(Boolean ap) {
-        if (ap == null || ap) {
-            return null;
-        }
-        return (root, cq, cb) -> cb.equal(root.get("activePickup"), ap);
-    }
-
-    public static Specification<Product> byWatts(Integer w) {
-        if (w == null) {
-            return null;
-        }
-        return (root, cq, cb) -> cb.equal(root.get("watts"), w);
-    }
-
-    public static Specification<Product> bySpeakerInch(Integer sp) {
-        if (sp == null) {
-            return null;
-        }
-        return (root, cq, cb) -> cb.equal(root.get("speakerInch"), sp);
     }
 }

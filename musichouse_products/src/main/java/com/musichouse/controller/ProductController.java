@@ -1,5 +1,6 @@
 package com.musichouse.controller;
 
+import com.musichouse.model.repository.specification.ProductSpecification;
 import com.musichouse.model.domain.Product;
 import com.musichouse.model.service.ProductServiceImp;
 import com.musichouse.payload.MessagePayload;
@@ -23,7 +24,7 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<?> getAll() {
         List<Product> products = productService.getAll();
-        if(products.isEmpty()) {
+        if (products.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("There are no products."));
         }
         return ResponseEntity.ok(products);
@@ -32,29 +33,40 @@ public class ProductController {
     @GetMapping("/{model}")
     public ResponseEntity<?> getByModel(@PathVariable String model) {
         Optional<Product> product = productService.getByModel(model);
-        if(product.isPresent()){
+        if (product.isPresent()) {
             return ResponseEntity.ok(product);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<?> dynamicSearch(@RequestBody ProductSpecification spec) {
+        List<Product> products = productService.search(spec);
+        if (products.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new MessagePayload("There are no products with these characteristics."));
+        }
+        return ResponseEntity.ok(products);
     }
 
     @DeleteMapping("/{model}")
     public ResponseEntity<?> deleteByModel(@PathVariable String model) {
         try {
             productService.deleteByModel(model);
-            return ResponseEntity.ok(new MessagePayload("Product "+model+" has been deleted"));
-        }catch (EntityNotFoundException e){
+            return ResponseEntity.ok(new MessagePayload("Product " + model + " has been deleted"));
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(e.getMessage()));
         }
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteAll(){
+    public ResponseEntity<?> deleteAll() {
         try {
             productService.deleteAll();
             return ResponseEntity.ok(new MessagePayload("All products have been deleted"));
-        }catch (EntityExistsException e){
+        } catch (EntityExistsException e) {
             return ResponseEntity.noContent().build();
         }
     }
+
 }

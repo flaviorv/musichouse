@@ -9,8 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Data@AllArgsConstructor@NoArgsConstructor
-@Entity@Slf4j
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Slf4j
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Product {
     @Id
