@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Data@AllArgsConstructor@NoArgsConstructor@SuperBuilder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Slf4j
 @Inheritance(strategy = InheritanceType.JOINED)

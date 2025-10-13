@@ -41,8 +41,7 @@ public class MusichouseProductsApplication {
                     Map.of("type", "guitar", "model", "OCEANIC", "brand", "BlueWave", "price", 820.49,
                             "quantity", 5, "strings", 6, "activePickup", false, "image", "/images/guitar7.png"),
                     Map.of("type", "guitar", "model", "PHOENIX", "brand", "Ignis", "price", 1999.99,
-                            "quantity", 1, "strings", 8, "activePickup", true, "image", "/images/guitar8.png")
-            );
+                            "quantity", 1, "strings", 8, "activePickup", true, "image", "/images/guitar8.png"));
 
             List<Map<String, Object>> ampAttrsList = List.of(
                     Map.of("type", "amplifier", "model", "AMP100", "brand", "SoundMax", "price", 499.99,
@@ -60,14 +59,13 @@ public class MusichouseProductsApplication {
                     Map.of("type", "amplifier", "model", "AMP600", "brand", "ThunderPeak", "price", 749.49,
                             "quantity", 7, "watts", 60, "speakerInch", 12, "image", "/images/amplifier7.png"),
                     Map.of("type", "amplifier", "model", "AMP700", "brand", "PowerChord", "price", 1599.99,
-                            "quantity", 1, "watts", 300, "speakerInch", 20, "image", "/images/amplifier8.png")
-            );
+                            "quantity", 1, "watts", 300, "speakerInch", 20, "image", "/images/amplifier8.png"));
 
             for (Map<String, Object> attrs : guitarAttrsList) {
                 Product guitar = ProductFactory.createProduct(attrs);
                 try {
                     productServiceImp.save(guitar);
-                } catch(DataIntegrityViolationException e) {
+                } catch (DataIntegrityViolationException e) {
                     log.error(e.getMessage());
                 }
             }
@@ -76,7 +74,7 @@ public class MusichouseProductsApplication {
                 Product guitar = ProductFactory.createProduct(attrs);
                 try {
                     productServiceImp.save(guitar);
-                } catch(DataIntegrityViolationException e) {
+                } catch (DataIntegrityViolationException e) {
                     log.error(e.getMessage());
                 }
             }

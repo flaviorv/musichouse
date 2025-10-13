@@ -11,7 +11,13 @@ public class ProductFactory {
         float price = ((Number) attributes.get("price")).floatValue();
         int quantity = ((Number) attributes.get("quantity")).intValue();
         String image = (String) attributes.get("image");
-        byte[] bImage = Product.loadImage(image);
+        byte[] bImage;
+
+        if (image != null) {
+            bImage = Product.loadImage(image);
+        } else {
+            bImage = null;
+        }
 
         return switch (type.toLowerCase()) {
             case "guitar" -> {

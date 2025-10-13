@@ -3,9 +3,9 @@ package com.musichouse.model.service;
 import com.musichouse.model.domain.Product;
 import com.musichouse.model.domain.Sale;
 import com.musichouse.model.repository.ProductRepository;
+import com.musichouse.model.repository.specification.ProductSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -37,14 +37,14 @@ public class ProductServiceImp implements ProductService {
     public void deleteByModel(String model) {
         if (getByModel(model).isPresent()) {
             productRepository.deleteById(model);
-        }else {
+        } else {
             throw new EntityNotFoundException("Product with model " + model + " not found to delete");
         }
     }
 
     @Override
-    public void deleteAll(){
-        if(getAll().isEmpty()) {
+    public void deleteAll() {
+        if (getAll().isEmpty()) {
             throw new EntityNotFoundException("No products found to delete");
         }
         productRepository.deleteAll();
@@ -57,12 +57,17 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public void updateStock(Sale sale) {
-        for(Sale.Product product : sale.getProducts()){
+        for (Sale.Product product : sale.getProducts()) {
             Optional<Product> p = getByModel(product.getModel());
-            if(p.isPresent()){
+            if (p.isPresent()) {
                 p.get().setQuantity(p.get().getQuantity() - product.getQuantity());
                 update(p.get());
             }
         }
+    }
+
+    @Override
+    public List<Product> search(ProductSpecification spec) {
+        return productRepository.findAll(spec);
     }
 }
