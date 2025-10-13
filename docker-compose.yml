@@ -6,12 +6,17 @@ services:
       - "8761:8761"
     networks:
       - musichouse
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   mongo:
     image: mongo:7-jammy
     container_name: MONGO-SERVER
     ports:
-     - "27017:27017"
+      - "27017:27017"
     volumes:
       - ./mongodb-data:/data
     networks:
@@ -31,6 +36,12 @@ services:
       - ./mysql-data:/var/lib/mysql
     networks:
       - musichouse
+    healthcheck:
+      test:
+        ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-p123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   rabbit:
     image: rabbitmq:3.13-management
@@ -40,35 +51,62 @@ services:
       - "5672:5672"
     networks:
       - musichouse
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   MH-PRODUCTS:
-    image: flaviorv/mh-products:v2.3
+    image: flaviorv/mh-products:v2.4
+    build:
+      context: ./musichouse_products
+      dockerfile: Dockerfile
     depends_on:
-      - mysql
-      - eureka
-      - rabbit
+      mysql:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
+      eureka:
+        condition: service_started
     deploy:
       replicas: 2
+    restart: on-failure
     networks:
       - musichouse
+    ports:
+      - "8080-8081:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   MH-SALES:
-    image: flaviorv/mh-sales:v2.2
+    image: flaviorv/mh-sales:v2.3
     depends_on:
-      - mongo
-      - eureka
-      - rabbit
+      mongo:
+        condition: service_started
+      eureka:
+        condition: service_started
+      rabbit:
+        condition: service_healthy
     deploy:
       replicas: 2
+    restart: on-failure
     networks:
       - musichouse
 
   payment_service:
-    image: flaviorv/payment-service:v2
+    image: flaviorv/payment-service:v2.1
     depends_on:
-      - rabbit
+      rabbit:
+        condition: service_healthy
+      eureka:
+        condition: service_started
     deploy:
       replicas: 1
+    restart: on-failure
     networks:
       - musichouse
 
