@@ -1,8 +1,6 @@
 package com.musichouse;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +8,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musichouse.model.domain.Amplifier;
 import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.domain.Product;
-import com.musichouse.model.domain.ProductFactory;
 import com.musichouse.model.repository.ProductRepository;
 import com.musichouse.model.repository.specification.ProductSpecification;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -84,7 +79,7 @@ class IntegrationTests {
                 new ElectricGuitar("OCEANIC", "guitar", "BlueWave", 820.49f, 5, null, 6, false),
                 new ElectricGuitar("PHOENIX", "guitar", "Ignis", 1999.99f, 1, null, 8, true),
                 new Amplifier("AMP100", "amplifier", "SoundMax", 499.99f, 10, null, 50, 8),
-                new Amplifier("AMP200", "amplifier", "TonePro", 699.50f, 6, null, 75, 10),
+                new Amplifier("AMP200", "amplifier", "TonePro", 699.50f, 6, null, 60, 10),
                 new Amplifier("AMP300", "amplifier", "RockWave", 899.00f, 4, null, 100, 12),
                 new Amplifier("AMP400", "amplifier", "EchoDrive", 1099.99f, 3, null, 150, 15),
                 new Amplifier("AMP-VINTAGE", "amplifier", "ClassicTone", 649.99f, 5, null, 40, 10),
@@ -104,16 +99,78 @@ class IntegrationTests {
     }
 
     @Test
-    void shouldFilter() throws Exception {
-        ProductSpecification spec = new ProductSpecification("", "", "armoni");
+    void shouldFilterByStrings() throws Exception {
 
-        System.out.println("Specification: " + spec);
-        System.out.println("Json: " + new ObjectMapper().writeValueAsString(spec));
+        ProductSpecification spec = new ProductSpecification();
+        spec.setStrings(6);
+
+        mockMvc.perform(post("/product/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(spec)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)));
+    }
+
+    @Test
+    void shouldFilterByType() throws Exception {
+
+        ProductSpecification guitarSpec = new ProductSpecification();
+        ProductSpecification ampSpec = new ProductSpecification();
+        guitarSpec.setType("guitar");
+        ampSpec.setType("amplifier");
+
+        mockMvc.perform(post("/product/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(guitarSpec)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(8)));
+
+        mockMvc.perform(post("/product/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(ampSpec)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(8)));
+    }
+
+    @Test
+    void shouldFilterByStringsAndActivePickup() throws Exception {
+
+        ProductSpecification spec = new ProductSpecification();
+        spec.setStrings(6);
+        spec.setActivePickup(false);
+
+        mockMvc.perform(post("/product/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(spec)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)));
+    }
+
+    @Test
+    void shouldFilterByWattsAndSpeakerInch() throws Exception {
+
+        ProductSpecification spec = new ProductSpecification();
+        spec.setWatts(60);
+        spec.setSpeakerInch(10);
+
         mockMvc.perform(post("/product/search")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(spec)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    void shouldFilterByWatts() throws Exception {
+
+        ProductSpecification spec = new ProductSpecification();
+        spec.setWatts(60);
+
+        mockMvc.perform(post("/product/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(spec)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
 }
