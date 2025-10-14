@@ -67,6 +67,24 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    public ProductSpecification matchSpecs(String search) {
+
+        String[] words = search.toLowerCase().split("\\s+");
+
+        // for (String word : words) {
+        // switch (word) {
+        // case "":
+
+        // break;
+
+        // default:
+        // break;
+        // }
+        // }
+        return new ProductSpecification();
+    }
+
+    @Override
     public List<Product> search(ProductSpecification spec) {
         return productRepository.findAll(spec);
     }

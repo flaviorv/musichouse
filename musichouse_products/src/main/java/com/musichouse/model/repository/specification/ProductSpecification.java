@@ -1,6 +1,8 @@
 package com.musichouse.model.repository.specification;
 
 import com.musichouse.model.domain.Product;
+import com.musichouse.model.domain.ProductType;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,8 +35,8 @@ public class ProductSpecification implements Specification<Product> {
         if (model != null && !model.isEmpty()) {
             predicates.add(cb.like(root.get("model"), "%" + model + "%"));
         }
-        if (type != null && !type.isEmpty()) {
-            predicates.add(cb.like(root.get("type"), "%" + type + "%"));
+        if (type != null) {
+            predicates.add(cb.equal(root.get("type"), ProductType.search(type)));
         }
         if (brand != null && !brand.isEmpty()) {
             predicates.add(cb.like(root.get("brand"), "%" + brand + "%"));

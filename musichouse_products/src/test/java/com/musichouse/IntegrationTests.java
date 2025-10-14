@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musichouse.model.domain.Amplifier;
 import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.domain.Product;
+import com.musichouse.model.domain.ProductType;
 import com.musichouse.model.repository.ProductRepository;
 import com.musichouse.model.repository.specification.ProductSpecification;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -70,22 +71,22 @@ class IntegrationTests {
         productRepository.deleteAll();
 
         List<Product> products = List.of(
-                new ElectricGuitar("VX100", "guitar", "Stravix", 899.99f, 5, null, 6, false),
-                new ElectricGuitar("NOVA7", "guitar", "Auralite", 1199.50f, 3, null, 7, true),
-                new ElectricGuitar("AX350", "guitar", "Harmonia", 749.00f, 4, null, 6, true),
-                new ElectricGuitar("ORBIT8", "guitar", "Lunaris", 1349.75f, 2, null, 8, true),
-                new ElectricGuitar("VINTAGE6", "guitar", "RetroSound", 679.99f, 6, null, 6, false),
-                new ElectricGuitar("CRIMSON", "guitar", "Solaris", 1599.00f, 2, null, 7, true),
-                new ElectricGuitar("OCEANIC", "guitar", "BlueWave", 820.49f, 5, null, 6, false),
-                new ElectricGuitar("PHOENIX", "guitar", "Ignis", 1999.99f, 1, null, 8, true),
-                new Amplifier("AMP100", "amplifier", "SoundMax", 499.99f, 10, null, 50, 8),
-                new Amplifier("AMP200", "amplifier", "TonePro", 699.50f, 6, null, 60, 10),
-                new Amplifier("AMP300", "amplifier", "RockWave", 899.00f, 4, null, 100, 12),
-                new Amplifier("AMP400", "amplifier", "EchoDrive", 1099.99f, 3, null, 150, 15),
-                new Amplifier("AMP-VINTAGE", "amplifier", "ClassicTone", 649.99f, 5, null, 40, 10),
-                new Amplifier("AMP500", "amplifier", "BassForge", 1299.00f, 2, null, 200, 18),
-                new Amplifier("AMP600", "amplifier", "ThunderPeak", 749.49f, 7, null, 60, 12),
-                new Amplifier("AMP700", "amplifier", "PowerChord", 1599.99f, 1, null, 300, 20)
+                new ElectricGuitar("VX100", ProductType.GUITAR, "Stravix", 899.99f, 5, null, 6, false),
+                new ElectricGuitar("NOVA7", ProductType.GUITAR, "Auralite", 1199.50f, 3, null, 7, true),
+                new ElectricGuitar("AX350", ProductType.GUITAR, "Harmonia", 749.00f, 4, null, 6, true),
+                new ElectricGuitar("ORBIT8", ProductType.GUITAR, "Lunaris", 1349.75f, 2, null, 8, true),
+                new ElectricGuitar("VINTAGE6", ProductType.GUITAR, "RetroSound", 679.99f, 6, null, 6, false),
+                new ElectricGuitar("CRIMSON", ProductType.GUITAR, "Solaris", 1599.00f, 2, null, 7, true),
+                new ElectricGuitar("OCEANIC", ProductType.GUITAR, "BlueWave", 820.49f, 5, null, 6, false),
+                new ElectricGuitar("PHOENIX", ProductType.GUITAR, "Ignis", 1999.99f, 1, null, 8, true),
+                new Amplifier("AMP100", ProductType.AMPLIFIER, "SoundMax", 499.99f, 10, null, 50, 8),
+                new Amplifier("AMP200", ProductType.AMPLIFIER, "TonePro", 699.50f, 6, null, 60, 10),
+                new Amplifier("AMP300", ProductType.AMPLIFIER, "RockWave", 899.00f, 4, null, 100, 12),
+                new Amplifier("AMP400", ProductType.AMPLIFIER, "EchoDrive", 1099.99f, 3, null, 150, 15),
+                new Amplifier("AMP-VINTAGE", ProductType.AMPLIFIER, "ClassicTone", 649.99f, 5, null, 40, 10),
+                new Amplifier("AMP500", ProductType.AMPLIFIER, "BassForge", 1299.00f, 2, null, 200, 18),
+                new Amplifier("AMP600", ProductType.AMPLIFIER, "ThunderPeak", 749.49f, 7, null, 60, 12),
+                new Amplifier("AMP700", ProductType.AMPLIFIER, "PowerChord", 1599.99f, 1, null, 300, 20)
 
         );
 
@@ -118,6 +119,8 @@ class IntegrationTests {
         ProductSpecification ampSpec = new ProductSpecification();
         guitarSpec.setType("guitar");
         ampSpec.setType("amplifier");
+        System.out.println(guitarSpec.getType());
+        System.out.println(ampSpec.getType());
 
         mockMvc.perform(post("/product/search")
                 .contentType(MediaType.APPLICATION_JSON)

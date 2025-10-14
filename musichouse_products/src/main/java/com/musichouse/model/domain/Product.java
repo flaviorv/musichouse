@@ -19,7 +19,8 @@ public abstract class Product {
     @Id
     protected String model;
     @Column(name = "_type")
-    protected String type;
+    @Enumerated(EnumType.STRING)
+    protected ProductType type;
     protected String brand;
     protected float price;
     protected int quantity;

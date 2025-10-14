@@ -23,12 +23,13 @@ public class ProductFactory {
             case "guitar" -> {
                 int strings = ((Number) attributes.get("strings")).intValue();
                 boolean activePickup = (Boolean) attributes.get("activePickup");
-                yield new ElectricGuitar(model, type, brand, price, quantity, bImage, strings, activePickup);
+                yield new ElectricGuitar(model, ProductType.GUITAR, brand, price, quantity, bImage, strings,
+                        activePickup);
             }
             case "amplifier" -> {
                 int watts = ((Number) attributes.get("watts")).intValue();
                 int speakerInch = ((Number) attributes.get("speakerInch")).intValue();
-                yield new Amplifier(model, type, brand, price, quantity, bImage, watts, speakerInch);
+                yield new Amplifier(model, ProductType.AMPLIFIER, brand, price, quantity, bImage, watts, speakerInch);
             }
             default -> throw new IllegalArgumentException("Unknown product type: " + type);
         };

@@ -13,7 +13,8 @@ public class ElectricGuitar extends Product {
     private int strings;
     private Boolean activePickup;
 
-    public ElectricGuitar(String model, String type, String brand, float price, int quantity, byte[] image, int strings,
+    public ElectricGuitar(String model, ProductType type, String brand, float price, int quantity, byte[] image,
+            int strings,
             boolean activePickup) {
         this.model = model;
         this.type = type;
