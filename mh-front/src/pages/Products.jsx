@@ -1,16 +1,22 @@
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import "./Products.css";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const getProducts = async () => {
+    const body = {};
+    if (searchParams.get("q")) {
+      body.q = searchParams.get("q");
+    }
     try {
-      const response = await axios.get("http://localhost:9999/product");
+      console.log(body);
+      const response = await axios.post("http://localhost:9999/product/search", body);
       const data = response.data;
       setProducts(data);
       console.log("Products were loaded successfuly: ", data);
@@ -23,7 +29,7 @@ function Products() {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [searchParams]);
 
   return (
     <div id="products">
