@@ -74,13 +74,6 @@ services:
     restart: on-failure
     networks:
       - musichouse
-    ports:
-      - "8080-8081:8080"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   MH-SALES:
     image: flaviorv/mh-sales:v2.3
@@ -119,14 +112,14 @@ services:
     networks:
       - musichouse
 
-#  mh-front:
-#    image: flaviorv/mh-front:v2.1
-#    depends_on:
-#      - MH-GATEWAY
-#    ports:
-#      - "3000:3000"
-#    networks:
-#      - musichouse
+  # mh-front:
+  #   image: flaviorv/mh-front:v2.1
+  #   depends_on:
+  #     - MH-GATEWAY
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - musichouse
 
 networks:
   musichouse:
