@@ -1,6 +1,6 @@
 package com.musichouse.controller;
 
-import com.musichouse.model.repository.specification.ProductSpecification;
+import com.musichouse.dto.ProductQuery;
 import com.musichouse.model.domain.Product;
 import com.musichouse.model.service.ProductServiceImp;
 import com.musichouse.payload.MessagePayload;
@@ -21,6 +21,17 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<?> dynamicSearch(@RequestBody ProductQuery q) {
+        String searchText = q.getQ();
+        List<Product> products = productService.dynamicSearch(searchText);
+        if (products.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new MessagePayload("There are no products with these characteristics."));
+        }
+        return ResponseEntity.ok(products);
+    }
+
     @GetMapping
     public ResponseEntity<?> getAll() {
         List<Product> products = productService.getAll();
@@ -37,16 +48,6 @@ public class ProductController {
             return ResponseEntity.ok(product);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
-    }
-
-    @PostMapping("/search")
-    public ResponseEntity<?> dynamicSearch(@RequestBody ProductSpecification spec) {
-        List<Product> products = productService.search(spec);
-        if (products.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new MessagePayload("There are no products with these characteristics."));
-        }
-        return ResponseEntity.ok(products);
     }
 
     @DeleteMapping("/{model}")

@@ -22,8 +22,6 @@ public interface ProductService {
 
     void updateStock(Sale sale);
 
-    ProductSpecification matchSpecs(String search);
-
-    List<Product> search(ProductSpecification spec);
+    List<Product> dynamicSearch(String searchText);
 
 }

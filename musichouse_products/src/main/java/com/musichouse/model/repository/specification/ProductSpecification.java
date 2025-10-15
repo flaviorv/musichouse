@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class ProductSpecification implements Specification<Product> {
 
     private String model;
-    private String type;
+    private ProductType type;
     private String brand;
     private Integer strings;
     private Boolean activePickup;
@@ -36,7 +36,7 @@ public class ProductSpecification implements Specification<Product> {
             predicates.add(cb.like(root.get("model"), "%" + model + "%"));
         }
         if (type != null) {
-            predicates.add(cb.equal(root.get("type"), ProductType.search(type)));
+            predicates.add(cb.equal(root.get("type"), type));
         }
         if (brand != null && !brand.isEmpty()) {
             predicates.add(cb.like(root.get("brand"), "%" + brand + "%"));

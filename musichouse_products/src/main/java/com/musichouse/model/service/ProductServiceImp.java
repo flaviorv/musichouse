@@ -1,6 +1,7 @@
 package com.musichouse.model.service;
 
 import com.musichouse.model.domain.Product;
+import com.musichouse.model.domain.ProductType;
 import com.musichouse.model.domain.Sale;
 import com.musichouse.model.repository.ProductRepository;
 import com.musichouse.model.repository.specification.ProductSpecification;
@@ -66,26 +67,32 @@ public class ProductServiceImp implements ProductService {
         }
     }
 
-    @Override
-    public ProductSpecification matchSpecs(String search) {
+    private ProductSpecification matchSpecs(String searchText) {
+        String noPunct = searchText.toLowerCase().replaceAll("[^a-z0-9\\s]", "");
+        System.out.println("noPunct------- " + noPunct);
+        String[] words = noPunct.split("\\s+");
+        ProductSpecification ps = new ProductSpecification();
 
-        String[] words = search.toLowerCase().split("\\s+");
+        for (String word : words) {
+            ProductType type = ProductType.search(word);
+            System.out.printf("%s type", word);
+            if (type != null) {
+                ps.setType(type);
+            }
+        }
 
-        // for (String word : words) {
-        // switch (word) {
-        // case "":
+        return ps;
+    }
 
-        // break;
-
-        // default:
-        // break;
-        // }
-        // }
-        return new ProductSpecification();
+    private List<Product> search(ProductSpecification spec) {
+        return productRepository.findAll(spec);
     }
 
     @Override
-    public List<Product> search(ProductSpecification spec) {
-        return productRepository.findAll(spec);
+    public List<Product> dynamicSearch(String searchText) {
+        ProductSpecification spec = matchSpecs(searchText);
+        List<Product> products = search(spec);
+        System.out.println("Found proucts" + products);
+        return products;
     }
 }

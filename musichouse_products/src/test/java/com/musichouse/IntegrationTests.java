@@ -8,13 +8,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musichouse.model.domain.Amplifier;
 import com.musichouse.model.domain.ElectricGuitar;
 import com.musichouse.model.domain.Product;
 import com.musichouse.model.domain.ProductType;
 import com.musichouse.model.repository.ProductRepository;
-import com.musichouse.model.repository.specification.ProductSpecification;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -100,80 +98,36 @@ class IntegrationTests {
     }
 
     @Test
-    void shouldFilterByStrings() throws Exception {
-
-        ProductSpecification spec = new ProductSpecification();
-        spec.setStrings(6);
-
-        mockMvc.perform(post("/product/search")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(spec)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(4)));
-    }
-
-    @Test
     void shouldFilterByType() throws Exception {
+        String guitarText = "{\"q\": \"Show me Guitars\"}";
+        String guitarText2 = "{\"q\" :\"I want to see Guitar... and...\"}";
 
-        ProductSpecification guitarSpec = new ProductSpecification();
-        ProductSpecification ampSpec = new ProductSpecification();
-        guitarSpec.setType("guitar");
-        ampSpec.setType("amplifier");
-        System.out.println(guitarSpec.getType());
-        System.out.println(ampSpec.getType());
+        String ampText = "{\"q\": \"Show me Amps\"}";
+        String ampText2 = "{\"q\": \"I want a amp that...\"}";
 
         mockMvc.perform(post("/product/search")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(guitarSpec)))
+                .content(guitarText))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(8)));
 
         mockMvc.perform(post("/product/search")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(ampSpec)))
+                .content(guitarText2))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(8)));
-    }
-
-    @Test
-    void shouldFilterByStringsAndActivePickup() throws Exception {
-
-        ProductSpecification spec = new ProductSpecification();
-        spec.setStrings(6);
-        spec.setActivePickup(false);
 
         mockMvc.perform(post("/product/search")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(spec)))
+                .content(ampText))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)));
-    }
-
-    @Test
-    void shouldFilterByWattsAndSpeakerInch() throws Exception {
-
-        ProductSpecification spec = new ProductSpecification();
-        spec.setWatts(60);
-        spec.setSpeakerInch(10);
+                .andExpect(jsonPath("$", hasSize(8)));
 
         mockMvc.perform(post("/product/search")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(spec)))
+                .content(ampText2))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)));
-    }
-
-    @Test
-    void shouldFilterByWatts() throws Exception {
-
-        ProductSpecification spec = new ProductSpecification();
-        spec.setWatts(60);
-
-        mockMvc.perform(post("/product/search")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(spec)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
+                .andExpect(jsonPath("$", hasSize(8)));
     }
 
 }
