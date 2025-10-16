@@ -130,4 +130,29 @@ class IntegrationTests {
                 .andExpect(jsonPath("$", hasSize(8)));
     }
 
+    @Test
+    void shouldFilterByStrings() throws Exception {
+        String text = "{\"q\": \"Guitar with 6 strings\"}";
+        String text2 = "{\"q\" :\"7 strings Guitar\"}";
+        String text3 = "{\"q\" :\"I want a Guitar with the number of strings is 8.\"}";
+
+        mockMvc.perform(post("/product/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(text))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)));
+
+        mockMvc.perform(post("/product/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(text2))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+
+        mockMvc.perform(post("/product/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(text3))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
 }

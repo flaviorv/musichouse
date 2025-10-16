@@ -1,7 +1,6 @@
 package com.musichouse.model.service;
 
 import com.musichouse.model.domain.Product;
-import com.musichouse.model.domain.ProductType;
 import com.musichouse.model.domain.Sale;
 import com.musichouse.model.repository.ProductRepository;
 import com.musichouse.model.repository.specification.ProductSpecification;
@@ -14,9 +13,11 @@ import java.util.Optional;
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
+    private final QueryParser queryParser;
 
-    public ProductServiceImp(ProductRepository productRepository) {
+    public ProductServiceImp(ProductRepository productRepository, QueryParser queryParser) {
         this.productRepository = productRepository;
+        this.queryParser = queryParser;
     }
 
     @Override
@@ -67,32 +68,9 @@ public class ProductServiceImp implements ProductService {
         }
     }
 
-    private ProductSpecification matchSpecs(String searchText) {
-        String noPunct = searchText.toLowerCase().replaceAll("[^a-z0-9\\s]", "");
-        System.out.println("noPunct------- " + noPunct);
-        String[] words = noPunct.split("\\s+");
-        ProductSpecification ps = new ProductSpecification();
-
-        for (String word : words) {
-            ProductType type = ProductType.search(word);
-            System.out.printf("%s type", word);
-            if (type != null) {
-                ps.setType(type);
-            }
-        }
-
-        return ps;
-    }
-
-    private List<Product> search(ProductSpecification spec) {
-        return productRepository.findAll(spec);
-    }
-
     @Override
     public List<Product> dynamicSearch(String searchText) {
-        ProductSpecification spec = matchSpecs(searchText);
-        List<Product> products = search(spec);
-        System.out.println("Found proucts" + products);
-        return products;
+        ProductSpecification spec = queryParser.matchPredicates(searchText);
+        return productRepository.findAll(spec);
     }
 }

@@ -2,7 +2,6 @@ package com.musichouse.model.repository.specification;
 
 import com.musichouse.model.domain.Product;
 import com.musichouse.model.domain.ProductType;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
