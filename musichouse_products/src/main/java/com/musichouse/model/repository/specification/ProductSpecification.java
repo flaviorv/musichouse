@@ -32,7 +32,7 @@ public class ProductSpecification implements Specification<Product> {
         List<Predicate> predicates = new ArrayList<>();
 
         if (model != null && !model.isEmpty()) {
-            predicates.add(cb.like(root.get("model"), "%" + model + "%"));
+            predicates.add(cb.equal(root.get("model"), model));
         }
         if (type != null) {
             predicates.add(cb.equal(root.get("type"), type));

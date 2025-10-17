@@ -1,12 +1,20 @@
 package com.musichouse.model.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.musichouse.model.domain.ProductType;
+import com.musichouse.model.repository.ProductRepository;
 import com.musichouse.model.repository.specification.ProductSpecification;
 
 @Service
 public class QueryParser {
+
+    private final ProductRepository productRepository;
+
+    public QueryParser(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public ProductSpecification matchPredicates(String searchText) {
         String noPunct = searchText.toLowerCase().replaceAll("[^a-z0-9\\s]", "");
@@ -14,6 +22,7 @@ public class QueryParser {
         ProductSpecification ps = new ProductSpecification();
 
         ps = searchTypeFilter(ps, words);
+        ps = searchByModel(ps, words);
         ps = searchStringsFilter(ps, words);
 
         return ps;
@@ -24,6 +33,25 @@ public class QueryParser {
             ProductType type = ProductType.search(words[i]);
             if (type != null) {
                 ps.setType(type);
+            }
+        }
+        return ps;
+    }
+
+    private ProductSpecification searchByModel(ProductSpecification ps, String[] words) {
+        List<String> models;
+
+        if (ps.getType() != null) {
+            models = productRepository.findModelsByType(ps.getType());
+        } else {
+            models = productRepository.findAllModels();
+        }
+
+        List<String> lowerCaseModels = models.stream().map(String::toLowerCase).collect(Collectors.toList());
+
+        for (String word : words) {
+            if (lowerCaseModels.contains(word)) {
+                ps.setModel(word);
             }
         }
         return ps;
