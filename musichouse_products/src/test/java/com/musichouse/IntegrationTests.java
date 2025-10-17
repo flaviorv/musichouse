@@ -139,6 +139,7 @@ class IntegrationTests {
                 String text = "{\"q\": \"Guitar AX350\"}";
                 String text2 = "{\"q\" :\"ORBIT8 Guitar\"}";
                 String text3 = "{\"q\" :\"I want a VINTAGE6.\"}";
+                String text4 = "{\"q\" :\"I want a RetroSound VINTAGE6.\"}";
 
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -155,6 +156,45 @@ class IntegrationTests {
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(text3))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(1)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text4))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(1)));
+        }
+
+        @Test
+        void souldFilterByBrand() throws Exception {
+
+                String text = "{\"q\": \"Guitar Auralite\"}";
+                String text2 = "{\"q\" :\"Harmonia\"}";
+                String text3 = "{\"q\" :\"I want a BlueWave.\"}";
+                String text4 = "{\"q\" :\"I want a Solaris CRIMSON.\"}";
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(1)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text2))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(1)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text3))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(1)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text4))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$", hasSize(1)));
         }

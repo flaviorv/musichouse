@@ -22,6 +22,7 @@ public class QueryParser {
         ProductSpecification ps = new ProductSpecification();
 
         ps = searchTypeFilter(ps, words);
+        ps = searchBrandFilter(ps, words);
         ps = searchByModel(ps, words);
         ps = searchStringsFilter(ps, words);
 
@@ -33,6 +34,25 @@ public class QueryParser {
             ProductType type = ProductType.search(words[i]);
             if (type != null) {
                 ps.setType(type);
+            }
+        }
+        return ps;
+    }
+
+    private ProductSpecification searchBrandFilter(ProductSpecification ps, String[] words) {
+        List<String> brands;
+
+        if (ps.getType() != null) {
+            brands = productRepository.findBrandsByType(ps.getType());
+        } else {
+            brands = productRepository.findAllBrands();
+        }
+
+        List<String> lowerCaseBrands = brands.stream().map(String::toLowerCase).collect(Collectors.toList());
+
+        for (String word : words) {
+            if (lowerCaseBrands.contains(word)) {
+                ps.setBrand(word);
             }
         }
         return ps;
