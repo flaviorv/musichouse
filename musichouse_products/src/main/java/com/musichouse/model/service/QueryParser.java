@@ -61,7 +61,9 @@ public class QueryParser {
     private ProductSpecification searchByModel(ProductSpecification ps, String[] words) {
         List<String> models;
 
-        if (ps.getType() != null) {
+        if (ps.getBrand() != null) {
+            models = productRepository.findModelsByBrand(ps.getBrand());
+        } else if (ps.getType() != null) {
             models = productRepository.findModelsByType(ps.getType());
         } else {
             models = productRepository.findAllModels();

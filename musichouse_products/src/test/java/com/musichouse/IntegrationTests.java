@@ -80,6 +80,12 @@ class IntegrationTests {
                                 new ElectricGuitar("OCEANIC", ProductType.GUITAR, "BlueWave", 820.49f, 5, null, 6,
                                                 false),
                                 new ElectricGuitar("PHOENIX", ProductType.GUITAR, "Ignis", 1999.99f, 1, null, 8, true),
+                                new ElectricGuitar("SPARK6", ProductType.GUITAR, "Stravix", 799.00f, 4, null, 6, true),
+                                new ElectricGuitar("AURORA", ProductType.GUITAR, "Auralite", 1450.99f, 2, null, 7,
+                                                true),
+                                new ElectricGuitar("ZENITH", ProductType.GUITAR, "Lunaris", 1099.00f, 3, null, 6,
+                                                false),
+                                new ElectricGuitar("BLAZE7", ProductType.GUITAR, "Ignis", 1750.00f, 2, null, 7, true),
                                 new Amplifier("AMP100", ProductType.AMPLIFIER, "SoundMax", 499.99f, 10, null, 50, 8),
                                 new Amplifier("AMP200", ProductType.AMPLIFIER, "TonePro", 699.50f, 6, null, 60, 10),
                                 new Amplifier("AMP300", ProductType.AMPLIFIER, "RockWave", 899.00f, 4, null, 100, 12),
@@ -88,7 +94,12 @@ class IntegrationTests {
                                                 10),
                                 new Amplifier("AMP500", ProductType.AMPLIFIER, "BassForge", 1299.00f, 2, null, 200, 18),
                                 new Amplifier("AMP600", ProductType.AMPLIFIER, "ThunderPeak", 749.49f, 7, null, 60, 12),
-                                new Amplifier("AMP700", ProductType.AMPLIFIER, "PowerChord", 1599.99f, 1, null, 300, 20)
+                                new Amplifier("AMP700", ProductType.AMPLIFIER, "PowerChord", 1599.99f, 1, null, 300,
+                                                20),
+                                new Amplifier("MAX200", ProductType.AMPLIFIER, "SoundMax", 599.00f, 8, null, 60, 10),
+                                new Amplifier("PRO400", ProductType.AMPLIFIER, "TonePro", 899.99f, 5, null, 100, 12),
+                                new Amplifier("WAVE50", ProductType.AMPLIFIER, "RockWave", 450.75f, 12, null, 50, 8),
+                                new Amplifier("DRIVE300", ProductType.AMPLIFIER, "EchoDrive", 950.00f, 4, null, 120, 15)
 
                 );
 
@@ -113,25 +124,25 @@ class IntegrationTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(guitarText))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(8)));
+                                .andExpect(jsonPath("$", hasSize(12)));
 
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(guitarText2))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(8)));
+                                .andExpect(jsonPath("$", hasSize(12)));
 
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(ampText))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(8)));
+                                .andExpect(jsonPath("$", hasSize(12)));
 
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(ampText2))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(8)));
+                                .andExpect(jsonPath("$", hasSize(12)));
         }
 
         @Test
@@ -170,21 +181,21 @@ class IntegrationTests {
         void souldFilterByBrand() throws Exception {
 
                 String text = "{\"q\": \"Guitar Auralite\"}";
-                String text2 = "{\"q\" :\"Harmonia\"}";
-                String text3 = "{\"q\" :\"I want a BlueWave.\"}";
-                String text4 = "{\"q\" :\"I want a Solaris CRIMSON.\"}";
+                String text2 = "{\"q\" :\"Lunaris\"}";
+                String text3 = "{\"q\" :\"The BlueWave.\"}";
+                String text4 = "{\"q\" :\"The Solaris CRIMSON.\"}";
 
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(text))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(1)));
+                                .andExpect(jsonPath("$", hasSize(2)));
 
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(text2))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(1)));
+                                .andExpect(jsonPath("$", hasSize(2)));
 
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -209,13 +220,13 @@ class IntegrationTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(text))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(4)));
+                                .andExpect(jsonPath("$", hasSize(6)));
 
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(text2))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(2)));
+                                .andExpect(jsonPath("$", hasSize(4)));
 
                 mockMvc.perform(post("/product/search")
                                 .contentType(MediaType.APPLICATION_JSON)

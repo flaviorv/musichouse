@@ -18,7 +18,7 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
     List<String> findModelsByType(@Param("productType") ProductType pt);
 
     @Query("SELECT p.model FROM Product p WHERE p.brand = :brand")
-    List<String> findModelsByBrand(@Param("brand") ProductType b);
+    List<String> findModelsByBrand(@Param("brand") String b);
 
     @Query("SELECT p.brand FROM Product p")
     List<String> findAllBrands();
