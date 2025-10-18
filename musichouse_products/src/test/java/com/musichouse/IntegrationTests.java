@@ -76,7 +76,7 @@ class IntegrationTests {
                                 new ElectricGuitar("VINTAGE6", ProductType.GUITAR, "RetroSound", 679.99f, 6, null, 6,
                                                 false),
                                 new ElectricGuitar("CRIMSON", ProductType.GUITAR, "Solaris", 1599.00f, 2, null, 7,
-                                                true),
+                                                false),
                                 new ElectricGuitar("OCEANIC", ProductType.GUITAR, "BlueWave", 820.49f, 5, null, 6,
                                                 false),
                                 new ElectricGuitar("PHOENIX", ProductType.GUITAR, "Ignis", 1999.99f, 1, null, 8, true),
@@ -233,6 +233,77 @@ class IntegrationTests {
                                 .content(text3))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$", hasSize(2)));
+        }
+
+        @Test
+        void shouldFilterByActivePickup() throws Exception {
+                String text = "{\"q\": \"Guitar with active pickups.\"}";
+                String text2 = "{\"q\" :\"7 strings Guitar active\"}";
+                String text3 = "{\"q\" :\"Passive pickups, 8 strings.\"}";
+                String text4 = "{\"q\" :\"7 strings and passive pickups Guitar\"}";
+                String text5 = "{\"q\" :\"passive pickups Amplifier\"}";
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(7)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text2))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(3)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text3))
+                                .andExpect(status().isNotFound());
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text4))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(1)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text5))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(12)));
+        }
+
+        @Test
+        void shouldFilterBySpeakerInch() throws Exception {
+
+                String text = "{\"q\" :\"Speaker 8 inches \"}";
+                String text2 = "{\"q\" :\"Speaker 8 Guitar\"}";
+                String text3 = "{\"q\" :\"10in speaker amp\"}";
+                String text4 = "{\"q\": \"Amplifier 12\\\".\"}";
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(2)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text2))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(12)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text3))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(3)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text4))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(3)));
         }
 
 }
