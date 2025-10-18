@@ -306,4 +306,31 @@ class IntegrationTests {
                                 .andExpect(jsonPath("$", hasSize(3)));
         }
 
+        @Test
+        void shouldFilterByWatts() throws Exception {
+
+                String text = "{\"q\" :\"Amp 100w \"}";
+                String text2 = "{\"q\" :\"Amplifiers 50 watts\"}";
+                String text3 = "{\"q\" :\"150watts amp\"}";
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(2)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text2))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(2)));
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(text3))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(1)));
+
+        }
+
 }

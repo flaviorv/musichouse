@@ -134,7 +134,7 @@ public class QueryParser {
             final int WORDS_MAX_RANGE = 3;
 
             for (int i = 0; i < words.length; i++) {
-                if (keys.contains(words[i])) {
+                if (keys.contains(words[i]) || words[i].endsWith("watts") || words[i].endsWith("w")) {
                     int start = i - WORDS_MAX_RANGE;
                     start = start >= 0 ? start : 0;
 
@@ -143,8 +143,8 @@ public class QueryParser {
 
                     for (int j = start; j <= end; j++) {
                         try {
-                            words[j].replace("w", "");
-                            words[j].replace("watts", "");
+                            words[j] = words[j].replace("watts", "");
+                            words[j] = words[j].replace("w", "");
                             Integer watts = Integer.parseInt(words[j]);
                             ps.setWatts(watts);
                             return ps;
