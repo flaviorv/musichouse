@@ -3,6 +3,7 @@ package com.musichouse.model.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import com.musichouse.exceptions.InvalidSearchInput;
 import com.musichouse.model.domain.ProductType;
 import com.musichouse.model.repository.ProductRepository;
 import com.musichouse.model.repository.specification.ProductSpecification;
@@ -17,9 +18,15 @@ public class QueryParser {
     }
 
     public ProductSpecification matchPredicates(String searchText) {
-        String noPunct = searchText.toLowerCase().replaceAll("[^a-z0-9\\s\"]", "");
-        String[] words = noPunct.split("\\s+");
         ProductSpecification ps = new ProductSpecification();
+
+        String noPunct = searchText.toLowerCase().replaceAll("[^a-z0-9\\s\"]", "");
+
+        if (noPunct == "" || noPunct == null) {
+            throw new InvalidSearchInput();
+        }
+
+        String[] words = noPunct.split("\\s+");
 
         ps = typeSearch(ps, words);
         ps = brandSearch(ps, words);
@@ -37,6 +44,7 @@ public class QueryParser {
             ProductType type = ProductType.search(words[i]);
             if (type != null) {
                 ps.setType(type);
+                return ps;
             }
         }
         return ps;
@@ -56,6 +64,7 @@ public class QueryParser {
         for (String word : words) {
             if (lowerCaseBrands.contains(word)) {
                 ps.setBrand(word);
+                return ps;
             }
         }
         return ps;
@@ -77,6 +86,7 @@ public class QueryParser {
         for (String word : words) {
             if (lowerCaseModels.contains(word)) {
                 ps.setModel(word);
+                return ps;
             }
         }
         return ps;

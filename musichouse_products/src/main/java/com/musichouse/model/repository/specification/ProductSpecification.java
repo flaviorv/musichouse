@@ -1,5 +1,6 @@
 package com.musichouse.model.repository.specification;
 
+import com.musichouse.exceptions.ResourceNotFoundException;
 import com.musichouse.model.domain.Product;
 import com.musichouse.model.domain.ProductType;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class ProductSpecification implements Specification<Product> {
         List<Predicate> predicates = new ArrayList<>();
 
         if (model != null && !model.isEmpty()) {
-            predicates.add(cb.equal(root.get("model"), model));
+            predicates.add(cb.like(root.get("model"), "%" + model + "%"));
         }
         if (type != null) {
             predicates.add(cb.equal(root.get("type"), type));
@@ -58,7 +59,7 @@ public class ProductSpecification implements Specification<Product> {
         }
 
         if (predicates.isEmpty()) {
-            return cb.conjunction();
+            throw new ResourceNotFoundException();
         } else {
             return cb.and(predicates.toArray(new Predicate[0]));
         }

@@ -113,9 +113,35 @@ class IntegrationTests {
         }
 
         @Test
+        void emptyStringShouldReturnBadRequest() throws Exception {
+                String input = "{\"q\": \"\"}";
+                String input2 = "{\"q\": \"...'!~\"}";
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(input))
+                                .andExpect(status().isBadRequest());
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(input2))
+                                .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void noMatchStringShouldReturnBadRequest() throws Exception {
+                String input = "{\"q\": \"Non-existent product\"}";
+
+                mockMvc.perform(post("/product/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(input))
+                                .andExpect(status().isNotFound());
+        }
+
+        @Test
         void shouldFilterByType() throws Exception {
                 String guitarText = "{\"q\": \"Show me Guitars\"}";
-                String guitarText2 = "{\"q\" :\"I want to see Guitar... and...\"}";
+                String guitarText2 = "{\"q\": \"I want to see Guitar... and...\"}";
 
                 String ampText = "{\"q\": \"Show me Amps\"}";
                 String ampText2 = "{\"q\": \"I want a amp that...\"}";
@@ -239,7 +265,7 @@ class IntegrationTests {
         void shouldFilterByActivePickup() throws Exception {
                 String text = "{\"q\": \"Guitar with active pickups.\"}";
                 String text2 = "{\"q\" :\"7 strings Guitar active\"}";
-                String text3 = "{\"q\" :\"Passive pickups, 8 strings.\"}";
+                String text3 = "{\"q\" :\"passive pickups, 8 strings.\"}";
                 String text4 = "{\"q\" :\"7 strings and passive pickups Guitar\"}";
                 String text5 = "{\"q\" :\"passive pickups Amplifier\"}";
 

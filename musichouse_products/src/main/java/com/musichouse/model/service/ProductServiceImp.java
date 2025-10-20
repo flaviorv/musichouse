@@ -1,5 +1,6 @@
 package com.musichouse.model.service;
 
+import com.musichouse.exceptions.ResourceNotFoundException;
 import com.musichouse.model.domain.Product;
 import com.musichouse.model.domain.Sale;
 import com.musichouse.model.repository.ProductRepository;
@@ -71,6 +72,10 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> dynamicSearch(String searchText) {
         ProductSpecification spec = queryParser.matchPredicates(searchText);
-        return productRepository.findAll(spec);
+        List<Product> products = productRepository.findAll(spec);
+        if (products.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+        return products;
     }
 }

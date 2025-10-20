@@ -25,10 +25,6 @@ public class ProductController {
     public ResponseEntity<?> dynamicSearch(@RequestBody ProductQuery q) {
         String searchText = q.getQ();
         List<Product> products = productService.dynamicSearch(searchText);
-        if (products.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new MessagePayload("There are no products with these characteristics."));
-        }
         return ResponseEntity.ok(products);
     }
 
