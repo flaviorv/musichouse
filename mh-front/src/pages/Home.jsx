@@ -53,7 +53,7 @@ function Home() {
   return (
     <div id="home">
       {featuredProducts.length !== 0 ? (
-        <GroupedProducts groupedProducts={{ "Featured Products": featuredProducts }} nProductsToShow={4} />
+        <GroupedProducts groupedProducts={{ "FEATURED PRODUCTS": featuredProducts }} nProductsToShow={4} />
       ) : (
         <div className="load-error">
           <h1>Sorry, an error occurred.</h1>

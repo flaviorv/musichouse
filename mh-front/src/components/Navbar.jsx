@@ -18,12 +18,14 @@ export default function Navbar() {
 
   return (
     <div id="navbar">
-      <a id="logo" href="/">
-        <img src={require("../images/mh-home3.png")} alt="Guitar icon" width={40} height={40} />
-        <h1>usic House</h1>
-      </a>
+      <div id="logo">
+        <a href="/">
+          <img src={require("../images/mh-home3.png")} alt="Guitar icon" width={40} height={40} />
+          <h1>usic House</h1>
+        </a>
+      </div>
       <form id="search-form" onSubmit={handleSearch}>
-        <input type="text" id="search-field" name="search" placeholder="Search" defaultValue={searchParams.get("q") || ""} />
+        <input type="text" id="search-field" name="search" placeholder="Search" defaultValue={searchParams.get("q") || ""} autoComplete="off" />
         <button id="search-btn" type="submit">
           🔎
         </button>

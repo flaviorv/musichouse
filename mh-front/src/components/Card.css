@@ -1,19 +1,21 @@
 .card {
   display: inline-block;
   border: 1px solid black;
-  box-shadow: 2px 6px 10px black;
+  box-shadow: 0px 6px 10px black;
   width: 200px;
   height: 300px;
   padding: 20px;
   text-align: center;
   align-content: center;
-  margin: 5px;
+  margin: 0px 5px;
   background-color: rgb(78, 77, 79);
 }
 
 .card:hover {
   cursor: pointer;
-  zoom: 1.1;
+  transform: scale(1.05);
+  transition: 0.15s;
+  box-shadow: 0px 10px 10px black;
 }
 
 .card-image {
