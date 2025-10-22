@@ -20,7 +20,7 @@ export default function Navbar() {
     <div id="navbar">
       <a id="logo" href="/">
         <img src={require("../images/mh-home3.png")} alt="Guitar icon" width={40} height={40} />
-        <h1>Music House</h1>
+        <h1>usic House</h1>
       </a>
       <form id="search-form" onSubmit={handleSearch}>
         <input type="text" id="search-field" name="search" placeholder="Search" defaultValue={searchParams.get("q") || ""} />
@@ -28,7 +28,9 @@ export default function Navbar() {
           🔎
         </button>
       </form>
-      <BurgerMenu />
+      <div id="burguer-menu-wrapper">
+        <BurgerMenu />
+      </div>
     </div>
   );
 }

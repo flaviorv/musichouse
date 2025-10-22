@@ -7,7 +7,7 @@ import "./Products.css";
 function Products() {
   const [products, setProducts] = useState([]);
   const [status, setStatus] = useState(null);
-  const [msg, setMsg] = useState(null);
+  const [msg, setMsg] = useState("");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -19,7 +19,7 @@ function Products() {
       const data = response.data;
 
       setStatus(200);
-      setMsg(null);
+      setMsg("");
       setProducts(data);
     } catch (error) {
       const statusCode = error.response.status;
