@@ -1,9 +1,12 @@
-#products {
+#products-root {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   color: beige;
+  height: fit-content;
+  width: 100%;
+  padding-bottom: 50px;
 }
 
 #detailed-link {
@@ -54,4 +57,15 @@ th {
 .product-row:nth-child(even):hover {
   cursor: pointer;
   color: rgb(225, 219, 217);
+}
+
+#filtered-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  background-color: rgb(218, 218, 218);
+  max-width: 70%;
+}
+
+.product-card {
+  margin: 20px auto;
 }

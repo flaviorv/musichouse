@@ -11,7 +11,7 @@
   cursor: default;
 }
 
-.pagination-controls button:hover {
+.pagination-controls button:enabled:hover {
   color: rgb(224, 224, 224);
 }
 

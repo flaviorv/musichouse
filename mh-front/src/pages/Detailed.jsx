@@ -9,18 +9,6 @@ function Detailed() {
   const [product, setProduct] = useState();
   const [saleId, setSaleId] = useState();
 
-  const getProduct = async () => {
-    try {
-      const response = await axios.get("http://localhost:9999/product/" + state.productId);
-      const data = response.data;
-      setProduct(data);
-    } catch (error) {
-      console.log(error);
-      console.log("No products");
-      return [];
-    }
-  };
-
   const addProductToANewSale = async (productId) => {
     try {
       const response = await axios.post("http://localhost:9999/sale/" + productId.toString());
@@ -45,7 +33,7 @@ function Detailed() {
 
   function addProduct() {
     console.log(saleId);
-    if (saleId != undefined) {
+    if (saleId !== undefined) {
       addProductToAnExistentSale(saleId, state.productId);
     } else {
       addProductToANewSale(state.productId);
@@ -55,12 +43,12 @@ function Detailed() {
   const getOpenSale = async () => {
     const response = await axios.get("http://localhost:9999/sale/open");
     const data = response.data;
-    data != "" ? setSaleId(data.id) : setSaleId(undefined);
+    data !== "" ? setSaleId(data.id) : setSaleId(undefined);
   };
 
   useEffect(() => {
     getOpenSale();
-    getProduct();
+    setProduct(state.product);
   }, []);
 
   return (
