@@ -9,60 +9,19 @@
   padding-bottom: 50px;
 }
 
-#detailed-link {
-  margin-top: 50px;
-}
-
 .price {
   color: rgb(121, 225, 121);
   font-weight: bolder;
 }
 
-.table-head {
-  font-size: 2em;
-}
-
-.table-head,
-th {
-  color: rgb(165, 164, 159);
-}
-
-.products-table {
-  width: 70%;
-  background-color: black;
-  text-align: center;
-  cursor: context-menu;
-  margin-top: 30px;
-}
-
-.product-row {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-size: 1.7em;
-  color: coral;
-}
-
-.product-row:hover {
-  cursor: pointer;
-  color: beige;
-  .price {
-    color: beige;
-  }
-}
-
-.product-row:nth-child(even) {
-  background-color: rgb(124, 120, 120);
-  color: black;
-}
-
-.product-row:nth-child(even):hover {
-  cursor: pointer;
-  color: rgb(225, 219, 217);
+.title {
+  color: rgb(255, 255, 255);
 }
 
 #filtered-products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  background-color: rgb(218, 218, 218);
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  background-color: rgb(188, 188, 188);
   max-width: 70%;
 }
 
