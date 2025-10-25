@@ -4,7 +4,7 @@ import Home from "./pages/Home.jsx";
 import Products from "./pages/Products.jsx";
 import Sales from "./pages/Sales.jsx";
 import OpenSale from "./pages/OpenSale.jsx";
-import Detailed from "./pages/Detailed.jsx";
+import Detailed from "./pages/Detailed.tsx";
 import Payment from "./pages/Payment.jsx";
 import DetailedSale from "./pages/DetailedSale.jsx";
 import Navbar from "./components/Navbar.jsx";
