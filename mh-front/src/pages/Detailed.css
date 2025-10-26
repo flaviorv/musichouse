@@ -12,24 +12,10 @@
   padding: 50px 100px;
 }
 
-.stock {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  font-size: 1.7em;
-}
-
-#in-stock {
-  color: darkgreen;
-}
-
-#not-available {
-  color: darkred;
-}
-
 #detailed-img {
   width: 400px;
   height: 440px;
   border-radius: 20px;
-  border: 1px solid black;
 }
 
 #product-info {

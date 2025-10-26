@@ -1,7 +1,6 @@
 import "./Detailed.css";
 import { useLocation } from "react-router-dom";
 import { IProductProps, Product } from "../types/Product.ts";
-import { capitalize } from "../utils/formatter.ts";
 import { AddCart } from "../components/AddCart.tsx";
 import { SpecificationsTable } from "../components/SpecificationsTable.tsx";
 import Zoom from "react-medium-image-zoom";
@@ -27,9 +26,6 @@ function Detailed() {
           <img id="detailed-img" src={`data:image/png;base64,${product.image}`} alt={`${product.type}`} />
         </Zoom>
         <div id="add-cart-section">
-          <h2 className="add-cart-title">
-            {capitalize(product.type)} {product.brand} {product.model}
-          </h2>
           <AddCart product={product} />
         </div>
       </section>

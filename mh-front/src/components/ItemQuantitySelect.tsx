@@ -20,7 +20,7 @@ export function ItemQuantitySelect({ item, onQuantityChange }: ICartItemProps) {
 
   return (
     <div id="quantity-selection">
-      <label id="label">Quantity</label>
+      <label id="label">Quantity:</label>
       <select name="quantityChosen" id="select" value={item.quantityChosen} onChange={onChange}>
         {options}
       </select>
