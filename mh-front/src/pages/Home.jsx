@@ -1,23 +1,31 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import "./Home.css";
 import GroupedProducts from "../components/CategoryGroup";
+import { axiosReq } from "../config/axiosRequest.ts";
+import { Loader } from "../components/Loader.tsx";
 
 function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [products, setProducts] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [hasError, setError] = useState(false);
 
+  const ERROR_MSG = "Ops, we're having trouble. Try again later.";
   const FEATURED_PRODUCTS_NUMBER = 4;
 
   async function getProducts() {
+    setLoading(true);
+    setError(false);
     try {
-      const response = await axios.get("http://localhost:9999/product");
+      const response = await axiosReq.get("http://localhost:9999/product");
       const data = await response.data;
       selectFeaturedProducts(FEATURED_PRODUCTS_NUMBER, data);
       setProducts(data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
-      return [];
+      setError(true);
+      setLoading(false);
     }
   }
 
@@ -50,19 +58,26 @@ function Home() {
     return acc;
   }, {});
 
-  return (
-    <div id="home">
-      {featuredProducts.length !== 0 ? (
+  if (isLoading) {
+    return (
+      <div id="home" className="center-home">
+        <Loader />
+      </div>
+    );
+  } else if (hasError) {
+    return (
+      <div id="home" className="center-home">
+        <img id="error-img" src={require("../images/request_error.png")} alt="Request Error" />
+      </div>
+    );
+  } else {
+    return (
+      <div id="home">
         <GroupedProducts groupedProducts={{ "FEATURED PRODUCTS": featuredProducts }} nProductsToShow={4} />
-      ) : (
-        <div className="load-error">
-          <h1>Sorry, an error occurred.</h1>
-          <h1>Please try later.</h1>
-        </div>
-      )}
-      <GroupedProducts groupedProducts={groupedProducts} nProductsToShow={5} />
-    </div>
-  );
+        <GroupedProducts groupedProducts={groupedProducts} nProductsToShow={5} />
+      </div>
+    );
+  }
 }
 
 export default Home;

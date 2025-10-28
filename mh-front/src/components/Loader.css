@@ -1,0 +1,32 @@
+#loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+#loader-spinner {
+  border-top: 7px solid #000000;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s ease-in infinite;
+  margin: 15px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#loader-text {
+  font-family: fantasy;
+  font-weight: bold;
+  font-size: 1em;
+  color: black;
+}
