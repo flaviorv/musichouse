@@ -1,20 +1,43 @@
-## Application with microservices architecture
-### Instructions for running:
-	You need to have docker installed on your machine
- 	With the musichouse folder open in terminal, type docker compose up
-	Open the browser and type localhost:3000
-### The app:
-	This is an musical instruments web store, where is possible add items to order
-<img src="./mh-front/src/images/screenshot_home.png" width="50%" title="Home screen"><img src="./mh-front/src/images/screenshot_products.png" width="50%" title="Products screen">
+### Description:
 
-	After click in the close order button, 
- 	there will be a processing payment simulation and a progress bar to see the order status
-<img src="./mh-front/src/images/screenshot_adding_to_order.png" width="50%" title="Open order screen"><img src="./mh-front/src/images/screenshot_open-order.png" width="50%" title="Open order screen">
-<img src="./mh-front/src/images/screenshot_processing_payment.png" width="50%" title="Open order screen"><img src="./mh-front/src/images/screenshot_payment_error.png" width="50%" title="Open order screen">
- 	
-  	The order status and the products stock change asynchronously over time via messaging
-<img src="./mh-front/src/images/screenshot_payment_result.png" width="50%" title="Open order screen"><img src="./mh-front/src/images/screenshot_payment_accepted_status.png" width="50%" title="Open order screen">
+<p>Online store for musical instruments with a microservices architecture (product, sales, payment).</p>
 
-	At this moment, the status reach only the processing payment result,
- 	but will be change until the delivered status in the near future
-<img src="./mh-front/src/images/screenshot_all_orders.png" width="50%" title="Open order screen"><img src="./mh-front/src/images/screenshot_payment_refused_status.png" width="50%" title="Open order screen">
+<p>There is a gateway service as an access point, more than one instance per service, telemetry to monitor system behavior, and integration tests.</p>
+
+### System features:
+
+- Full Text Search
+- Shopping Cart
+- Purchase and Payment Simulation
+- Asynchronous Payment Verification via Message
+- Asynchronous Inventory Controll via Message that is updated according to sales
+
+### Technologies/Frameworks:
+
+Java, Spring Cloud, RabbitMQ, JPA Specifications, Open Telemetry, Eureka,
+React, Open Feign, Docker, MySQL, MongoDB, Junit, MockMVC e Testcontainers.
+
+### Instructions for use:
+
+- You need to have docker installed on your machine.
+- The unique project file needed is the **docker-compose.yml**
+- Open the folder where you placed the file in the terminal
+- Type `docker compose up` (all services will be downloaded from Docker Hub)
+- Wait the services to load, then open the browser and type `localhost:3000` as url
+
+### Screenshoots:
+
+<img src="./mh-front/src/images/home-featured-products.png" width="50%" alt="Home page with featured prodcuts">
+
+<img src="./mh-front/src/images/home-amp-category.png" width="50%" alt="Home page listing products of a category">
+
+<img src="./mh-front/src/images/search-guitar.png" width="50%" alt="Guitars found through a text field">
+
+<img src="./mh-front/src/images/search-amp.png" width="50%" alt="Amplifiers found through a text field">
+
+<img src="./mh-front/src/images/search-amp-by-speaker-inch.png" width="50%" alt="Amplifiers found by speaker inch through a text field">
+
+<img src="./mh-front/src/images/search-guitar-by-strings.png" width="50%" alt="Guitars found by number of strings through a text field">
+
+<img src="./mh-front/src/images/pdp.png" width="50%" alt="Product Detail Page">
+<img src="./mh-front/src/images/pdp-specifications.png" width="50%" alt="PDP Specifications">

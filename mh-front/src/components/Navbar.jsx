@@ -1,10 +1,12 @@
+import { useEffect, useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import "./Navbar.css";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [input, setInput] = useState("");
+  const location = useLocation();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -16,6 +18,12 @@ export default function Navbar() {
     navigate({ pathname: "/products", search: newSearch.toString() });
   };
 
+  useEffect(() => {
+    if (!location.pathname.startsWith("/products")) {
+      setInput("");
+    }
+  }, [location]);
+
   return (
     <div id="navbar">
       <div id="logo">
@@ -25,7 +33,7 @@ export default function Navbar() {
         </a>
       </div>
       <form id="search-form" onSubmit={handleSearch}>
-        <input type="text" id="search-field" name="search" placeholder="Search" defaultValue={searchParams.get("q") || ""} autoComplete="off" />
+        <input type="text" id="search-field" name="search" placeholder="Search" value={input} onChange={(e) => setInput(e.target.value)} autoComplete="off" />
         <button id="search-btn" type="submit">
           🔎
         </button>
