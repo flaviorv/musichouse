@@ -2,7 +2,7 @@ package com.musichouse.model.service;
 
 import com.musichouse.exceptions.ResourceNotFoundException;
 import com.musichouse.model.domain.Product;
-import com.musichouse.model.domain.Sale;
+import com.musichouse.model.dto.SaleDTO;
 import com.musichouse.model.repository.ProductRepository;
 import com.musichouse.model.repository.specification.ProductSpecification;
 import jakarta.persistence.EntityNotFoundException;
@@ -59,8 +59,8 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public void updateStock(Sale sale) {
-        for (Sale.Product product : sale.getProducts()) {
+    public void updateStock(SaleDTO sale) {
+        for (SaleDTO.Product product : sale.getProducts()) {
             Optional<Product> p = getByModel(product.getModel());
             if (p.isPresent()) {
                 p.get().setQuantity(p.get().getQuantity() - product.getQuantity());

@@ -33,7 +33,7 @@ import org.springframework.test.context.ActiveProfiles;
 @AutoConfigureMockMvc
 @Testcontainers
 @ActiveProfiles("test")
-class IntegrationTests {
+class IntegrationTest {
 
         @Container
         private static final MySQLContainer<?> mysqlContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))

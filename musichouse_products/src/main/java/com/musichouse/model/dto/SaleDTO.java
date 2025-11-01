@@ -1,12 +1,12 @@
-package com.musichouse.model.domain;
+package com.musichouse.model.dto;
 
 import lombok.Data;
 import java.util.List;
 
 @Data
-public class Sale {
+public class SaleDTO {
     private String id;
-    private List<Sale.Product> products;
+    private List<SaleDTO.Product> products;
 
     @Data
     public static class Product{

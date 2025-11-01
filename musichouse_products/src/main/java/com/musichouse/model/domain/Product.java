@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,6 +27,10 @@ public abstract class Product {
     protected float price;
     protected int quantity;
     protected byte[] image;
+    @Embedded
+    protected ProductRatingMetrics productRatingMetrics = new ProductRatingMetrics();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    protected List<ProductRating> productRatings = new ArrayList<>();
 
     public static byte[] loadImage(String resourcePath) throws IOException {
         try (InputStream is = Product.class.getResourceAsStream(resourcePath)) {
@@ -33,5 +39,11 @@ public abstract class Product {
             }
             return is.readAllBytes();
         }
+    }
+
+    public void addRating(ProductRating pr) {
+        pr.setProduct(this);
+        productRatingMetrics.updateMetrics(pr.getRating().getValue());
+        this.productRatings.add(pr);
     }
 }
