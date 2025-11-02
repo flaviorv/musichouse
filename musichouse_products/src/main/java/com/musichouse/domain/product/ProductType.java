@@ -1,4 +1,4 @@
-package com.musichouse.model.domain;
+package com.musichouse.domain.product;
 
 import java.util.Arrays;
 import java.util.List;

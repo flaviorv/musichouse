@@ -1,7 +1,7 @@
-package com.musichouse.model.service;
+package com.musichouse.service;
 
-import com.musichouse.model.domain.Product;
-import com.musichouse.model.dto.SaleDTO;
+import com.musichouse.domain.product.Product;
+import com.musichouse.dto.SaleDTO;
 import java.util.List;
 import java.util.Optional;
 

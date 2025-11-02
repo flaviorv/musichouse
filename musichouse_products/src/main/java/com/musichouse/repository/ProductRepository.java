@@ -1,7 +1,7 @@
-package com.musichouse.model.repository;
+package com.musichouse.repository;
 
-import com.musichouse.model.domain.Product;
-import com.musichouse.model.domain.ProductType;
+import com.musichouse.domain.product.Product;
+import com.musichouse.domain.product.ProductType;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

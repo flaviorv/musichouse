@@ -1,10 +1,10 @@
 package com.musichouse.controller;
 
 import com.musichouse.exceptions.ProductNotFoundToAddRatingException;
-import com.musichouse.exceptions.RatingAlreadyExistsException;
 import com.musichouse.exceptions.RatingNotFoundException;
-import com.musichouse.model.dto.RatingDTO;
-import com.musichouse.model.service.RatingService;
+import com.musichouse.dto.RatingDTO;
+import com.musichouse.service.RatingService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class RatingController {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (ProductNotFoundToAddRatingException e) {
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (RatingAlreadyExistsException e) {
+        } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

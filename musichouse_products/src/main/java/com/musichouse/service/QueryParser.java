@@ -1,12 +1,12 @@
-package com.musichouse.model.service;
+package com.musichouse.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.musichouse.exceptions.InvalidSearchInput;
-import com.musichouse.model.domain.ProductType;
-import com.musichouse.model.repository.ProductRepository;
-import com.musichouse.model.repository.specification.ProductSpecification;
+import com.musichouse.domain.product.ProductType;
+import com.musichouse.repository.ProductRepository;
+import com.musichouse.repository.specification.ProductSpecification;
 
 @Service
 public class QueryParser {

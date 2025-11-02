@@ -1,6 +1,6 @@
 package com.musichouse;
 
-import com.musichouse.model.domain.Rating;
+import com.musichouse.domain.rating.Rating;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

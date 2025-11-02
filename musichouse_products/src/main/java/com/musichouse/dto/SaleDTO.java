@@ -1,4 +1,4 @@
-package com.musichouse.model.dto;
+package com.musichouse.dto;
 
 import lombok.Data;
 import java.util.List;

@@ -1,10 +1,10 @@
-package com.musichouse.model.service;
+package com.musichouse.service;
 
 import com.musichouse.exceptions.ResourceNotFoundException;
-import com.musichouse.model.domain.Product;
-import com.musichouse.model.dto.SaleDTO;
-import com.musichouse.model.repository.ProductRepository;
-import com.musichouse.model.repository.specification.ProductSpecification;
+import com.musichouse.domain.product.Product;
+import com.musichouse.dto.SaleDTO;
+import com.musichouse.repository.ProductRepository;
+import com.musichouse.repository.specification.ProductSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -63,7 +63,7 @@ public class ProductServiceImp implements ProductService {
         for (SaleDTO.Product product : sale.getProducts()) {
             Optional<Product> p = getByModel(product.getModel());
             if (p.isPresent()) {
-                p.get().setQuantity(p.get().getQuantity() - product.getQuantity());
+                p.get().setStock_quantity(p.get().getStock_quantity() - product.getQuantity());
                 update(p.get());
             }
         }

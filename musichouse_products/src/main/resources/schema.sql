@@ -5,8 +5,19 @@ CREATE TABLE IF NOT EXISTS product (
     _type VARCHAR(30),
     brand VARCHAR(50) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
-    quantity INT NOT NULL,
-    image LONGBLOB
+    stock_quantity INT NOT NULL,
+    image LONGBLOB,
+    total_rating_sum INT,
+    rating_count INT,
+    average_rating DECIMAL(3,2)
+);
+
+CREATE TABLE IF NOT EXISTS product_rating (
+    customer VARCHAR(50) NOT NULL,
+    product VARCHAR(50) NOT NULL,
+    rating ENUM('ONE', 'TWO', 'THREE', 'FOUR', 'FIVE'),
+    PRIMARY KEY (customer, product),
+    CONSTRAINT fk_rating_product FOREIGN KEY (product) REFERENCES product(model) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS electric_guitar (

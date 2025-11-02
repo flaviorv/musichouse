@@ -1,5 +1,8 @@
-package com.musichouse.model.domain;
+package com.musichouse.domain.product;
 
+import com.musichouse.domain.rating.ProductRating;
+import com.musichouse.domain.rating.ProductRatingMetrics;
+import com.musichouse.domain.rating.Rating;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,11 +28,11 @@ public abstract class Product {
     protected ProductType type;
     protected String brand;
     protected float price;
-    protected int quantity;
+    protected int stock_quantity;
     protected byte[] image;
     @Embedded
     protected ProductRatingMetrics productRatingMetrics = new ProductRatingMetrics();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     protected List<ProductRating> productRatings = new ArrayList<>();
 
     public static byte[] loadImage(String resourcePath) throws IOException {
@@ -46,10 +49,9 @@ public abstract class Product {
         productRatings.add(pr);
     }
 
-    public ProductRating updateRating(ProductRating oldPr, Rating newRating) {
+    public void updateRating(ProductRating oldPr, Rating newRating) {
         Rating oldRating = oldPr.getRating();
         productRatingMetrics.update(oldRating.getValue(), newRating.getValue());
         oldPr.setRating(newRating);
-        return oldPr;
     }
 }

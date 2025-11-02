@@ -1,9 +1,9 @@
 package com.musichouse.controller;
 
 import com.musichouse.dto.ProductQuery;
-import com.musichouse.model.domain.Product;
-import com.musichouse.model.service.ProductServiceImp;
-import com.musichouse.payload.MessagePayload;
+import com.musichouse.domain.product.Product;
+import com.musichouse.service.ProductServiceImp;
+import com.musichouse.dto.MessagePayload;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;

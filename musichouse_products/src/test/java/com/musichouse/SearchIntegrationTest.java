@@ -8,11 +8,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import com.musichouse.model.domain.Amplifier;
-import com.musichouse.model.domain.ElectricGuitar;
-import com.musichouse.model.domain.Product;
-import com.musichouse.model.domain.ProductType;
-import com.musichouse.model.repository.ProductRepository;
+import com.musichouse.domain.product.Amplifier;
+import com.musichouse.domain.product.ElectricGuitar;
+import com.musichouse.domain.product.Product;
+import com.musichouse.domain.product.ProductType;
+import com.musichouse.repository.ProductRepository;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,7 +37,7 @@ class SearchIntegrationTest {
 
         @Container
         private static final MySQLContainer<?> mysqlContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))
-                        .withDatabaseName("test_db")
+                        .withDatabaseName("db_products")
                         .withUsername("test")
                         .withPassword("test")
                         .withReuse(true)
@@ -49,11 +49,11 @@ class SearchIntegrationTest {
                 registry.add("spring.datasource.url", mysqlContainer::getJdbcUrl);
                 registry.add("spring.datasource.username", mysqlContainer::getUsername);
                 registry.add("spring.datasource.password", mysqlContainer::getPassword);
-                registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
-                registry.add("spring.jpa.show-sql", () -> "true");
+                registry.add("spring.jpa.hibernate.ddl-auto", () -> "none");
+                registry.add("spring.jpa.show-sql", () -> "false");
                 registry.add("spring.jpa.properties.hibernate.dialect", () -> "org.hibernate.dialect.MySQLDialect");
                 registry.add("spring.datasource.driver-class-name", () -> "com.mysql.cj.jdbc.Driver");
-                registry.add("spring.sql.init.mode", () -> "never");
+                registry.add("spring.sql.init.mode", () -> "always");
                 registry.add("spring.jpa.defer-datasource-initialization", () -> "false");
         }
 
@@ -172,7 +172,7 @@ class SearchIntegrationTest {
         }
 
         @Test
-        void souldFilterByModel() throws Exception {
+        void shouldFilterByModel() throws Exception {
                 String text = "{\"q\": \"Guitar AX350\"}";
                 String text2 = "{\"q\" :\"ORBIT8 Guitar\"}";
                 String text3 = "{\"q\" :\"I want a VINTAGE6.\"}";
@@ -204,8 +204,7 @@ class SearchIntegrationTest {
         }
 
         @Test
-        void souldFilterByBrand() throws Exception {
-
+        void shouldFilterByBrand() throws Exception {
                 String text = "{\"q\": \"Guitar Auralite\"}";
                 String text2 = "{\"q\" :\"Lunaris\"}";
                 String text3 = "{\"q\" :\"The BlueWave.\"}";
@@ -301,7 +300,6 @@ class SearchIntegrationTest {
 
         @Test
         void shouldFilterBySpeakerInch() throws Exception {
-
                 String text = "{\"q\" :\"Speaker 8 inches \"}";
                 String text2 = "{\"q\" :\"Speaker 8 Guitar\"}";
                 String text3 = "{\"q\" :\"10in speaker amp\"}";
@@ -334,7 +332,6 @@ class SearchIntegrationTest {
 
         @Test
         void shouldFilterByWatts() throws Exception {
-
                 String text = "{\"q\" :\"Amp 100w \"}";
                 String text2 = "{\"q\" :\"Amplifiers 50 watts\"}";
                 String text3 = "{\"q\" :\"150watts amp\"}";

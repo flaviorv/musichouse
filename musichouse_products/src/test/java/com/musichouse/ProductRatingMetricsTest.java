@@ -1,6 +1,10 @@
 package com.musichouse;
 
-import com.musichouse.model.domain.*;
+import com.musichouse.domain.product.ElectricGuitar;
+import com.musichouse.domain.product.Product;
+import com.musichouse.domain.rating.ProductRating;
+import com.musichouse.domain.product.ProductType;
+import com.musichouse.domain.rating.Rating;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 

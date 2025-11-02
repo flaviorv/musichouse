@@ -1,8 +1,8 @@
-package com.musichouse.model.repository.specification;
+package com.musichouse.repository.specification;
 
 import com.musichouse.exceptions.ResourceNotFoundException;
-import com.musichouse.model.domain.Product;
-import com.musichouse.model.domain.ProductType;
+import com.musichouse.domain.product.Product;
+import com.musichouse.domain.product.ProductType;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.jpa.domain.Specification;

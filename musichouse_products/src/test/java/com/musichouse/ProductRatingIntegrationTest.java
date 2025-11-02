@@ -2,15 +2,21 @@ package com.musichouse;
 
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musichouse.model.domain.*;
-import com.musichouse.model.dto.RatingDTO;
-import com.musichouse.model.repository.ProductRepository;
-import com.musichouse.model.repository.RatingRepository;
+import com.musichouse.adapter.client.SaleClient;
+import com.musichouse.domain.product.Amplifier;
+import com.musichouse.domain.product.ElectricGuitar;
+import com.musichouse.domain.product.Product;
+import com.musichouse.domain.product.ProductType;
+import com.musichouse.domain.rating.Rating;
+import com.musichouse.dto.RatingDTO;
+import com.musichouse.repository.ProductRepository;
+import com.musichouse.repository.RatingRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -20,10 +26,12 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-
 import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -40,7 +48,7 @@ public class ProductRatingIntegrationTest {
 
     @Container
     private static final MySQLContainer<?> mysqlContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))
-            .withDatabaseName("test_db")
+            .withDatabaseName("db_products")
             .withUsername("test")
             .withPassword("test")
             .withReuse(true)
@@ -52,11 +60,11 @@ public class ProductRatingIntegrationTest {
         registry.add("spring.datasource.url", mysqlContainer::getJdbcUrl);
         registry.add("spring.datasource.username", mysqlContainer::getUsername);
         registry.add("spring.datasource.password", mysqlContainer::getPassword);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
-        registry.add("spring.jpa.show-sql", () -> "true");
+        registry.add("spring.jpa.hibernate.ddl-auto", () -> "none");
+        registry.add("spring.jpa.show-sql", () -> "false");
         registry.add("spring.jpa.properties.hibernate.dialect", () -> "org.hibernate.dialect.MySQLDialect");
         registry.add("spring.datasource.driver-class-name", () -> "com.mysql.cj.jdbc.Driver");
-        registry.add("spring.sql.init.mode", () -> "never");
+        registry.add("spring.sql.init.mode", () -> "always");
         registry.add("spring.jpa.defer-datasource-initialization", () -> "false");
     }
 
@@ -69,10 +77,15 @@ public class ProductRatingIntegrationTest {
     @Autowired
     private RatingRepository ratingRepository;
 
+    @MockBean
+    private SaleClient saleClient;
+
     @BeforeEach
     void setUp() {
         productRepository.deleteAll();
         ratingRepository.deleteAll();
+
+        when(saleClient.isProductDelivered(anyString(), anyString())).thenReturn(true);
 
         List<Product> products = List.of(
                 new ElectricGuitar("VX100", ProductType.GUITAR, "Stravix", 899.99f, 5, null, 6, false),
@@ -142,11 +155,45 @@ public class ProductRatingIntegrationTest {
                         .content(new ObjectMapper().writeValueAsString(dto2)))
                         .andExpect(status().isCreated());
 
-        Double expected = 2.5;
         mockMvc.perform(get("/product/AMP100"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.productRatings", hasSize(2)))
-                .andExpect(jsonPath("$.productRatingMetrics.averageRating", equalTo(expected)));
+                .andExpect(jsonPath("$.productRatingMetrics.averageRating", equalTo(2.5)));
+    }
+
+    @Test
+    public void shouldUpdateRating() throws Exception {
+        RatingDTO dto = new RatingDTO("07", "AMP100", Rating.FOUR);
+        mockMvc.perform(post("/rating/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(dto)))
+                        .andExpect(status().isCreated());
+
+        RatingDTO dto2 = new RatingDTO("07", "AMP100", Rating.ONE);
+        mockMvc.perform(put("/rating/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(dto2)))
+                        .andExpect(status().isOk());
+
+        mockMvc.perform(get("/product/AMP100"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.productRatings", hasSize(1)))
+                .andExpect(jsonPath("$.productRatingMetrics.averageRating", equalTo(1.0)));
+    }
+
+    @Test
+    public void shouldNotCreateTwoRatingsWithSameId() throws Exception {
+        RatingDTO dto = new RatingDTO("07", "AMP100", Rating.FOUR);
+        mockMvc.perform(post("/rating/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(dto)))
+                        .andExpect(status().isCreated());
+
+        RatingDTO dto2 = new RatingDTO("07", "AMP100", Rating.ONE);
+        mockMvc.perform(post("/rating/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(dto2)))
+                        .andExpect(status().isConflict());
     }
 
 }

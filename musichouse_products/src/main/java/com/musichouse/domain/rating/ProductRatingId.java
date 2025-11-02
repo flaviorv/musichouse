@@ -1,4 +1,4 @@
-package com.musichouse.model.domain;
+package com.musichouse.domain.rating;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

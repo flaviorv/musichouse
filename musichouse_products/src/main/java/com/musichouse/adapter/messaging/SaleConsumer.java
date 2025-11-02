@@ -1,9 +1,9 @@
-package com.musichouse.model.rabbitmq;
+package com.musichouse.adapter.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musichouse.model.dto.SaleDTO;
-import com.musichouse.model.service.ProductServiceImp;
+import com.musichouse.dto.SaleDTO;
+import com.musichouse.service.ProductServiceImp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

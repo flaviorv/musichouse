@@ -1,14 +1,16 @@
-package com.musichouse.model.domain;
+package com.musichouse.domain.rating;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.musichouse.domain.product.Product;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 @Entity
 @Data@NoArgsConstructor
 @IdClass(ProductRatingId.class)
-public class ProductRating {
+public class ProductRating implements Persistable<ProductRatingId> {
     @Id
     private String customer;
 
@@ -21,10 +23,30 @@ public class ProductRating {
     @Enumerated(EnumType.STRING)
     private Rating rating;
 
+    @Transient
+    boolean isNew = true;
+
     public  ProductRating(String customer, Product product, Rating rating) {
         this.customer = customer;
         this.product = product;
         this.rating = rating;
     }
 
+    @Override
+    public ProductRatingId getId() {
+        return new ProductRatingId(this.customer, product.getModel());
+    }
+
+    @Override
+    public boolean isNew() {
+        return this.isNew;
+    }
+
+    public void markNotNew() {
+        this.isNew = false;
+    }
+
+    public void markNew() {
+        this.isNew = true;
+    }
 }

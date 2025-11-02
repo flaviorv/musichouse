@@ -1,6 +1,6 @@
-package com.musichouse.model.dto;
+package com.musichouse.dto;
 
-import com.musichouse.model.domain.Rating;
+import com.musichouse.domain.rating.Rating;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

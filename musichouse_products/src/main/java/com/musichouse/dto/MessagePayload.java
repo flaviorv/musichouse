@@ -1,4 +1,4 @@
-package com.musichouse.payload;
+package com.musichouse.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

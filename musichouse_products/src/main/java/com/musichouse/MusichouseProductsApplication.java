@@ -1,8 +1,8 @@
 package com.musichouse;
 
-import com.musichouse.model.domain.Product;
-import com.musichouse.model.domain.ProductFactory;
-import com.musichouse.model.service.ProductServiceImp;
+import com.musichouse.domain.product.Product;
+import com.musichouse.domain.rating.ProductFactory;
+import com.musichouse.service.ProductServiceImp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
