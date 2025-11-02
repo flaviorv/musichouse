@@ -42,8 +42,14 @@ public abstract class Product {
     }
 
     public void addRating(ProductRating pr) {
-        pr.setProduct(this);
-        productRatingMetrics.updateMetrics(pr.getRating().getValue());
-        this.productRatings.add(pr);
+        productRatingMetrics.add(pr.getRating().getValue());
+        productRatings.add(pr);
+    }
+
+    public ProductRating updateRating(ProductRating oldPr, Rating newRating) {
+        Rating oldRating = oldPr.getRating();
+        productRatingMetrics.update(oldRating.getValue(), newRating.getValue());
+        oldPr.setRating(newRating);
+        return oldPr;
     }
 }

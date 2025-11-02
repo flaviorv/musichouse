@@ -1,25 +1,29 @@
 package com.musichouse.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data@NoArgsConstructor
+@IdClass(ProductRatingId.class)
 public class ProductRating {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String customer;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "product", referencedColumnName="model")
+    @JsonIgnore
+    private Product product;
+
     @Enumerated(EnumType.STRING)
     private Rating rating;
 
-    @ManyToOne
-    @JoinColumn(name="product_fk")
-    private Product product;
-
-    public  ProductRating(String customer, Rating rating) {
+    public  ProductRating(String customer, Product product, Rating rating) {
         this.customer = customer;
+        this.product = product;
         this.rating = rating;
     }
 
