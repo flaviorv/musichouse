@@ -23,11 +23,11 @@ function GroupedProducts({ groupedProducts, nProductsToShow }) {
 
   useEffect(() => {
     function updateProductsPerPage() {
-      if (window.innerWidth < 600) {
+      if (window.innerWidth < 800) {
         setProductsPerPage(1);
-      } else if (window.innerWidth < 1000) {
+      } else if (window.innerWidth < 1200) {
         setProductsPerPage(2);
-      } else if (window.innerWidth < 1500) {
+      } else if (window.innerWidth < 1800) {
         setProductsPerPage(3);
       } else {
         setProductsPerPage(nProductsToShow);

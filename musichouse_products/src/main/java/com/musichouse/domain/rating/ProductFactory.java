@@ -1,0 +1,42 @@
+package com.musichouse.domain.rating;
+
+import com.musichouse.domain.product.Amplifier;
+import com.musichouse.domain.product.ElectricGuitar;
+import com.musichouse.domain.product.Product;
+import com.musichouse.domain.product.ProductType;
+
+import java.io.IOException;
+import java.util.Map;
+
+public class ProductFactory {
+    public static Product createProduct(Map<String, Object> attributes) throws IOException {
+        String type = (String) attributes.get("type");
+        String model = (String) attributes.get("model");
+        String brand = (String) attributes.get("brand");
+        float price = ((Number) attributes.get("price")).floatValue();
+        int quantity = ((Number) attributes.get("quantity")).intValue();
+        String image = (String) attributes.get("image");
+        byte[] bImage;
+
+        if (image != null) {
+            bImage = Product.loadImage(image);
+        } else {
+            bImage = null;
+        }
+
+        return switch (type.toLowerCase()) {
+            case "guitar" -> {
+                int strings = ((Number) attributes.get("strings")).intValue();
+                boolean activePickup = (Boolean) attributes.get("activePickup");
+                yield new ElectricGuitar(model, ProductType.GUITAR, brand, price, quantity, bImage, strings,
+                        activePickup);
+            }
+            case "amplifier" -> {
+                int watts = ((Number) attributes.get("watts")).intValue();
+                int speakerInch = ((Number) attributes.get("speakerInch")).intValue();
+                yield new Amplifier(model, ProductType.AMPLIFIER, brand, price, quantity, bImage, watts, speakerInch);
+            }
+            default -> throw new IllegalArgumentException("Unknown product type: " + type);
+        };
+    }
+}

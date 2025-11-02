@@ -11,3 +11,4 @@ mysql-data/**
 mysql.sock
 # IDE settings
 .idea/
+.vscode/

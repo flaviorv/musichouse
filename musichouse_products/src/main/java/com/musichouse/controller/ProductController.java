@@ -1,9 +1,9 @@
 package com.musichouse.controller;
 
-import com.musichouse.model.repository.specification.ProductSpecification;
-import com.musichouse.model.domain.Product;
-import com.musichouse.model.service.ProductServiceImp;
-import com.musichouse.payload.MessagePayload;
+import com.musichouse.dto.ProductQuery;
+import com.musichouse.domain.product.Product;
+import com.musichouse.service.ProductServiceImp;
+import com.musichouse.dto.MessagePayload;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +19,13 @@ public class ProductController {
 
     public ProductController(ProductServiceImp productService) {
         this.productService = productService;
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<?> dynamicSearch(@RequestBody ProductQuery q) {
+        String searchText = q.getQ();
+        List<Product> products = productService.dynamicSearch(searchText);
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping
@@ -37,16 +44,6 @@ public class ProductController {
             return ResponseEntity.ok(product);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload("Model does not exist"));
-    }
-
-    @PostMapping("/search")
-    public ResponseEntity<?> dynamicSearch(@RequestBody ProductSpecification spec) {
-        List<Product> products = productService.search(spec);
-        if (products.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new MessagePayload("There are no products with these characteristics."));
-        }
-        return ResponseEntity.ok(products);
     }
 
     @DeleteMapping("/{model}")

@@ -1,16 +1,18 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Products from "./pages/Products.jsx";
 import Sales from "./pages/Sales.jsx";
 import OpenSale from "./pages/OpenSale.jsx";
-import Detailed from "./pages/Detailed.jsx";
+import Detailed from "./pages/Detailed.tsx";
 import Payment from "./pages/Payment.jsx";
 import DetailedSale from "./pages/DetailedSale.jsx";
+import Navbar from "./components/Navbar.jsx";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
+      <Navbar />
       <Routes>
         <Route path="/" index element={<Home />} />
         <Route path="/products" element={<Products />} />
@@ -20,7 +22,7 @@ function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/detailed/sale" element={<DetailedSale />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 
