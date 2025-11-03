@@ -1,4 +1,4 @@
-package com.musichouse_sales.model.service;
+package com.musichouse_sales.service;
 
 public class ProductServiceConstants {
 

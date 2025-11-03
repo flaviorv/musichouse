@@ -1,8 +1,8 @@
 package com.musichouse_sales.controller;
 
-import com.musichouse_sales.model.domain.Sale;
-import com.musichouse_sales.model.service.SaleServiceConstants;
-import com.musichouse_sales.model.service.SaleServiceImp;
+import com.musichouse_sales.domain.Sale;
+import com.musichouse_sales.service.SaleServiceConstants;
+import com.musichouse_sales.service.SaleServiceImp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

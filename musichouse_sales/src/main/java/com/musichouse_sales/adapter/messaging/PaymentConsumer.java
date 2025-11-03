@@ -1,10 +1,9 @@
-package com.musichouse_sales.model.rabbitmq;
+package com.musichouse_sales.adapter.messaging;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musichouse_sales.model.domain.Sale;
-import com.musichouse_sales.model.domain.Status;
-import com.musichouse_sales.model.service.SaleService;
+import com.musichouse_sales.domain.Sale;
+import com.musichouse_sales.domain.Status;
+import com.musichouse_sales.service.SaleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,7 +12,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class PaymentConsumer {

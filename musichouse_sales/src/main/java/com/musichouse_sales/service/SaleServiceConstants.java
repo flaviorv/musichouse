@@ -1,4 +1,4 @@
-package com.musichouse_sales.model.service;
+package com.musichouse_sales.service;
 
 public class SaleServiceConstants {
     public static final String PRODUCT_ADDED_ERROR = "Not possible to add product in the sale.";

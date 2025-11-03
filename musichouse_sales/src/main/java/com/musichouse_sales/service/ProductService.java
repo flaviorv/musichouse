@@ -1,7 +1,7 @@
-package com.musichouse_sales.model.service;
+package com.musichouse_sales.service;
 
-import com.musichouse_sales.model.domain.Product;
-import com.musichouse_sales.model.service.feign.ProductClient;
+import com.musichouse_sales.dtos.ProductDTO;
+import com.musichouse_sales.adapter.client.ProductClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class ProductService {
         this.productClient = productClient;
     }
 
-    public Product getById(String model) throws Exception{
+    public ProductDTO getById(String model) throws Exception{
         return productClient.getById(model);
     }
 }

@@ -1,7 +1,6 @@
-package com.musichouse_sales.model.service;
+package com.musichouse_sales.service;
 
-import com.musichouse_sales.model.domain.Sale;
-import com.musichouse_sales.model.domain.Status;
+import com.musichouse_sales.domain.Sale;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,8 +1,8 @@
-package com.musichouse_sales.model.rabbitmq;
+package com.musichouse_sales.adapter.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musichouse_sales.model.domain.Sale;
+import com.musichouse_sales.domain.Sale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.AmqpTemplate;

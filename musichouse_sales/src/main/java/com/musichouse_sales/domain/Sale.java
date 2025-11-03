@@ -1,6 +1,8 @@
-package com.musichouse_sales.model.domain;
+package com.musichouse_sales.domain;
 
-import lombok.Getter;
+import com.musichouse_sales.dtos.ProductDTO;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Getter
+@Data@NoArgsConstructor
 @Slf4j
 @Document(collection = "sales")
 public class Sale {
@@ -19,13 +21,9 @@ public class Sale {
     private Date date;
     private BigDecimal totalPrice = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_EVEN);
     private Status status;
-    private List<Product> products = new ArrayList<>();
+    private List<ProductDTO> products = new ArrayList<>();
 
-    public void setStatus(Status status){
-        this.status = status;
-    }
-
-    public void addProduct(Product product){
+    public void addProduct(ProductDTO product){
         if(product.getQuantity() >= 1) {
             Boolean exists = addExistent(product);
             if (!exists) {
@@ -38,8 +36,8 @@ public class Sale {
         }
     }
 
-    public Boolean addExistent(Product productToAdd){
-        for(Product product : products){
+    public Boolean addExistent(ProductDTO productToAdd){
+        for(ProductDTO product : products){
             if(product.getModel().equals(productToAdd.getModel())){
                 product.setQuantity(product.getQuantity() + 1);
                 return true;
@@ -55,13 +53,6 @@ public class Sale {
 
     public void setCurrentDate(){
         this.date =  new Date();
-    }
-
-    public Date getDate() {
-        if(this.date == null) {
-            throw new NullPointerException("Date is null");
-        }
-        return this.date;
     }
 
     @Override

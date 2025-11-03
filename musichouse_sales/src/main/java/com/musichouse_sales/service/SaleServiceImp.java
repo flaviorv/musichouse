@@ -1,10 +1,10 @@
-package com.musichouse_sales.model.service;
+package com.musichouse_sales.service;
 
-import com.musichouse_sales.model.domain.Product;
-import com.musichouse_sales.model.domain.Sale;
-import com.musichouse_sales.model.domain.Status;
-import com.musichouse_sales.model.rabbitmq.SaleProducer;
-import com.musichouse_sales.model.repository.SaleRepository;
+import com.musichouse_sales.dtos.ProductDTO;
+import com.musichouse_sales.domain.Sale;
+import com.musichouse_sales.domain.Status;
+import com.musichouse_sales.adapter.messaging.SaleProducer;
+import com.musichouse_sales.repository.SaleRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +37,7 @@ public class SaleServiceImp implements SaleService {
         }
         Sale sale = new Sale();
         sale.setCurrentDate();
-        Product product = productService.getById(model);
+        ProductDTO product = productService.getById(model);
         sale.addProduct(product);
         sale.setStatus(Status.OPEN);
         return saleRepository.save(sale);
@@ -52,7 +52,7 @@ public class SaleServiceImp implements SaleService {
         }
         if(sale.getStatus() == Status.OPEN ) {
             sale.setCurrentDate();
-            Product product = productService.getById(model);
+            ProductDTO product = productService.getById(model);
             sale.addProduct(product);
             return saleRepository.save(sale);
         }else {
