@@ -58,7 +58,7 @@ services:
       retries: 5
 
   MH-PRODUCTS:
-    image: flaviorv/mh-products:v2.4
+    image: flaviorv/mh-products:v2.5
     build:
       context: ./musichouse_products
       dockerfile: Dockerfile
@@ -76,7 +76,7 @@ services:
       - musichouse
 
   MH-SALES:
-    image: flaviorv/mh-sales:v2.3
+    image: flaviorv/mh-sales:v2.4
     depends_on:
       mongo:
         condition: service_started

@@ -1,9 +1,13 @@
 package com.musichouse.service;
 
-import com.musichouse.dto.RatingDTO;
+import com.musichouse.dto.DeliveryResponseDTO;
+import com.musichouse.dto.RatingRequestDTO;
+import com.musichouse.dto.RatingResponseDTO;
+import java.util.List;
 
 public interface RatingService {
-    void addRating(RatingDTO dto);
-    void updateRating(RatingDTO dto);
-    boolean checkDelivery(String customerId, String model);
+    void addRating(RatingRequestDTO dto);
+    void updateRating(RatingRequestDTO dto);
+    DeliveryResponseDTO checkDelivery(String customerId, String model);
+    List<RatingResponseDTO> getRatingsByProduct(String model);
 }

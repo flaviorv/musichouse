@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
-public class ProductAlreadyExistsException extends RuntimeException {
-    public ProductAlreadyExistsException() {
-        super("Product already exists");
+public class DifferentRatingIdException extends RuntimeException {
+    public DifferentRatingIdException(String message) {
+        super(message);
     }
 }

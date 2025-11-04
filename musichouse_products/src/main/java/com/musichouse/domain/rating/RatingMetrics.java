@@ -3,7 +3,7 @@ package com.musichouse.domain.rating;
 import lombok.Data;
 
 @Data
-public class ProductRatingMetrics {
+public class RatingMetrics {
     private double averageRating = 0d;
     private int ratingCount = 0;
     private double totalRatingSum = 0d;

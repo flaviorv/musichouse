@@ -9,13 +9,13 @@ import org.springframework.data.domain.Persistable;
 
 @Entity
 @Data@NoArgsConstructor
-@IdClass(ProductRatingId.class)
-public class ProductRating implements Persistable<ProductRatingId> {
+@IdClass(RatingId.class)
+public class ProductRating implements Persistable<RatingId> {
     @Id
     private String customer;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product", referencedColumnName="model")
     @JsonIgnore
     private Product product;
@@ -23,7 +23,7 @@ public class ProductRating implements Persistable<ProductRatingId> {
     @Enumerated(EnumType.STRING)
     private Rating rating;
 
-    @Transient
+    @Transient@JsonIgnore
     boolean isNew = true;
 
     public  ProductRating(String customer, Product product, Rating rating) {
@@ -33,8 +33,8 @@ public class ProductRating implements Persistable<ProductRatingId> {
     }
 
     @Override
-    public ProductRatingId getId() {
-        return new ProductRatingId(this.customer, product.getModel());
+    public RatingId getId() {
+        return new RatingId(this.customer, product.getModel());
     }
 
     @Override

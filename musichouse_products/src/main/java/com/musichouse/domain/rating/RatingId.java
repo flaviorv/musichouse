@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Data@NoArgsConstructor@AllArgsConstructor
-public class ProductRatingId implements Serializable {
+public class RatingId implements Serializable {
     private String customer;
     private String product;
 

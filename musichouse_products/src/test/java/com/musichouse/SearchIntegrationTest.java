@@ -1,11 +1,15 @@
 package com.musichouse;
 
 import java.util.List;
+
+import com.musichouse.adapter.client.SaleClient;
+import com.musichouse.dto.DeliveryResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import com.musichouse.domain.product.Amplifier;
@@ -13,6 +17,10 @@ import com.musichouse.domain.product.ElectricGuitar;
 import com.musichouse.domain.product.Product;
 import com.musichouse.domain.product.ProductType;
 import com.musichouse.repository.ProductRepository;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -65,51 +73,43 @@ class SearchIntegrationTest {
 
         @BeforeEach
         void setUp() {
+            productRepository.deleteAll();
 
-                productRepository.deleteAll();
+            List<Product> products = List.of(
+                            new ElectricGuitar("VX100", ProductType.GUITAR, "Stravix", 899.99f, 5, null, 6, false),
+                            new ElectricGuitar("NOVA7", ProductType.GUITAR, "Auralite", 1199.50f, 3, null, 7, true),
+                            new ElectricGuitar("AX350", ProductType.GUITAR, "Harmonia", 749.00f, 4, null, 6, true),
+                            new ElectricGuitar("ORBIT8", ProductType.GUITAR, "Lunaris", 1349.75f, 2, null, 8, true),
+                            new ElectricGuitar("VINTAGE6", ProductType.GUITAR, "RetroSound", 679.99f, 6, null, 6,
+                                            false),
+                            new ElectricGuitar("CRIMSON", ProductType.GUITAR, "Solaris", 1599.00f, 2, null, 7,
+                                            false),
+                            new ElectricGuitar("OCEANIC", ProductType.GUITAR, "BlueWave", 820.49f, 5, null, 6,
+                                            false),
+                            new ElectricGuitar("PHOENIX", ProductType.GUITAR, "Ignis", 1999.99f, 1, null, 8, true),
+                            new ElectricGuitar("SPARK6", ProductType.GUITAR, "Stravix", 799.00f, 4, null, 6, true),
+                            new ElectricGuitar("AURORA", ProductType.GUITAR, "Auralite", 1450.99f, 2, null, 7,
+                                            true),
+                            new ElectricGuitar("ZENITH", ProductType.GUITAR, "Lunaris", 1099.00f, 3, null, 6,
+                                            false),
+                            new ElectricGuitar("BLAZE7", ProductType.GUITAR, "Ignis", 1750.00f, 2, null, 7, true),
+                            new Amplifier("AMP100", ProductType.AMPLIFIER, "SoundMax", 499.99f, 10, null, 50, 8),
+                            new Amplifier("AMP200", ProductType.AMPLIFIER, "TonePro", 699.50f, 6, null, 60, 10),
+                            new Amplifier("AMP300", ProductType.AMPLIFIER, "RockWave", 899.00f, 4, null, 100, 12),
+                            new Amplifier("AMP400", ProductType.AMPLIFIER, "EchoDrive", 1099.99f, 3, null, 150, 15),
+                            new Amplifier("AMP-VINTAGE", ProductType.AMPLIFIER, "ClassicTone", 649.99f, 5, null, 40,
+                                            10),
+                            new Amplifier("AMP500", ProductType.AMPLIFIER, "BassForge", 1299.00f, 2, null, 200, 18),
+                            new Amplifier("AMP600", ProductType.AMPLIFIER, "ThunderPeak", 749.49f, 7, null, 60, 12),
+                            new Amplifier("AMP700", ProductType.AMPLIFIER, "PowerChord", 1599.99f, 1, null, 300,
+                                            20),
+                            new Amplifier("MAX200", ProductType.AMPLIFIER, "SoundMax", 599.00f, 8, null, 60, 10),
+                            new Amplifier("PRO400", ProductType.AMPLIFIER, "TonePro", 899.99f, 5, null, 100, 12),
+                            new Amplifier("WAVE50", ProductType.AMPLIFIER, "RockWave", 450.75f, 12, null, 50, 8),
+                            new Amplifier("DRIVE300", ProductType.AMPLIFIER, "EchoDrive", 950.00f, 4, null, 120, 15)
 
-                List<Product> products = List.of(
-                                new ElectricGuitar("VX100", ProductType.GUITAR, "Stravix", 899.99f, 5, null, 6, false),
-                                new ElectricGuitar("NOVA7", ProductType.GUITAR, "Auralite", 1199.50f, 3, null, 7, true),
-                                new ElectricGuitar("AX350", ProductType.GUITAR, "Harmonia", 749.00f, 4, null, 6, true),
-                                new ElectricGuitar("ORBIT8", ProductType.GUITAR, "Lunaris", 1349.75f, 2, null, 8, true),
-                                new ElectricGuitar("VINTAGE6", ProductType.GUITAR, "RetroSound", 679.99f, 6, null, 6,
-                                                false),
-                                new ElectricGuitar("CRIMSON", ProductType.GUITAR, "Solaris", 1599.00f, 2, null, 7,
-                                                false),
-                                new ElectricGuitar("OCEANIC", ProductType.GUITAR, "BlueWave", 820.49f, 5, null, 6,
-                                                false),
-                                new ElectricGuitar("PHOENIX", ProductType.GUITAR, "Ignis", 1999.99f, 1, null, 8, true),
-                                new ElectricGuitar("SPARK6", ProductType.GUITAR, "Stravix", 799.00f, 4, null, 6, true),
-                                new ElectricGuitar("AURORA", ProductType.GUITAR, "Auralite", 1450.99f, 2, null, 7,
-                                                true),
-                                new ElectricGuitar("ZENITH", ProductType.GUITAR, "Lunaris", 1099.00f, 3, null, 6,
-                                                false),
-                                new ElectricGuitar("BLAZE7", ProductType.GUITAR, "Ignis", 1750.00f, 2, null, 7, true),
-                                new Amplifier("AMP100", ProductType.AMPLIFIER, "SoundMax", 499.99f, 10, null, 50, 8),
-                                new Amplifier("AMP200", ProductType.AMPLIFIER, "TonePro", 699.50f, 6, null, 60, 10),
-                                new Amplifier("AMP300", ProductType.AMPLIFIER, "RockWave", 899.00f, 4, null, 100, 12),
-                                new Amplifier("AMP400", ProductType.AMPLIFIER, "EchoDrive", 1099.99f, 3, null, 150, 15),
-                                new Amplifier("AMP-VINTAGE", ProductType.AMPLIFIER, "ClassicTone", 649.99f, 5, null, 40,
-                                                10),
-                                new Amplifier("AMP500", ProductType.AMPLIFIER, "BassForge", 1299.00f, 2, null, 200, 18),
-                                new Amplifier("AMP600", ProductType.AMPLIFIER, "ThunderPeak", 749.49f, 7, null, 60, 12),
-                                new Amplifier("AMP700", ProductType.AMPLIFIER, "PowerChord", 1599.99f, 1, null, 300,
-                                                20),
-                                new Amplifier("MAX200", ProductType.AMPLIFIER, "SoundMax", 599.00f, 8, null, 60, 10),
-                                new Amplifier("PRO400", ProductType.AMPLIFIER, "TonePro", 899.99f, 5, null, 100, 12),
-                                new Amplifier("WAVE50", ProductType.AMPLIFIER, "RockWave", 450.75f, 12, null, 50, 8),
-                                new Amplifier("DRIVE300", ProductType.AMPLIFIER, "EchoDrive", 950.00f, 4, null, 120, 15)
-
-                );
-
-                for (Product product : products) {
-                        try {
-                                productRepository.save(product);
-                        } catch (Exception e) {
-                                e.printStackTrace();
-                        }
-                }
+            );
+            productRepository.saveAll(products);
         }
 
         @Test
@@ -353,7 +353,6 @@ class SearchIntegrationTest {
                                 .content(text3))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$", hasSize(1)));
-
         }
 
 }
