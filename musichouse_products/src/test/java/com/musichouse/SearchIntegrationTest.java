@@ -102,14 +102,7 @@ class SearchIntegrationTest {
                                 new Amplifier("DRIVE300", ProductType.AMPLIFIER, "EchoDrive", 950.00f, 4, null, 120, 15)
 
                 );
-
-                for (Product product : products) {
-                        try {
-                                productRepository.save(product);
-                        } catch (Exception e) {
-                                e.printStackTrace();
-                        }
-                }
+                productRepository.saveAll(products);
         }
 
         @Test
@@ -353,7 +346,6 @@ class SearchIntegrationTest {
                                 .content(text3))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$", hasSize(1)));
-
         }
 
 }

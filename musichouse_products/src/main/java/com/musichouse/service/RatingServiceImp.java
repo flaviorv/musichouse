@@ -1,17 +1,16 @@
 package com.musichouse.service;
 
 import com.musichouse.adapter.client.SaleClient;
-import com.musichouse.exceptions.ProductNotDeliveredException;
-import com.musichouse.exceptions.ProductNotFoundToAddRatingException;
-import com.musichouse.exceptions.RatingNotFoundException;
+import com.musichouse.dto.DeliveryResponseDTO;
+import com.musichouse.exceptions.*;
 import com.musichouse.domain.product.Product;
 import com.musichouse.domain.rating.ProductRating;
 import com.musichouse.domain.rating.ProductRatingId;
 import com.musichouse.dto.RatingDTO;
 import com.musichouse.repository.RatingRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @Service
 public class RatingServiceImp implements RatingService {
@@ -27,36 +26,39 @@ public class RatingServiceImp implements RatingService {
     }
 
     @Override
-    public boolean checkDelivery(String customerId, String model) {
-        return saleClient.isProductDelivered(customerId, model);
+    public DeliveryResponseDTO checkDelivery(String customerId, String model) {
+        return saleClient.deliveryStatus(customerId, model);
     }
 
     @Override@Transactional
     public void addRating(RatingDTO dto) {
-        Optional<Product> p = productService.getByModel(dto.getProductModel());
-        if(p.isEmpty()) {
-            throw new ProductNotFoundToAddRatingException();
-        }
-        boolean isDelivered = checkDelivery(dto.getCustomerId(), dto.getProductModel());
-        if (!isDelivered) {
+        Product p = productService.getByModel(dto.getProductModel())
+                .orElseThrow(ProductNotFoundToAddRatingException::new);
+        DeliveryResponseDTO responseDTO = checkDelivery(dto.getCustomerId(), dto.getProductModel());
+        if (!responseDTO.delivered()) {
             throw new ProductNotDeliveredException();
         }
-        ProductRating r = new ProductRating(dto.getCustomerId(), p.get(), dto.getRating());
+        if (!dto.getCustomerId().equals(responseDTO.customerId()) || !dto.getProductModel().equals(responseDTO.model())) {
+            throw new DifferentRatingIdException("The Id returned by Sale is not the same as the one requested");
+        }
+        ProductRating r = new ProductRating(dto.getCustomerId(), p, dto.getRating());
         r.markNew();
-        ratingRepository.save(r);
-        p.get().addRating(r);
-        productService.save(p.get());
+        try {
+            ratingRepository.saveAndFlush(r);
+        } catch (DataIntegrityViolationException e) {
+            throw new RatingAlreadyExistsException();
+        }
+        p.addRating(r);
+        productService.save(p);
     }
 
     @Override@Transactional
     public void updateRating(RatingDTO dto) {
         ProductRatingId rId = new ProductRatingId(dto.getCustomerId(), dto.getProductModel());
-        Optional<ProductRating> oldPr = ratingRepository.findById(rId);
-        if (oldPr.isEmpty()) {
-            throw new RatingNotFoundException(rId);
-        }
-        oldPr.get().markNotNew();
-        Product p = oldPr.get().getProduct();
-        p.updateRating(oldPr.get(), dto.getRating());
+        ProductRating oldPr = ratingRepository.findById(rId)
+                .orElseThrow(() -> new RatingNotFoundException(rId));
+        oldPr.markNotNew();
+        Product p = oldPr.getProduct();
+        p.updateRating(oldPr, dto.getRating());
     }
 }

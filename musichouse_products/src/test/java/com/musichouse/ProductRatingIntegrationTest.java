@@ -8,6 +8,7 @@ import com.musichouse.domain.product.ElectricGuitar;
 import com.musichouse.domain.product.Product;
 import com.musichouse.domain.product.ProductType;
 import com.musichouse.domain.rating.Rating;
+import com.musichouse.dto.DeliveryResponseDTO;
 import com.musichouse.dto.RatingDTO;
 import com.musichouse.repository.ProductRepository;
 import com.musichouse.repository.RatingRepository;
@@ -34,7 +35,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
 
 @SpringBootTest(properties = {
         "spring.cloud.discovery.enabled=false",
@@ -85,7 +85,23 @@ public class ProductRatingIntegrationTest {
         productRepository.deleteAll();
         ratingRepository.deleteAll();
 
-        when(saleClient.isProductDelivered(anyString(), anyString())).thenReturn(true);
+        when(saleClient.deliveryStatus(anyString(), anyString())).thenAnswer(
+                invocation -> new DeliveryResponseDTO(
+                        invocation.getArgument(0), invocation.getArgument(1), true
+                )
+        );
+
+        when(saleClient.deliveryStatus("99", "ORBIT8")).thenAnswer(
+                invocation -> new DeliveryResponseDTO(
+                        "99", "OCEANIC", true
+                )
+        );
+
+        when(saleClient.deliveryStatus("99", "WAVE50")).thenAnswer(
+                invocation -> new DeliveryResponseDTO(
+                        "99", "WAVE50", false
+                )
+        );
 
         List<Product> products = List.of(
                 new ElectricGuitar("VX100", ProductType.GUITAR, "Stravix", 899.99f, 5, null, 6, false),
@@ -121,14 +137,7 @@ public class ProductRatingIntegrationTest {
                 new Amplifier("DRIVE300", ProductType.AMPLIFIER, "EchoDrive", 950.00f, 4, null, 120, 15)
 
         );
-
-        for (Product product : products) {
-            try {
-                productRepository.save(product);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        productRepository.saveAll(products);
     }
 
     @Test
@@ -137,8 +146,7 @@ public class ProductRatingIntegrationTest {
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
-                        .andExpect(status().isCreated());
-
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -147,13 +155,13 @@ public class ProductRatingIntegrationTest {
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
-                        .andExpect(status().isCreated());
+                .andExpect(status().isCreated());
 
         RatingDTO dto2 = new RatingDTO("08", "AMP100", Rating.ONE);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto2)))
-                        .andExpect(status().isCreated());
+                .andExpect(status().isCreated());
 
         mockMvc.perform(get("/product/AMP100"))
                 .andExpect(status().isOk())
@@ -167,13 +175,13 @@ public class ProductRatingIntegrationTest {
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
-                        .andExpect(status().isCreated());
+                .andExpect(status().isCreated());
 
         RatingDTO dto2 = new RatingDTO("07", "AMP100", Rating.ONE);
         mockMvc.perform(put("/rating/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto2)))
-                        .andExpect(status().isOk());
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/product/AMP100"))
                 .andExpect(status().isOk())
@@ -187,13 +195,49 @@ public class ProductRatingIntegrationTest {
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
-                        .andExpect(status().isCreated());
+                .andExpect(status().isCreated());
 
         RatingDTO dto2 = new RatingDTO("07", "AMP100", Rating.ONE);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto2)))
-                        .andExpect(status().isConflict());
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void shouldReturnStatus409WhenADifferentIdIsReceived() throws Exception {
+        RatingDTO dto = new RatingDTO("99", "ORBIT8", Rating.ONE);
+        mockMvc.perform(post("/rating/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void shouldReturnStatus404WhenTheProductNotExists() throws Exception {
+        RatingDTO dto = new RatingDTO("99", "Nonexistent", Rating.ONE);
+        mockMvc.perform(post("/rating/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnStatus403WhenTheProductIsNotDelivered() throws Exception {
+        RatingDTO dto = new RatingDTO("99", "WAVE50", Rating.ONE);
+        mockMvc.perform(post("/rating/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void shouldReturn404IfTryUpdateANonexistentRating() throws Exception {
+        RatingDTO dto = new RatingDTO("10", "PHOENIX", Rating.ONE);
+        mockMvc.perform(put("/rating/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isNotFound());
     }
 
 }

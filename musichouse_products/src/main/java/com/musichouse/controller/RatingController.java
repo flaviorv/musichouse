@@ -1,7 +1,6 @@
 package com.musichouse.controller;
 
-import com.musichouse.exceptions.ProductNotFoundToAddRatingException;
-import com.musichouse.exceptions.RatingNotFoundException;
+import com.musichouse.exceptions.*;
 import com.musichouse.dto.RatingDTO;
 import com.musichouse.service.RatingService;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,28 +20,14 @@ public class RatingController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addRating(@RequestBody RatingDTO dto){
-        try {
-            ratingService.addRating(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (ProductNotFoundToAddRatingException e) {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        ratingService.addRating(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateRating(@RequestBody RatingDTO dto){
-        try {
-            ratingService.updateRating(dto);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (RatingNotFoundException e) {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        ratingService.updateRating(dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
