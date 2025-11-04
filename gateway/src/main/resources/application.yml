@@ -20,11 +20,11 @@ spring:
         - id: products
           uri: lb://MH-PRODUCTS
           predicates:
-            - Path=/product/**, /rating/**
+            - Path=/product/**, /rating, /rating/**
         - id: sales
           uri: lb://MH-SALES
           predicates:
-            - Path=/sale/**, /deliveries/**
+            - Path=/sale/**, /deliveries, /deliveries/**
   application:
     name: MH-GATEWAY
 server:
