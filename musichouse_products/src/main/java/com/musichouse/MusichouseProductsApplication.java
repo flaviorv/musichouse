@@ -2,7 +2,11 @@ package com.musichouse;
 
 import com.musichouse.domain.product.Product;
 import com.musichouse.domain.rating.ProductFactory;
+import com.musichouse.domain.rating.Rating;
+import com.musichouse.dto.RatingDTO;
+import com.musichouse.exceptions.RatingAlreadyExistsException;
 import com.musichouse.service.ProductServiceImp;
+import com.musichouse.service.RatingServiceImp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +26,7 @@ public class MusichouseProductsApplication {
         }
 
         @Bean
-        CommandLineRunner init(ProductServiceImp productServiceImp) {
+        CommandLineRunner init(ProductServiceImp productServiceImp, RatingServiceImp ratingServiceImp) {
                 return args -> {
 
                         List<Map<String, Object>> guitarAttrsList = List.of(
@@ -106,6 +110,31 @@ public class MusichouseProductsApplication {
                                 } catch (DataIntegrityViolationException e) {
                                         log.error(e.getMessage());
                                 }
+                        }
+
+                        List<RatingDTO> ratingDTOS =  List.of(
+                                new RatingDTO("Cust001","VX100", Rating.FIVE),
+                                new RatingDTO("Cust002","VX100", Rating.FOUR),
+                                new RatingDTO("Cust003","AMP100", Rating.FIVE),
+                                new RatingDTO("Cust004", "AMP100", Rating.FIVE),
+                                new RatingDTO("Cust005", "AMP100", Rating.THREE),
+                                new RatingDTO("Cust006", "PHOENIX", Rating.FIVE),
+                                new RatingDTO("Cust004", "AX350", Rating.TWO),
+                                new RatingDTO("Cust004", "CRIMSON", Rating.FOUR),
+                                new RatingDTO("Cust007", "AMP-VINTAGE", Rating.THREE),
+                                new RatingDTO("Cust008", "ORBIT8", Rating.FOUR),
+                                new RatingDTO("Cust009", "ORBIT8", Rating.THREE),
+                                new RatingDTO("Cust010", "ORBIT8", Rating.THREE),
+                                new RatingDTO("Cust011", "ORBIT8", Rating.ONE),
+                                new RatingDTO("Cust012", "ORBIT8", Rating.FIVE)
+                        );
+
+                        for (RatingDTO ratingDTO : ratingDTOS) {
+                            try {
+                                ratingServiceImp.addRating(ratingDTO);
+                            } catch(RatingAlreadyExistsException e) {
+                                log.error(e.getMessage());
+                            }
                         }
 
                 };
