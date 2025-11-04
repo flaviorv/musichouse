@@ -104,7 +104,7 @@ services:
       - musichouse
 
   MH-GATEWAY:
-    image: flaviorv/mh-gateway:v2
+    image: flaviorv/mh-gateway:v2.1
     depends_on:
       - eureka
     ports:
