@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data@NoArgsConstructor@AllArgsConstructor
-public class RatingDTO {
+public class RatingRequestDTO {
     private String customerId;
     private String productModel;
     private Rating rating;

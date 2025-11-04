@@ -9,7 +9,7 @@ import com.musichouse.domain.product.Product;
 import com.musichouse.domain.product.ProductType;
 import com.musichouse.domain.rating.Rating;
 import com.musichouse.dto.DeliveryResponseDTO;
-import com.musichouse.dto.RatingDTO;
+import com.musichouse.dto.RatingRequestDTO;
 import com.musichouse.repository.ProductRepository;
 import com.musichouse.repository.RatingRepository;
 import org.junit.jupiter.api.Test;
@@ -142,7 +142,7 @@ public class ProductRatingIntegrationTest {
 
     @Test
     public void shouldCreateRating() throws Exception {
-        RatingDTO dto = new RatingDTO("07", "AMP100", Rating.FOUR);
+        RatingRequestDTO dto = new RatingRequestDTO("07", "AMP100", Rating.FOUR);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
@@ -151,53 +151,59 @@ public class ProductRatingIntegrationTest {
 
     @Test
     public void shouldReturnAverageRating() throws Exception {
-        RatingDTO dto = new RatingDTO("07", "AMP100", Rating.FOUR);
+        RatingRequestDTO dto = new RatingRequestDTO("07", "AMP100", Rating.FOUR);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
                 .andExpect(status().isCreated());
 
-        RatingDTO dto2 = new RatingDTO("08", "AMP100", Rating.ONE);
+        RatingRequestDTO dto2 = new RatingRequestDTO("08", "AMP100", Rating.ONE);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto2)))
                 .andExpect(status().isCreated());
 
+        mockMvc.perform(get("/rating?model=AMP100"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].rating", equalTo(Rating.FOUR.toString())))
+                .andExpect(jsonPath("$[1].rating", equalTo(Rating.ONE.toString())));
+
         mockMvc.perform(get("/product/AMP100"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productRatings", hasSize(2)))
+                .andExpect(jsonPath("$.productRatingMetrics.ratingCount", equalTo(2)))
                 .andExpect(jsonPath("$.productRatingMetrics.averageRating", equalTo(2.5)));
     }
 
     @Test
     public void shouldUpdateRating() throws Exception {
-        RatingDTO dto = new RatingDTO("07", "AMP100", Rating.FOUR);
+        RatingRequestDTO dto = new RatingRequestDTO("07", "AMP100", Rating.FOUR);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
                 .andExpect(status().isCreated());
 
-        RatingDTO dto2 = new RatingDTO("07", "AMP100", Rating.ONE);
+        RatingRequestDTO dto2 = new RatingRequestDTO("07", "AMP100", Rating.ONE);
         mockMvc.perform(put("/rating/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto2)))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/product/AMP100"))
+        mockMvc.perform(get("/rating?model=AMP100"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productRatings", hasSize(1)))
-                .andExpect(jsonPath("$.productRatingMetrics.averageRating", equalTo(1.0)));
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].rating", equalTo(Rating.ONE.toString())));
     }
 
     @Test
     public void shouldNotCreateTwoRatingsWithSameId() throws Exception {
-        RatingDTO dto = new RatingDTO("07", "AMP100", Rating.FOUR);
+        RatingRequestDTO dto = new RatingRequestDTO("07", "AMP100", Rating.FOUR);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
                 .andExpect(status().isCreated());
 
-        RatingDTO dto2 = new RatingDTO("07", "AMP100", Rating.ONE);
+        RatingRequestDTO dto2 = new RatingRequestDTO("07", "AMP100", Rating.ONE);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto2)))
@@ -206,7 +212,7 @@ public class ProductRatingIntegrationTest {
 
     @Test
     public void shouldReturnStatus409WhenADifferentIdIsReceived() throws Exception {
-        RatingDTO dto = new RatingDTO("99", "ORBIT8", Rating.ONE);
+        RatingRequestDTO dto = new RatingRequestDTO("99", "ORBIT8", Rating.ONE);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
@@ -215,7 +221,7 @@ public class ProductRatingIntegrationTest {
 
     @Test
     public void shouldReturnStatus404WhenTheProductNotExists() throws Exception {
-        RatingDTO dto = new RatingDTO("99", "Nonexistent", Rating.ONE);
+        RatingRequestDTO dto = new RatingRequestDTO("99", "Nonexistent", Rating.ONE);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
@@ -224,7 +230,7 @@ public class ProductRatingIntegrationTest {
 
     @Test
     public void shouldReturnStatus403WhenTheProductIsNotDelivered() throws Exception {
-        RatingDTO dto = new RatingDTO("99", "WAVE50", Rating.ONE);
+        RatingRequestDTO dto = new RatingRequestDTO("99", "WAVE50", Rating.ONE);
         mockMvc.perform(post("/rating/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))
@@ -233,7 +239,7 @@ public class ProductRatingIntegrationTest {
 
     @Test
     public void shouldReturn404IfTryUpdateANonexistentRating() throws Exception {
-        RatingDTO dto = new RatingDTO("10", "PHOENIX", Rating.ONE);
+        RatingRequestDTO dto = new RatingRequestDTO("10", "PHOENIX", Rating.ONE);
         mockMvc.perform(put("/rating/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(dto)))

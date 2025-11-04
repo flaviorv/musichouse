@@ -1,7 +1,8 @@
 package com.musichouse.domain.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.musichouse.domain.rating.ProductRating;
-import com.musichouse.domain.rating.ProductRatingMetrics;
+import com.musichouse.domain.rating.RatingMetrics;
 import com.musichouse.domain.rating.Rating;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,8 +32,9 @@ public abstract class Product {
     protected int stock_quantity;
     protected byte[] image;
     @Embedded
-    protected ProductRatingMetrics productRatingMetrics = new ProductRatingMetrics();
+    protected RatingMetrics productRatingMetrics = new RatingMetrics();
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
     protected List<ProductRating> productRatings = new ArrayList<>();
 
     public static byte[] loadImage(String resourcePath) throws IOException {

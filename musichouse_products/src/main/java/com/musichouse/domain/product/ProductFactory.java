@@ -1,9 +1,4 @@
-package com.musichouse.domain.rating;
-
-import com.musichouse.domain.product.Amplifier;
-import com.musichouse.domain.product.ElectricGuitar;
-import com.musichouse.domain.product.Product;
-import com.musichouse.domain.product.ProductType;
+package com.musichouse.domain.product;
 
 import java.io.IOException;
 import java.util.Map;

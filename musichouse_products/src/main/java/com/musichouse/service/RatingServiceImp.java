@@ -2,15 +2,18 @@ package com.musichouse.service;
 
 import com.musichouse.adapter.client.SaleClient;
 import com.musichouse.dto.DeliveryResponseDTO;
+import com.musichouse.dto.RatingResponseDTO;
 import com.musichouse.exceptions.*;
 import com.musichouse.domain.product.Product;
 import com.musichouse.domain.rating.ProductRating;
-import com.musichouse.domain.rating.ProductRatingId;
-import com.musichouse.dto.RatingDTO;
+import com.musichouse.domain.rating.RatingId;
+import com.musichouse.dto.RatingRequestDTO;
 import com.musichouse.repository.RatingRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RatingServiceImp implements RatingService {
@@ -31,7 +34,7 @@ public class RatingServiceImp implements RatingService {
     }
 
     @Override@Transactional
-    public void addRating(RatingDTO dto) {
+    public void addRating(RatingRequestDTO dto) {
         Product p = productService.getByModel(dto.getProductModel())
                 .orElseThrow(ProductNotFoundToAddRatingException::new);
         DeliveryResponseDTO responseDTO = checkDelivery(dto.getCustomerId(), dto.getProductModel());
@@ -53,12 +56,17 @@ public class RatingServiceImp implements RatingService {
     }
 
     @Override@Transactional
-    public void updateRating(RatingDTO dto) {
-        ProductRatingId rId = new ProductRatingId(dto.getCustomerId(), dto.getProductModel());
+    public void updateRating(RatingRequestDTO dto) {
+        RatingId rId = new RatingId(dto.getCustomerId(), dto.getProductModel());
         ProductRating oldPr = ratingRepository.findById(rId)
                 .orElseThrow(() -> new RatingNotFoundException(rId));
         oldPr.markNotNew();
         Product p = oldPr.getProduct();
         p.updateRating(oldPr, dto.getRating());
+    }
+
+    @Override
+    public List<RatingResponseDTO> getRatingsByProduct(String model) {
+        return ratingRepository.getRatingsByProduct(model);
     }
 }
