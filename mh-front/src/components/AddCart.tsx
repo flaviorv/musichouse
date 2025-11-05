@@ -14,7 +14,9 @@ export function AddCart({ product }: IProductProps) {
 
   const addProductToANewSale = async (productId: string) => {
     try {
-      const response = await axios.post("http://localhost:9999/sale/" + productId.toString());
+      const response = await axios.post(
+        "http://localhost:9999/sale/" + productId.toString()
+      );
       const data = response.data;
       console.log("Product added to new sale: " + data.id);
       navigate("/open-sale", { state: { saleId: data.id } });
@@ -25,7 +27,12 @@ export function AddCart({ product }: IProductProps) {
 
   const addProductToAnExistentSale = async (saleId: any, productId: string) => {
     try {
-      const response = await axios.post("http://localhost:9999/sale/" + saleId.toString() + "/" + productId.toString());
+      const response = await axios.post(
+        "http://localhost:9999/sale/" +
+          saleId.toString() +
+          "/" +
+          productId.toString()
+      );
       const data = response.data;
       console.log("Product added to an existent sale: " + data.id);
       navigate("/open-sale", { state: { saleId: data.id } });
@@ -36,7 +43,8 @@ export function AddCart({ product }: IProductProps) {
 
   function addProduct() {
     if (product) {
-      if (saleId !== undefined) addProductToAnExistentSale(saleId, product.model);
+      if (saleId !== undefined)
+        addProductToAnExistentSale(saleId, product.model);
       else addProductToANewSale(product.model);
     }
   }
@@ -68,16 +76,25 @@ export function AddCart({ product }: IProductProps) {
       <h2 id="add-cart-title">
         {capitalize(product.type)} {product.brand} {product.model}
       </h2>
-      {product.quantity > 0 ? (
+      {product.stock_quantity > 0 ? (
         <div id="add-cart">
           <p className="stock" id="in-stock">
             In Stock
           </p>
-          {<ItemQuantitySelect item={cartItem} onQuantityChange={updateQuantity} />}
+          {
+            <ItemQuantitySelect
+              item={cartItem}
+              onQuantityChange={updateQuantity}
+            />
+          }
           <h3 className="detailed-price" id="in-stock-price">
             Price: $ {product.price.toFixed(2)}
           </h3>
-          <button className="add-cart-btn" id="in-stock-btn" onClick={() => addProduct()}>
+          <button
+            className="add-cart-btn"
+            id="in-stock-btn"
+            onClick={() => addProduct()}
+          >
             Add To Cart
           </button>
         </div>

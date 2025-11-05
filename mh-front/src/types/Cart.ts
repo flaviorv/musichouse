@@ -15,7 +15,7 @@ export class CartItem implements ICartItem {
   public readonly model: string;
   public readonly brand: string;
   public readonly price: number;
-  public readonly quantity: number;
+  public readonly stock_quantity: number;
   public readonly image: string;
   public readonly productRatingMetrics: {
     ratingCount: number;
@@ -28,17 +28,18 @@ export class CartItem implements ICartItem {
     this.model = product.model;
     this.brand = product.brand;
     this.price = product.price;
-    this.quantity = product.quantity;
+    this.stock_quantity = product.stock_quantity;
+    this.productRatingMetrics = product.productRatingMetrics;
     this.image = product.image;
     this._quantityChosen = this.validateQuantityChosen(quantityChosen);
   }
 
   private validateQuantityChosen(quantityChosen: number): number {
-    if (this.quantity <= 0 || quantityChosen <= 0) {
+    if (this.stock_quantity <= 0 || quantityChosen <= 0) {
       return 0;
     }
-    if (this.quantity < quantityChosen) {
-      return this.quantity;
+    if (this.stock_quantity < quantityChosen) {
+      return this.stock_quantity;
     }
     return quantityChosen;
   }

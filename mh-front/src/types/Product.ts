@@ -2,7 +2,7 @@ export interface IProduct {
   model: string;
   brand: string;
   price: number;
-  quantity: number;
+  stock_quantity: number;
   image: string;
   type: ProductType;
   productRatingMetrics: {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./Home.css";
 import GroupedProducts from "../components/CategoryGroup";
 import { axiosReq } from "../config/axiosRequest.ts";
@@ -10,10 +10,9 @@ function Home() {
   const [isLoading, setLoading] = useState(true);
   const [hasError, setError] = useState(false);
 
-  const ERROR_MSG = "Ops, we're having trouble. Try again later.";
   const FEATURED_PRODUCTS_NUMBER = 4;
 
-  async function getProducts() {
+  const getProducts = useCallback(async () => {
     setLoading(true);
     setError(false);
     try {
@@ -27,7 +26,7 @@ function Home() {
       setError(true);
       setLoading(false);
     }
-  }
+  }, []);
 
   function selectFeaturedProducts(amount, allProducts) {
     let selectedProducts = [];
@@ -47,7 +46,7 @@ function Home() {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [getProducts]);
 
   const groupedProducts = products.reduce((acc, product) => {
     const type = product.type || "unknown";
@@ -67,14 +66,24 @@ function Home() {
   } else if (hasError) {
     return (
       <div id="home" className="center-home">
-        <img id="error-img" src={require("../images/request_error.png")} alt="Request Error" />
+        <img
+          id="error-img"
+          src={require("../images/request_error.png")}
+          alt="Request Error"
+        />
       </div>
     );
   } else {
     return (
       <div id="home">
-        <GroupedProducts groupedProducts={{ "FEATURED PRODUCTS": featuredProducts }} nProductsToShow={4} />
-        <GroupedProducts groupedProducts={groupedProducts} nProductsToShow={5} />
+        <GroupedProducts
+          groupedProducts={{ "FEATURED PRODUCTS": featuredProducts }}
+          nProductsToShow={4}
+        />
+        <GroupedProducts
+          groupedProducts={groupedProducts}
+          nProductsToShow={5}
+        />
       </div>
     );
   }
