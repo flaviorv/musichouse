@@ -36,9 +36,11 @@ public class PaymentConsumer {
             String status = _sale.get(key);
 
             if(status.equals("Approved Payment")) {
+                LOG.info("FROM PAYMENT SERVICE: Payment for sale {} was approved", sale.getId());
                 sale.setStatus(Status.PAID);
                 producer.approvedPayment(sale);
             }else{
+                LOG.info("FROM PAYMENT SERVICE: Payment for sale {} was refused", sale.getId());
                 sale.setStatus(Status.CANCELED);
             }
             saleService.update(sale);

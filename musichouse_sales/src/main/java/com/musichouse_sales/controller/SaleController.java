@@ -28,7 +28,7 @@ public class SaleController {
     }
 
     @GetMapping()
-    public ResponseEntity byId(@RequestParam String id){
+    public ResponseEntity<?> byId(@RequestParam String id){
         try{
             Sale sale = saleServiceImp.getById(id);
             return ResponseEntity.ok().body(sale);
@@ -39,7 +39,7 @@ public class SaleController {
     }
 
     @GetMapping("/open")
-    public ResponseEntity findOpenSale(){
+    public ResponseEntity<?> findOpenSale(){
         try{
             Optional<Sale> sale = saleServiceImp.findOpenSale();
             if(sale.isPresent()){
@@ -53,33 +53,34 @@ public class SaleController {
     }
 
     @PostMapping("/{saleId}/{model}")
-    public ResponseEntity addProductToAnExistentSale(@PathVariable String saleId, @PathVariable String model){
+    public ResponseEntity<?> addProductToAnExistentSale(@PathVariable String saleId, @PathVariable String model){
         try {
-            LOG.info("Added product to sale " + saleId);
+            LOG.info("Product {} added to sale {}", model, saleId);
             Sale sale = saleServiceImp.addProductToAnExistentSale(saleId, model);
             return ResponseEntity.ok(sale);
         } catch (Exception e) {
-            LOG.error(SaleServiceConstants.PRODUCT_ADDED_ERROR, e.getMessage());
+            LOG.error("{}\n{}", SaleServiceConstants.PRODUCT_ADDED_ERROR, e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
 
     @PostMapping("/{model}")
-    public ResponseEntity addProductToANewSale(@PathVariable String model){
+    public ResponseEntity<?> addProductToANewSale(@PathVariable String model){
         try {
            Sale sale = saleServiceImp.addProductToANewSale(model);
-           LOG.info("Added product to a new sale " + model);
+           LOG.info("Product {} added to a new sale ",  model);
            return ResponseEntity.ok(sale);
         } catch (Exception e) {
-            LOG.error(SaleServiceConstants.PRODUCT_ADDED_ERROR, e.getMessage());
+            LOG.error("{}\n{}", SaleServiceConstants.PRODUCT_ADDED_ERROR, e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
     @PostMapping("/close")
-    public ResponseEntity closeSale(@RequestBody Sale _sale) {
+    public ResponseEntity<?> closeSale(@RequestBody Sale _sale) {
         try {
+            LOG.info("Sale {} was closed", _sale.getId());
             Sale sale = saleServiceImp.close(_sale.getId());
             return ResponseEntity.ok(sale);
         }catch (Exception e) {
@@ -89,9 +90,10 @@ public class SaleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable String id){
+    public ResponseEntity<?> delete(@PathVariable String id){
         try{
             saleServiceImp.delete(id);
+            LOG.info("Sale {} was deleted", id);
             return ResponseEntity.ok().body(SaleServiceConstants.SALE_REMOVED_SUCCESSFULLY);
         }catch (Exception e){
             LOG.error(e.getMessage());
@@ -100,8 +102,9 @@ public class SaleController {
     }
 
     @DeleteMapping()
-    public ResponseEntity deleteAll(){
+    public ResponseEntity<?> deleteAll(){
         saleServiceImp.deleteAll();
+        LOG.info("The removal of the sales has been completed");
         return ResponseEntity.ok().body("Sales deleted successfully");
     }
 }
