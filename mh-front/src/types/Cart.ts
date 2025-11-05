@@ -17,6 +17,10 @@ export class CartItem implements ICartItem {
   public readonly price: number;
   public readonly quantity: number;
   public readonly image: string;
+  public readonly productRatingMetrics: {
+    ratingCount: number;
+    averageRating: number;
+  };
   private _quantityChosen: number;
 
   constructor(product: IProduct, quantityChosen: number) {

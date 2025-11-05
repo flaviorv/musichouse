@@ -5,6 +5,10 @@ export interface IProduct {
   quantity: number;
   image: string;
   type: ProductType;
+  productRatingMetrics: {
+    ratingCount: number;
+    averageRating: number;
+  };
 }
 
 export interface IProductProps {

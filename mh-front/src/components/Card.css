@@ -3,7 +3,7 @@
   border: 1px solid black;
   box-shadow: 0px 6px 10px black;
   width: 330px;
-  height: 450px;
+  height: fit-content;
   padding-bottom: 20px;
   text-align: center;
   background-color: rgb(78, 77, 79);
@@ -22,7 +22,26 @@
 }
 .card-title {
   color: rgb(245, 245, 245);
+  font-size: 1.2em;
 }
+
+#rating-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#rating-average {
+  font-size: smaller;
+}
+
+#rating-count {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 400;
+  color: whitesmoke;
+}
+
 .card-price {
   color: darkseagreen;
+  font-size: 1.2em;
 }
