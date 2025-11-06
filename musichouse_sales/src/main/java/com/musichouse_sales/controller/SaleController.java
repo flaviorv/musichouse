@@ -23,8 +23,8 @@ public class SaleController {
     }
 
     @GetMapping("/all")
-    public List<Sale> getAll(){
-        return saleServiceImp.getAll();
+    public List<Sale> getAllByAuthenticatedCustomer(@RequestHeader("Customer-Id") String customerId){
+        return saleServiceImp.getAll(customerId);
     }
 
     @GetMapping()
@@ -38,50 +38,11 @@ public class SaleController {
         }
     }
 
-    @GetMapping("/open")
-    public ResponseEntity<?> findOpenSale(){
-        try{
-            Optional<Sale> sale = saleServiceImp.findOpenSale();
-            if(sale.isPresent()){
-                return ResponseEntity.ok().body(sale.get());
-            }
-            throw new Exception("No open sale");
-        }catch (Exception e){
-            LOG.error(e.getMessage());
-            return ResponseEntity.noContent().build();
-        }
-    }
-
-    @PostMapping("/{saleId}/{model}")
-    public ResponseEntity<?> addProductToAnExistentSale(@PathVariable String saleId, @PathVariable String model){
-        try {
-            LOG.info("Product {} added to sale {}", model, saleId);
-            Sale sale = saleServiceImp.addProductToAnExistentSale(saleId, model);
-            return ResponseEntity.ok(sale);
-        } catch (Exception e) {
-            LOG.error("{}\n{}", SaleServiceConstants.PRODUCT_ADDED_ERROR, e.getMessage());
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
-    }
-
-
-    @PostMapping("/{model}")
-    public ResponseEntity<?> addProductToANewSale(@PathVariable String model){
-        try {
-           Sale sale = saleServiceImp.addProductToANewSale(model);
-           LOG.info("Product {} added to a new sale ",  model);
-           return ResponseEntity.ok(sale);
-        } catch (Exception e) {
-            LOG.error("{}\n{}", SaleServiceConstants.PRODUCT_ADDED_ERROR, e.getMessage());
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
-    }
-
     @PostMapping("/close")
     public ResponseEntity<?> closeSale(@RequestBody Sale _sale) {
         try {
-            LOG.info("Sale {} was closed", _sale.getId());
             Sale sale = saleServiceImp.close(_sale.getId());
+            LOG.info("Sale {} was closed", _sale.getId());
             return ResponseEntity.ok(sale);
         }catch (Exception e) {
             LOG.error(e.getMessage());

@@ -22,7 +22,6 @@ public class SaleProducer {
     public void close(Sale sale) throws AmqpException, JsonProcessingException {
         LOG.info("TO CHECK_PAYMENT_RK: CLOSED");
         amqpTemplate.convertAndSend("sales_exc", "check_payment_rk", objectMapper.writeValueAsString(sale));
-
     }
 
     public void approvedPayment(Sale sale) throws AmqpException, JsonProcessingException {
