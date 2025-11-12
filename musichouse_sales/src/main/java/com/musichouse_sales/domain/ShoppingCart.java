@@ -1,40 +1,55 @@
 package com.musichouse_sales.domain;
 
 import com.musichouse_sales.exception.InsufficientItemQuantityException;
-import lombok.AllArgsConstructor;
+import com.musichouse_sales.exception.ItemNotFoundException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import java.util.*;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-
-
+@Data@NoArgsConstructor
 @Document("shopping_cart")
-@Data@NoArgsConstructor@SuperBuilder
-public class ShoppingCart {
-
+public class ShoppingCart  {
     @Id
     @Field(name = "_id")
     private String customerId;
-    private BigDecimal totalPrice = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_EVEN);
-    private List<Item> items = new ArrayList<>();
+    private Set<SimpleItem> items = new HashSet<>();
 
     public ShoppingCart(String customerId) {
         this.customerId = customerId;
     }
 
-    public void sumToTotalPrice(BigDecimal price) {
-        totalPrice = totalPrice.add(price);
+    public void add(SimpleItem si) throws InsufficientItemQuantityException {
+        if (items.contains(si)) {
+            SimpleItem old = getSimpleItem(si.getModel());
+            old.setQuantityChosen(old.getQuantityChosen() + si.getQuantityChosen());
+            return;
+        }
+        items.add(si);
     }
 
-    public void add(Item item) throws InsufficientItemQuantityException {
-        sumToTotalPrice(item.price());
-        items.add(item);
+    public void updateQuantityChosen(SimpleItem si) throws InsufficientItemQuantityException {
+        if (!items.contains(si)) {
+            throw new ItemNotFoundException("Item " + si.getModel() + " not found");
+        }
+        items.stream().filter(old -> old.equals(si)).findFirst()
+                .ifPresent(old -> old.setQuantityChosen(si.getQuantityChosen()));
     }
+
+    public void remove(String model) throws InsufficientItemQuantityException {
+        items.remove(getSimpleItem(model));
+    }
+
+    public void clean() {
+        this.items = new HashSet<>();
+    }
+
+    public SimpleItem getSimpleItem(String model) {
+        return items.stream().filter(old -> old.getModel().equals(model)).findFirst()
+                .orElseThrow(() -> new ItemNotFoundException("Item " + model + " not found"));
+    }
+
+
 }
