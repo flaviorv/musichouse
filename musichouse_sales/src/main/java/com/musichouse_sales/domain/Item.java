@@ -1,10 +1,9 @@
 package com.musichouse_sales.domain;
 
-import com.musichouse_sales.exception.InsufficientItemQuantityException;
-import com.musichouse_sales.exception.ItemPriceLowerThanAllowedException;
-import com.musichouse_sales.exception.TotalPriceParamsException;
+import com.musichouse_sales.domain.exception.item.InsufficientItemQuantityException;
+import com.musichouse_sales.domain.exception.item.ItemPriceLowerThanAllowedException;
+import com.musichouse_sales.domain.exception.item.TotalPriceParamsException;
 import org.springframework.data.annotation.Transient;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;

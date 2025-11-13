@@ -1,4 +1,4 @@
-package com.musichouse_sales.exception;
+package com.musichouse_sales.domain.exception.item;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

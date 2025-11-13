@@ -6,12 +6,11 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class SaleClosedEvent extends DomainEvent {
+public class ItemsReturnedEvent extends DomainEvent {
     private final List<SimpleItem> items;
 
-    public SaleClosedEvent(String saleId, List<SimpleItem> items) {
-        super(saleId, Status.PENDING_PAYMENT);
+    public ItemsReturnedEvent(String saleId, List<SimpleItem> items) {
+        super(saleId, Status.RETURNED);
         this.items = items;
     }
-
 }
