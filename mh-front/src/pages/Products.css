@@ -20,7 +20,7 @@
 
 #filtered-products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   background-color: rgb(188, 188, 188);
   max-width: 70%;
 }

@@ -21,6 +21,7 @@ function Card(props) {
       </h4>
       <Box id="rating-box">
         <Rating
+          id="stars"
           name="stars"
           value={props.product.productRatingMetrics.averageRating}
           precision={0.25}

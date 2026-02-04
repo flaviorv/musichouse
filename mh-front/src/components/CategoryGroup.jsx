@@ -60,19 +60,23 @@ function GroupedProducts({ groupedProducts, nProductsToShow }) {
                   onClick={() => handlePrev(type)}
                   disabled={currentPage === 0}
                   style={{
-                    visibility: products.length > productsPerPage ? "visible" : "hidden",
+                    visibility:
+                      products.length > productsPerPage ? "visible" : "hidden",
                   }}
                 >
                   ◀
                 </button>
 
-                <h4 className="category-title">{type.charAt(0).toUpperCase() + type.slice(1)}</h4>
+                <h4 className="category-title">
+                  {type.charAt(0).toUpperCase() + type.slice(1)}
+                </h4>
 
                 <button
                   onClick={() => handleNext(type, products.length)}
                   disabled={startIndex + productsPerPage >= products.length}
                   style={{
-                    visibility: products.length > productsPerPage ? "visible" : "hidden",
+                    visibility:
+                      products.length > productsPerPage ? "visible" : "hidden",
                   }}
                 >
                   ▶

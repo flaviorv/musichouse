@@ -26,7 +26,9 @@ export default function OpenSale() {
 
   const closeSale = async () => {
     try {
-      const response = await axios.post("http://localhost:9999/sale/close", { id: sale.id });
+      const response = await axios.post("http://localhost:9999/sale/close", {
+        id: sale.id,
+      });
       const data = response.data;
       console.log(data);
       navigate("/payment", { state: { saleId: sale.id } });
@@ -53,10 +55,17 @@ export default function OpenSale() {
               Close Order
             </button>
           </div>
-          <img id="shopping-img" src={require("../images/icon_shopping2.png")} alt="" />
+          <img
+            id="shopping-img"
+            src={require("../images/icons/icon_shopping2.png")}
+            alt=""
+          />
           <div id="open-sale-products">
             <div id="continue-shopping">
-              <button id="continue-shopping-button" onClick={() => navigate("/products")}>
+              <button
+                id="continue-shopping-button"
+                onClick={() => navigate("/products")}
+              >
                 Continue Shopping
               </button>
             </div>
@@ -64,8 +73,16 @@ export default function OpenSale() {
             <h2 className="title2">Added Products</h2>
             {products.map((product) => (
               <div key={product.model}>
-                <h3 id="open-sale-item" onClick={() => navigate("/detailed", { state: { productId: product.model } })}>
-                  {product.model} --- Price: $ {product.price.toFixed(2)} --- Quantity: {product.quantity}
+                <h3
+                  id="open-sale-item"
+                  onClick={() =>
+                    navigate("/detailed", {
+                      state: { productId: product.model },
+                    })
+                  }
+                >
+                  {product.model} --- Price: $ {product.price.toFixed(2)} ---
+                  Quantity: {product.quantity}
                 </h3>
               </div>
             ))}
@@ -74,7 +91,10 @@ export default function OpenSale() {
       ) : (
         <div id="no-items-div">
           <h2 className="title">No items in the order</h2>
-          <button id="go-to-products-button" onClick={() => navigate("/products")}>
+          <button
+            id="go-to-products-button"
+            onClick={() => navigate("/products")}
+          >
             Go to products
           </button>
         </div>

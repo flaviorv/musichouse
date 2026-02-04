@@ -9,7 +9,9 @@ export default function DetailedSale() {
   const [sale, setSale] = useState();
 
   async function getSaleById() {
-    const response = await axios.get("http://localhost:9999/sale?id=" + state.saleId);
+    const response = await axios.get(
+      "http://localhost:9999/sale?id=" + state.saleId
+    );
     const data = response.data;
     setSale(data);
   }

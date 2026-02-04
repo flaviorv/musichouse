@@ -23,7 +23,11 @@ function Detailed() {
             alt: `${product.type} zoom`,
           }}
         >
-          <img id="detailed-img" src={`data:image/png;base64,${product.image}`} alt={`${product.type}`} />
+          <img
+            id="detailed-img"
+            src={`data:image/png;base64,${product.image}`}
+            alt={`${product.type}`}
+          />
         </Zoom>
         <div id="add-cart-section">
           <AddCart product={product} />

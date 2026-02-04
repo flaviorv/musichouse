@@ -31,7 +31,10 @@
   width: 92%;
   overflow-x: auto;
   white-space: nowrap;
-  height: 700px;
+  height: fit-content;
+  padding-bottom: 10px;
+  margin: 20px 0;
+  overflow-y: hidden;
 }
 
 .category-title {

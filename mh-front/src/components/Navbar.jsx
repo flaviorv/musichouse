@@ -28,12 +28,25 @@ export default function Navbar() {
     <div id="navbar">
       <div id="logo">
         <a href="/">
-          <img src={require("../images/mh-home3.png")} alt="Guitar icon" width={40} height={40} />
+          <img
+            src={require("../images/icons/mh-home3.png")}
+            alt="Guitar icon"
+            width={40}
+            height={40}
+          />
           <h1>usic House</h1>
         </a>
       </div>
       <form id="search-form" onSubmit={handleSearch}>
-        <input type="text" id="search-field" name="search" placeholder="Search" value={input} onChange={(e) => setInput(e.target.value)} autoComplete="off" />
+        <input
+          type="text"
+          id="search-field"
+          name="search"
+          placeholder="Search"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          autoComplete="off"
+        />
         <button id="search-btn" type="submit">
           🔎
         </button>

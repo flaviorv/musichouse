@@ -1,13 +1,12 @@
 #navbar {
   display: flex;
-  font-family: "Courier New", Courier, monospace;
   justify-content: space-between;
   width: 100%;
   font-size: medium;
   font-weight: 600;
   background-color: rgb(31, 29, 29);
   align-items: center;
-  height: 65px;
+  height: 47px;
 }
 
 #logo {
@@ -27,7 +26,7 @@
 }
 
 #logo a:hover {
-  color: lightgray;
+  opacity: 0.6;
   img {
     opacity: 0.6;
   }
@@ -40,8 +39,11 @@
 }
 
 #logo a h1 {
-  font-family: monospace;
-  font-size: 1.6em;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 1.3em;
+  color: purple;
+  text-shadow: -1px -1px 0 rgb(198, 198, 183), 1px -1px 0 rgb(198, 198, 183),
+    -1px 1px 0 rgb(198, 198, 183);
 }
 
 #burguer-menu-wrapper {
@@ -68,7 +70,7 @@
 }
 
 #search-btn {
-  height: 35px;
+  height: 28px;
   font-size: 1.2em;
   border: none;
   border-bottom-right-radius: 5px;
@@ -89,8 +91,8 @@
   border: none;
   border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
-  height: 35px;
-  width: 300px;
+  height: 28px;
+  width: 270px;
   background-color: whitesmoke;
   padding-left: 10px;
   font-size: 1em;

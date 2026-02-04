@@ -68,7 +68,7 @@ function Home() {
       <div id="home" className="center-home">
         <img
           id="error-img"
-          src={require("../images/request_error.png")}
+          src={require("../images/icons/request_error.png")}
           alt="Request Error"
         />
       </div>

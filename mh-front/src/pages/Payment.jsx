@@ -20,7 +20,9 @@ export default function Payment() {
 
   async function checkPayment() {
     try {
-      const response = await axios.get("http://localhost:9999/sale?id=" + state.saleId);
+      const response = await axios.get(
+        "http://localhost:9999/sale?id=" + state.saleId
+      );
       const data = response.data;
       console.log(data.status);
       if (data.status !== "PAID" && data.status !== "CANCELED") {
@@ -42,7 +44,11 @@ export default function Payment() {
         <div id="error-div">
           <h1 className="title">Error processing payment</h1>
           <div id="try-again-div" onClick={() => window.location.reload()}>
-            <img id="payment-reload-icon" src={require("../images/icon_payment_reload.png")} alt="Reload icon" />
+            <img
+              id="payment-reload-icon"
+              src={require("../images/icons/icon_payment_reload.png")}
+              alt="Reload icon"
+            />
             <h2 id="try-again-text">Try Again</h2>
           </div>
         </div>
@@ -53,8 +59,18 @@ export default function Payment() {
         </div>
       ) : (
         <div id="payment-result">
-          <h2 className="payment-title">{status === "PAID" ? paidResponse : canceledResponse}</h2>
-          <button id="order-details-button" onClick={() => navigate("/detailed/sale", { state: { saleId: state.saleId }, replace: true })}>
+          <h2 className="payment-title">
+            {status === "PAID" ? paidResponse : canceledResponse}
+          </h2>
+          <button
+            id="order-details-button"
+            onClick={() =>
+              navigate("/detailed/sale", {
+                state: { saleId: state.saleId },
+                replace: true,
+              })
+            }
+          >
             Order Details
           </button>
         </div>

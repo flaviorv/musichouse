@@ -1,3 +1,14 @@
+#bm {
+  background-color: darkgray;
+}
+
+.bm-menu::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  background: transparent;
+}
+
 .bm-item {
   display: inline-block;
   text-decoration: none;
@@ -5,7 +16,7 @@
   color: rgb(191, 193, 194);
   transition: color 0.2s;
   margin: 20px;
-  text-align: center;
+  text-align: start;
 }
 
 .bm-item:hover {
@@ -15,7 +26,7 @@
 .bm-burger-button {
   position: sticky;
   width: 25px;
-  height: 25px;
+  height: 20px;
   right: 36px;
   top: 18px;
   margin-right: 40px;
@@ -25,11 +36,6 @@
   background: white;
 }
 
-.bm-cross-button {
-  height: 24px;
-  width: 24px;
-}
-
 .bm-cross {
   background: #bdc3c7;
 }
@@ -37,7 +43,7 @@
 .bm-menu {
   background: #000000;
   padding: 2.5em 1.5em 0;
-  font-size: 1.15em;
+  font-size: 0.9em;
   opacity: 0.8;
 }
 
@@ -49,13 +55,16 @@
   color: #b8b7ad;
 }
 
-Styling of overlay .bm-overlay {
-  background: rgba(0, 0, 0, 0.3);
+.bm-overlay {
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.5) !important;
 }
 
 .icon {
   width: 25px;
-  align-self: center;
   margin-right: 10px;
   vertical-align: middle;
   border-radius: 50px;
