@@ -2,11 +2,22 @@ import { useEffect, useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import "./Navbar.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../providers/auth";
+import keycloak from "../providers/keycloak";
+import {
+  Button,
+  IconButton,
+  Avatar,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const location = useLocation();
+  const { authenticated, loading, login, logout, userInfo } = useAuth();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -23,6 +34,11 @@ export default function Navbar() {
       setInput("");
     }
   }, [location]);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenu = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
 
   return (
     <div id="navbar">
@@ -51,7 +67,50 @@ export default function Navbar() {
           🔎
         </button>
       </form>
-      <div id="burguer-menu-wrapper">
+      <div id="menu-wrapper">
+        <div>
+          {!loading && keycloak.didInitialize ? (
+            authenticated ? (
+              <div>
+                <IconButton
+                  sx={{ gap: 2 }}
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <Avatar>{keycloak.tokenParsed?.name[0]}</Avatar>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: "white",
+                      fontWeight: 500,
+                      display: { xs: "none", sm: "block" },
+                    }}
+                  >
+                    {keycloak.tokenParsed?.name}
+                  </Typography>
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={() => keycloak.logout()}>Logout</MenuItem>
+                </Menu>
+              </div>
+            ) : (
+              <Button
+                className="login-btn"
+                onClick={login}
+                sx={{
+                  color: "white",
+                }}
+              >
+                Login
+              </Button>
+            )
+          ) : null}
+        </div>
         <BurgerMenu />
       </div>
     </div>

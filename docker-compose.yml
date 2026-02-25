@@ -4,13 +4,9 @@ services:
     container_name: EUREKA-SERVER
     ports:
       - "8761:8761"
+    restart: unless-stopped
     networks:
       - musichouse
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   mongo:
     image: mongo:7-jammy
@@ -19,6 +15,7 @@ services:
       - "27017:27017"
     volumes:
       - ./mongodb-data:/data
+    restart: unless-stopped
     networks:
       - musichouse
 
@@ -34,14 +31,9 @@ services:
       - "3306:3306"
     volumes:
       - ./mysql-data:/var/lib/mysql
+    restart: unless-stopped
     networks:
       - musichouse
-    healthcheck:
-      test:
-        ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-p123"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   rabbit:
     image: rabbitmq:3.13-management
@@ -49,13 +41,9 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+    restart: unless-stopped
     networks:
       - musichouse
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   MH-PRODUCTS:
     image: flaviorv/mh-products:v2.5
@@ -63,43 +51,35 @@ services:
       context: ./musichouse_products
       dockerfile: Dockerfile
     depends_on:
-      mysql:
-        condition: service_healthy
-      rabbit:
-        condition: service_healthy
-      eureka:
-        condition: service_started
+      - mysql
+      - rabbit
+      - eureka
     deploy:
       replicas: 2
-    restart: on-failure
+    restart: unless-stopped
     networks:
       - musichouse
 
   MH-SALES:
     image: flaviorv/mh-sales:v2.4
     depends_on:
-      mongo:
-        condition: service_started
-      eureka:
-        condition: service_started
-      rabbit:
-        condition: service_healthy
+      - mongo
+      - eureka
+      - rabbit
     deploy:
       replicas: 2
-    restart: on-failure
+    restart: unless-stopped
     networks:
       - musichouse
 
   payment_service:
     image: flaviorv/payment-service:v2.1
     depends_on:
-      rabbit:
-        condition: service_healthy
-      eureka:
-        condition: service_started
+      - rabbit
+      - eureka
     deploy:
       replicas: 1
-    restart: on-failure
+    restart: unless-stopped
     networks:
       - musichouse
 
@@ -107,8 +87,10 @@ services:
     image: flaviorv/mh-gateway:v2.1
     depends_on:
       - eureka
+      - keycloak
     ports:
       - "9999:9999"
+    restart: unless-stopped
     networks:
       - musichouse
 
@@ -121,6 +103,27 @@ services:
   #   networks:
   #     - musichouse
 
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    command: start-dev --import-realm
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME_STRICT: "false"
+    volumes:
+      - ./keycloak-data/mh-realm.json:/opt/keycloak/data/import/realm.json:ro
+      - keycloak_data:/opt/keycloak/data
+    ports:
+      - "8089:8080"
+    restart: unless-stopped
+    networks:
+      - musichouse
+
 networks:
   musichouse:
     driver: bridge
+
+volumes:
+  keycloak_data:
