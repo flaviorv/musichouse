@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Card from "../components/Card";
 import "./Products.css";
+import api from "../api/axiosConfig";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -12,43 +12,48 @@ function Products() {
   const [searchParams] = useSearchParams();
 
   const getProducts = useCallback(async () => {
-    const body = {};
-    body.q = searchParams.get("q");
+    const query = searchParams.get("q");
+    if (!query) return;
+    const body = { q: query };
     try {
-      const response = await axios.post(
-        "http://localhost:9999/product/search",
-        body
-      );
-      const data = response.data;
+      const response = await api.post("/product/search", body);
+      setProducts(response.data);
       setStatus(200);
       setMsg("");
-      setProducts(data);
     } catch (error) {
-      const statusCode = error.response.status;
-      setStatus(statusCode);
       setProducts([]);
-      if (statusCode === 404) {
-        setMsg("No products found.");
-      } else if (statusCode === 400) {
-        setMsg("Input should not be empty or contain only special characters.");
+      if (error.response) {
+        const statusCode = error.response.status;
+        setStatus(statusCode);
+        if (statusCode === 404) {
+          setMsg("No products found.");
+        } else {
+          setMsg("The search could not be completed.");
+        }
       } else {
-        setMsg("Sorry. A problem ocurred.");
+        setMsg("Unable to connect to the server.");
       }
     }
   }, [searchParams]);
 
   useEffect(() => {
-    getProducts();
-  }, [getProducts]);
+    if (searchParams.get("q")) {
+      getProducts();
+    } else {
+      setMsg("Type in the search field.");
+    }
+  }, [getProducts, searchParams]);
 
   return (
     <div id="products-root">
-      <h3 className="title">
-        {'"' + searchParams.get("q").toUpperCase() + '" : ' + products.length}{" "}
-        results
-      </h3>
+      {searchParams.get("q") ? (
+        <h3 className="title">
+          {'"' + searchParams.get("q").toUpperCase() + '" : ' + products.length}{" "}
+          results
+        </h3>
+      ) : null}
       {status !== 200 ? (
-        <b>{msg}</b>
+        <b id="search-message">{msg}</b>
       ) : (
         <div id="filtered-products">
           {products.map((product) => (
