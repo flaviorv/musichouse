@@ -1,21 +1,12 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:8089/realms/mh"
+          jwk-set-uri: "http://keycloak:8080/realms/mh/protocol/openid-connect/certs"
   cloud:
     gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowed-headers: "*"
-            allowedOrigins: "*"
-            allow-credentials: false
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-              - PATCH
-              - HEAD
-        add-to-simple-url-handler-mapping: true
       routes:
         - id: products
           uri: lb://MH-PRODUCTS

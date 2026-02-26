@@ -77,7 +77,7 @@ export default function Navbar() {
                   onClick={handleMenu}
                   color="inherit"
                 >
-                  <Avatar>{keycloak.tokenParsed?.name[0]}</Avatar>
+                  <Avatar>{userInfo?.username[0].toUpperCase()}</Avatar>
                   <Typography
                     variant="body1"
                     sx={{
@@ -86,7 +86,7 @@ export default function Navbar() {
                       display: { xs: "none", sm: "block" },
                     }}
                   >
-                    {keycloak.tokenParsed?.name}
+                    {userInfo?.username}
                   </Typography>
                 </IconButton>
                 <Menu
@@ -95,7 +95,7 @@ export default function Navbar() {
                   onClose={handleClose}
                 >
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={() => keycloak.logout()}>Logout</MenuItem>
+                  <MenuItem onClick={() => logout()}>Logout</MenuItem>
                 </Menu>
               </div>
             ) : (

@@ -6,7 +6,6 @@ const AuthContext = createContext(undefined);
 export const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(undefined);
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -14,7 +13,6 @@ export const AuthProvider = ({ children }) => {
       .then((auth) => {
         console.log(auth);
         setAuthenticated(auth);
-        setToken(keycloak.token);
         if (auth && keycloak.tokenParsed) {
           const userData = {
             username: keycloak.tokenParsed.preferred_username,
@@ -32,20 +30,6 @@ export const AuthProvider = ({ children }) => {
       .catch((e) => {
         keycloak.logout();
       });
-
-    keycloak.onTokenExpired = () => {
-      keycloak
-        .updateToken(30)
-        .then((refreshed) => {
-          if (refreshed) {
-            setToken(keycloak.token);
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-          keycloak.logout();
-        });
-    };
   }, []);
 
   const login = () => keycloak.login();
@@ -53,7 +37,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUserInfo(null);
     setAuthenticated(false);
-    setToken(undefined);
     keycloak.logout({
       redirectUri: window.location.origin,
     });
@@ -64,7 +47,6 @@ export const AuthProvider = ({ children }) => {
       value={{
         authenticated,
         loading,
-        token,
         login,
         logout,
         keycloak,
