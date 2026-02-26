@@ -6,7 +6,7 @@
   font-weight: 600;
   background-color: rgb(31, 29, 29);
   align-items: center;
-  height: 47px;
+  height: 60px;
 }
 
 #logo {
@@ -42,15 +42,18 @@
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   font-size: 1.3em;
   color: purple;
-  text-shadow: -1px -1px 0 rgb(198, 198, 183), 1px -1px 0 rgb(198, 198, 183),
+  text-shadow:
+    -1px -1px 0 rgb(198, 198, 183),
+    1px -1px 0 rgb(198, 198, 183),
     -1px 1px 0 rgb(198, 198, 183);
 }
 
-#burguer-menu-wrapper {
+#menu-wrapper {
   display: flex;
-
+  gap: 18px;
   justify-content: right;
   flex: 1 1 0;
+  align-items: center;
 }
 
 #search-form {
@@ -101,4 +104,9 @@
 
 #search-field:focus {
   outline: none;
+}
+
+.login-btn {
+  height: 70%;
+  width: 0px;
 }

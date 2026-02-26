@@ -8,10 +8,11 @@ import Detailed from "./pages/Detailed.tsx";
 import Payment from "./pages/Payment.jsx";
 import DetailedSale from "./pages/DetailedSale.jsx";
 import Navbar from "./components/Navbar.jsx";
+import { AuthProvider } from "./providers/auth.jsx";
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Navbar />
       <Routes>
         <Route path="/" index element={<Home />} />
@@ -22,7 +23,7 @@ function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/detailed/sale" element={<DetailedSale />} />
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 
