@@ -1,7 +1,7 @@
 import { IProduct, ProductType } from "./Product";
 
 interface ICartItem extends IProduct {
-  quantityChosen: number;
+  cartQuantity: number;
   totalPrice: number;
 }
 
@@ -21,9 +21,9 @@ export class CartItem implements ICartItem {
     ratingCount: number;
     averageRating: number;
   };
-  private _quantityChosen: number;
+  private _cartQuantity: number;
 
-  constructor(product: IProduct, quantityChosen: number) {
+  constructor(product: IProduct | CartItem, cartQuantity: number = 0) {
     this.type = product.type;
     this.model = product.model;
     this.brand = product.brand;
@@ -31,32 +31,34 @@ export class CartItem implements ICartItem {
     this.stock_quantity = product.stock_quantity;
     this.productRatingMetrics = product.productRatingMetrics;
     this.image = product.image;
-    this._quantityChosen = this.validateQuantityChosen(quantityChosen);
+    this._cartQuantity = cartQuantity;
   }
 
-  private validateQuantityChosen(quantityChosen: number): number {
-    if (this.stock_quantity <= 0 || quantityChosen <= 0) {
-      return 0;
-    }
-    if (this.stock_quantity < quantityChosen) {
-      return this.stock_quantity;
-    }
-    return quantityChosen;
+  public updateCartQuantity(quantityChosen: number) {
+    this._cartQuantity = quantityChosen;
   }
 
-  public set quantityChosen(newQuantity: number) {
-    newQuantity = this.validateQuantityChosen(newQuantity);
-    this._quantityChosen = newQuantity;
-  }
-
-  public get quantityChosen() {
-    return this._quantityChosen;
+  public get cartQuantity() {
+    return this._cartQuantity;
   }
 
   public get totalPrice(): number {
     const cents = this.price * 100;
-    const totalInCents = cents * this.quantityChosen;
+    const totalInCents = cents * this.cartQuantity;
     const totalPrice = totalInCents / 100;
     return totalPrice;
+  }
+
+  public toJSON() {
+    return {
+      type: this.type,
+      model: this.model,
+      brand: this.brand,
+      price: this.price,
+      stock_quantity: this.stock_quantity,
+      image: this.image,
+      productRatingMetrics: this.productRatingMetrics,
+      cartQuantity: this._cartQuantity,
+    };
   }
 }

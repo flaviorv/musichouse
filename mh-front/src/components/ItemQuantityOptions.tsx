@@ -1,9 +1,16 @@
-import { ICartItemProps } from "../types/Cart";
-import "./ItemQuantitySelect.css";
+import "./ItemQuantityOptions.css";
 
-export function ItemQuantitySelect({ item, onQuantityChange }: ICartItemProps) {
-  const maxQuantity = Math.min(item.stock_quantity, 6);
+interface IQuantityProps {
+  maxQuantity: number;
+  onQuantityChange: (num: number) => void;
+  selectedQuantity: number;
+}
 
+export function ItemQuantityOptions({
+  maxQuantity,
+  onQuantityChange,
+  selectedQuantity,
+}: IQuantityProps) {
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const value = parseInt(event.target.value);
     onQuantityChange(value);
@@ -22,9 +29,9 @@ export function ItemQuantitySelect({ item, onQuantityChange }: ICartItemProps) {
     <div id="quantity-selection">
       <label id="label">Quantity:</label>
       <select
-        name="quantityChosen"
+        name="cartQuantity"
         id="select"
-        value={item.quantityChosen}
+        value={selectedQuantity}
         onChange={onChange}
       >
         {options}
