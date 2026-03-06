@@ -20,13 +20,13 @@ export default function BurgerMenu() {
         />
         Products
       </a>
-      <a className="navlink" href="/open-sale">
+      <a className="navlink" href="/shopping-cart">
         <img
           className="icon"
-          src={require("../images/icons/icon_order.png")}
-          alt="My Order icon"
+          src={require("../images/icons/icon_sc.png")}
+          alt="Shopping cart"
         />
-        My Order
+        Shopping Cart
       </a>
       <a className="navlink" href="/sales">
         <img

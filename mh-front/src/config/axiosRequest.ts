@@ -5,7 +5,7 @@ export const axiosReq = axios.create({
   timeout: 5000,
 });
 
-const MAX_RETRY_TIME = 15000;
+const MAX_RETRY_TIME = 10000;
 const RETRY_DELAY = 2000;
 
 axiosReq.interceptors.response.use(
@@ -15,7 +15,10 @@ axiosReq.interceptors.response.use(
   async (error) => {
     const config = error.config;
 
-    const shouldRetry = !error.response || (error.response.status >= 500 && error.response.status <= 599) || error.response.status === 404;
+    const shouldRetry =
+      !error.response ||
+      (error.response.status >= 500 && error.response.status <= 599) ||
+      error.response.status === 404;
 
     if (shouldRetry) {
       config.retriesCount = config.retriesCount || 0;
@@ -31,5 +34,5 @@ axiosReq.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );

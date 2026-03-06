@@ -59,8 +59,8 @@ export default function OrderProgressBar(props) {
             progress < 1
               ? "progress-step"
               : props.status === "CANCELED"
-              ? "progress-step canceled"
-              : "progress-step done"
+                ? "progress-step canceled"
+                : "progress-step done"
           }
         >
           1
@@ -78,8 +78,8 @@ export default function OrderProgressBar(props) {
             progress < 33
               ? "progress-step"
               : props.status === "CANCELED"
-              ? "progress-step canceled"
-              : "progress-step done"
+                ? "progress-step canceled"
+                : "progress-step done"
           }
         >
           2
@@ -97,8 +97,8 @@ export default function OrderProgressBar(props) {
             progress < 66
               ? "progress-step"
               : props.status === "CANCELED"
-              ? "progress-step canceled"
-              : "progress-step done"
+                ? "progress-step canceled"
+                : "progress-step done"
           }
         >
           3
@@ -116,8 +116,8 @@ export default function OrderProgressBar(props) {
             progress < 99
               ? "progress-step"
               : props.status === "CANCELED"
-              ? "progress-step canceled"
-              : "progress-step done"
+                ? "progress-step canceled"
+                : "progress-step done"
           }
         >
           4

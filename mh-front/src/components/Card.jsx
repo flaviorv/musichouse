@@ -6,11 +6,13 @@ import Rating from "@mui/material/Rating";
 function Card(props) {
   const navigate = useNavigate();
   const product = props.product;
+  const setUrlParam = () => {
+    const productUrl = new URLSearchParams();
+    productUrl.set("p", product.model);
+    navigate({ pathname: "/pdp", search: productUrl.toString() });
+  };
   return (
-    <div
-      className="card"
-      onClick={() => navigate("/detailed", { state: { product } })}
-    >
+    <div className="card" onClick={setUrlParam}>
       <img
         className="card-image"
         src={`data:image/png;base64,${props.product.image}`}
@@ -32,7 +34,7 @@ function Card(props) {
         </span>
       </Box>
       <span id="rating-count">
-        {props.product.productRatingMetrics.ratingCount} ratings
+        Ratings: {props.product.productRatingMetrics.ratingCount}
       </span>
       <h4 className="card-price">$ {props.product.price.toFixed(2)}</h4>
     </div>

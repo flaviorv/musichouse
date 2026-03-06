@@ -1,17 +1,11 @@
 import "./ItemQuantityOptions.css";
 
-interface IQuantityProps {
-  maxQuantity: number;
-  onQuantityChange: (num: number) => void;
-  selectedQuantity: number;
-}
-
 export function ItemQuantityOptions({
   maxQuantity,
   onQuantityChange,
   selectedQuantity,
-}: IQuantityProps) {
-  const onChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+}) {
+  const onChange = (event) => {
     const value = parseInt(event.target.value);
     onQuantityChange(value);
   };

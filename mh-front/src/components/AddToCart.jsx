@@ -1,13 +1,12 @@
-import "./AddCart.css";
+import "./AddToCart.css";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { CartContext } from "../providers/CartContext.tsx";
-import { CartItem } from "../types/Cart.ts";
+import { CartContext } from "../providers/CartContext.jsx";
+import { CartItem, CartItemSummary } from "../classes/Cart.js";
 import { useNavigate } from "react-router-dom";
-import { ItemQuantityOptions } from "./ItemQuantityOptions.tsx";
-import { capitalize } from "../utils/formatter.ts";
-import { IProductProps } from "../types/Product.ts";
+import { ItemQuantityOptions } from "./ItemQuantityOptions.jsx";
+import { capitalize } from "../utils/formatter.js";
 
-export function AddCart({ product }: IProductProps) {
+export function AddToCart({ product }) {
   const navigate = useNavigate();
   const context = useContext(CartContext);
   const [cartItem, setCartItem] = useState(new CartItem(product));
@@ -25,14 +24,14 @@ export function AddCart({ product }: IProductProps) {
     try {
       const updatedItem = new CartItem(cartItem, newQuantity);
       setCartItem(updatedItem);
-      context.addToCart(updatedItem);
+      context.addToCart(new CartItemSummary(updatedItem.model, newQuantity));
       navigate("/shopping-cart");
     } catch (error) {
       console.error(error);
     }
   };
 
-  const updateQuantity = (updatedQuantity: number) => {
+  const updateQuantity = (updatedQuantity) => {
     setNewQuantity(updatedQuantity);
   };
 

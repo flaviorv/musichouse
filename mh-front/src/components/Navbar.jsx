@@ -101,7 +101,7 @@ export default function Navbar() {
             ) : (
               <Button
                 className="login-btn"
-                onClick={login}
+                onClick={() => login()}
                 sx={{
                   color: "white",
                 }}
