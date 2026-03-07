@@ -22,3 +22,13 @@ button:hover {
   color: grey;
   text-align: center;
 }
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+.error img {
+  height: 400px;
+}

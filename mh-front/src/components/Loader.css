@@ -1,9 +1,16 @@
 #loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  z-index: 99999;
+  pointer-events: all;
 }
 
 #loader-spinner {
@@ -25,7 +32,7 @@
 }
 
 #loader-text {
-  font-family: fantasy;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
   font-size: 1em;
   color: black;

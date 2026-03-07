@@ -1,7 +1,6 @@
-import { IProductProps, ProductType } from "../types/Product.ts";
 import "./SpecificationsTable.css";
 
-export function SpecificationsTable({ product }: IProductProps) {
+export function SpecificationsTable({ product }) {
   return (
     <table id="specifications-table">
       <thead>
@@ -19,7 +18,7 @@ export function SpecificationsTable({ product }: IProductProps) {
           <td>{product.model}</td>
         </tr>
 
-        {product.type === ProductType.guitar ? (
+        {product.type === "GUITAR" ? (
           <>
             <tr>
               <th>Strings:</th>

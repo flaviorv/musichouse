@@ -1,4 +1,4 @@
-#detailed {
+#pdp {
   display: flex;
   flex-direction: column;
   width: fit-content;
@@ -12,7 +12,7 @@
   padding: 20px 50px;
 }
 
-#detailed-img {
+#pdp-img {
   width: 500px;
   height: 540px;
 }

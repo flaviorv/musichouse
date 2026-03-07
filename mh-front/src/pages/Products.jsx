@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import Card from "../components/Card";
+import { useSearchParams } from "react-router-dom";
+import Card from "../components/Card.jsx";
 import "./Products.css";
 import api from "../api/axiosConfig";
 
@@ -8,7 +8,6 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [status, setStatus] = useState(null);
   const [msg, setMsg] = useState("");
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const getProducts = useCallback(async () => {
@@ -57,12 +56,8 @@ function Products() {
       ) : (
         <div id="filtered-products">
           {products.map((product) => (
-            <div
-              key={product.model}
-              className="product-card"
-              onClick={() => navigate("/detailed", { state: { product } })}
-            >
-              <Card product={product} />
+            <div className="product-card">
+              <Card key={product.model} product={product} />
             </div>
           ))}
         </div>

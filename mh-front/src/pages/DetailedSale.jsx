@@ -1,6 +1,6 @@
 import { useState, React, useEffect } from "react";
 import "./DetailedSale.css";
-import OrderProgressBar from "../components/OrderProgressBar";
+import OrderProgressBar from "../components/OrderProgressBar.jsx";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -10,7 +10,7 @@ export default function DetailedSale() {
 
   async function getSaleById() {
     const response = await axios.get(
-      "http://localhost:9999/sale?id=" + state.saleId
+      "http://localhost:9999/sale?id=" + state.saleId,
     );
     const data = response.data;
     setSale(data);

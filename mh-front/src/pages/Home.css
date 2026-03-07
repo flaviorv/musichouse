@@ -19,6 +19,12 @@
   justify-content: center;
 }
 
-#error-img {
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+.error img {
   height: 400px;
 }

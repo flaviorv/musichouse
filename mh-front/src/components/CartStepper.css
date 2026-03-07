@@ -1,0 +1,19 @@
+.stepper-btn {
+  border-color: rgba(25, 118, 210, 0.5) !important;
+  color: rgba(35, 118, 200, 1) !important;
+  height: 25px;
+  width: 25px;
+}
+
+.stepper-btn:disabled {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: rgba(0, 0, 0, 0.26) !important;
+}
+
+.stepper-display {
+  color: black !important;
+  background-color: transparent !important;
+  height: 25px;
+  width: 35px;
+  font-size: 0.9em;
+}

@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     initKeycloak()
       .then((auth) => {
-        console.log(auth);
         setAuthenticated(auth);
         if (auth && keycloak.tokenParsed) {
           const userData = {
@@ -32,7 +31,15 @@ export const AuthProvider = ({ children }) => {
       });
   }, []);
 
-  const login = () => keycloak.login();
+  const login = (targetRoute = null) => {
+    const finalRedirectUri = targetRoute
+      ? window.location.origin + targetRoute
+      : window.location.href;
+
+    return keycloak.login({
+      redirectUri: finalRedirectUri,
+    });
+  };
 
   const logout = () => {
     setUserInfo(null);
