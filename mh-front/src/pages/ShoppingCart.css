@@ -97,6 +97,11 @@
   background-color: rgb(139, 139, 139);
 }
 
+#sc-checkout-btn:disabled,
+#sc-empty-cart-btn:disabled {
+  cursor: not-allowed;
+}
+
 #sc-section {
   position: sticky;
   top: 20px;
