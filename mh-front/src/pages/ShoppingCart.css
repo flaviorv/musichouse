@@ -66,7 +66,8 @@
   cursor: pointer;
 }
 
-#sc-empty-cart-btn:hover {
+#sc-empty-cart-btn:hover,
+#sc-empty-cart-btn:disabled {
   color: rgb(112, 112, 112);
 }
 
@@ -90,7 +91,8 @@
   color: rgb(0, 0, 0);
 }
 
-#sc-checkout-btn:hover {
+#sc-checkout-btn:hover,
+#sc-checkout-btn:disabled {
   color: rgb(204, 204, 204);
   background-color: rgb(139, 139, 139);
 }
@@ -102,4 +104,11 @@
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start;
+}
+
+#sc-empty-cart-msg {
+  text-align: center;
+  font-size: x-large;
+  font-weight: 700;
+  color: rgb(71, 70, 70);
 }

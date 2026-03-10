@@ -40,6 +40,7 @@ export default function ShoppingCart() {
       setItems(hydratedItems);
     } catch (error) {
       console.error(error);
+      alert("It was not possible to change the quantity of the product.");
     }
   }, [cartItemsSummary]);
 
@@ -74,83 +75,96 @@ export default function ShoppingCart() {
           />
         }
       </h1>
-      {cartItemsSummary.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
-        <div id="sc-list">
-          <table id="sc-table">
-            <thead id="sc-thead">
-              <tr>
-                <th className="sc-th">
-                  <h3>Item</h3>
-                </th>
-                <th className="sc-th">
-                  <h3>Price</h3>
-                </th>
-                <th className="sc-th">
-                  <h3>Quantity</h3>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item, index) => (
-                <tr key={`${item.model}-${index}`} className="sc-table-row">
-                  <td className="sc-td">
-                    <div id="sc-item">
-                      <img
-                        src={`data:image/png;base64,${item.image}`}
-                        alt={item.model}
-                        style={{ height: "70px" }}
-                      />
-                      <p>
-                        {item.brand} {item.model}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="sc-td">
-                    <p>${item.getTotalPrice().toFixed(2)}</p>
-                  </td>
-                  <td className="sc-td">
-                    <CartStepper
-                      item={new CartItemSummary(item.model, item.cartQuantity)}
-                      stock={item.stock_quantity}
-                    />
-                  </td>
-                  <td className="sc-td">
-                    <img
-                      id="sc-trash-can"
-                      src={require("../images/icons/mh-trash-can.png")}
-                      alt="Trash can"
-                      onClick={() => removeItem(item.model)}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
 
-          <section id="sc-section">
-            <div id="sc-checkout-div">
-              <h4 className="sc-details">
-                {"Products: "}
-                {items.length}
-              </h4>
-              <h4 id="sc-grand-total" className="sc-details">
-                Grand Total: $
-                {items
-                  .reduce((total, item) => total + item.getTotalPrice(), 0)
-                  .toFixed(2)}
-              </h4>
-              <button id="sc-checkout-btn" onClick={checkout}>
-                Checkout
-              </button>
-              <button id="sc-empty-cart-btn" onClick={clearCart}>
-                Empty Cart
-              </button>
-            </div>
-          </section>
-        </div>
-      )}
+      <div id="sc-list">
+        <table id="sc-table">
+          {cartItemsSummary.length === 0 ? (
+            <tr id="sc-empty-cart-msg">Your cart is empty</tr>
+          ) : (
+            <>
+              <thead id="sc-thead">
+                <tr>
+                  <th className="sc-th">
+                    <h3>Item</h3>
+                  </th>
+                  <th className="sc-th">
+                    <h3>Price</h3>
+                  </th>
+                  <th className="sc-th">
+                    <h3>Quantity</h3>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item, index) => (
+                  <tr key={`${item.model}-${index}`} className="sc-table-row">
+                    <td className="sc-td">
+                      <div id="sc-item">
+                        <img
+                          src={`data:image/png;base64,${item.image}`}
+                          alt={item.model}
+                          style={{ height: "70px" }}
+                        />
+                        <p>
+                          {item.brand} {item.model}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="sc-td">
+                      <p>${item.getTotalPrice().toFixed(2)}</p>
+                    </td>
+                    <td className="sc-td">
+                      <CartStepper
+                        item={
+                          new CartItemSummary(item.model, item.cartQuantity)
+                        }
+                        stock={item.stock_quantity}
+                      />
+                    </td>
+                    <td className="sc-td">
+                      <img
+                        id="sc-trash-can"
+                        src={require("../images/icons/mh-trash-can.png")}
+                        alt="Trash can"
+                        onClick={() => removeItem(item.model)}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </>
+          )}
+        </table>
+
+        <section id="sc-section">
+          <div id="sc-checkout-div">
+            <h4 className="sc-details">
+              {"Products: "}
+              {items.length}
+            </h4>
+            <h4 id="sc-grand-total" className="sc-details">
+              Grand Total: $
+              {items
+                .reduce((total, item) => total + item.getTotalPrice(), 0)
+                .toFixed(2)}
+            </h4>
+            <button
+              id="sc-checkout-btn"
+              onClick={checkout}
+              disabled={cartItemsSummary.length === 0}
+            >
+              Checkout
+            </button>
+            <button
+              id="sc-empty-cart-btn"
+              onClick={clearCart}
+              disabled={cartItemsSummary.length === 0}
+            >
+              Empty Cart
+            </button>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
